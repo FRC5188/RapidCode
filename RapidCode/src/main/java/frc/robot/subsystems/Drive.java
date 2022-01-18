@@ -4,11 +4,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Drive extends SubsystemBase {
+    public enum ShifterState {
+        Normal,
+        Shifted,
+        None
+    }
+
     private double wheelNonLinearity = .6;
     private double negInertia, oldWheel;
     private double sensitivity;
     private double angularPower;
     private double linearPower;
+
+    private ShifterState m_shifterState;
 
     public Drive() { 
         /*
@@ -19,6 +27,8 @@ public class Drive extends SubsystemBase {
         To initialize an object, use general format: ObjectType objectName = new ObjectType(initParameters)
         If you're giving a port number in the object parameters, reference the Constants class: Constants.PortType.STATIC_VALUE
         */
+
+        m_shifterState = ShifterState.None;
     }
 
     @Override
@@ -30,15 +40,6 @@ public class Drive extends SubsystemBase {
         Ask mentors before putting things in here!
         */
     }
-
-    private void driveRaw(double left, double right) {
-	    /*
-	    This method is used to supply values to the drive motors
-        Variables left and right will be between -1 and 1
-        Call the .set(left) for the primary drive motor on the left
-        Call the .set(right) for the primary drive motor on the right
-	    */
-	}
 
     public void cheesyDrive(double throttle, double wheel, double quickTurn, boolean shifted) {
         /*
@@ -101,4 +102,39 @@ public class Drive extends SubsystemBase {
 
 		driveRaw(lDrive, rDrive);
 	}
+
+    private void driveRaw(double left, double right) {
+	    /*
+	    This method is used to supply values to the drive motors
+        Variables left and right will be between -1 and 1
+        Call the .set(left) for the primary drive motor on the left
+        Call the .set(right) for the primary drive motor on the right
+	    */
+	}
+
+    public ShifterState getShifterState() {
+        /*
+        This method is used to get the state of the shifter solenoid
+        Use a switch-case to assign values to return (go through cases with every possible enumeration value for ShifterState)
+        Syntax: switch(m_variableOfTypeShifterState) {
+            case OneState:
+                returnVariable = ShifterState.OneState;
+                break;
+            case AnotherState:
+                returnVariable = ShifterState.AnotherState;
+                break;
+            default:
+                break;
+        }
+        */
+        return ShifterState.None;
+    }
+
+    public void setShifterState(ShifterState state) {
+        /*
+        This method changes the state of the solenoid and the value of the member-level variable of type ShifterState 
+        to the parameter state
+        This method should only be a couple lines!
+        */
+    }
 }
