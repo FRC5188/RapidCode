@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -9,6 +12,10 @@ public class Drive extends SubsystemBase {
         Shifted,
         None
     }
+    private WPI_TalonFX m_leftPrimary;
+    private WPI_TalonFX m_leftSecondary;
+    private WPI_TalonFX m_rightPrimary;
+    private WPI_TalonFX m_rightSecondary;
 
     private double wheelNonLinearity = .6;
     private double negInertia, oldWheel;
@@ -27,6 +34,15 @@ public class Drive extends SubsystemBase {
         To initialize an object, use general format: ObjectType objectName = new ObjectType(initParameters)
         If you're giving a port number in the object parameters, reference the Constants class: Constants.PortType.STATIC_VALUE
         */
+        m_leftPrimary = new WPI_TalonFX(Constants.CAN.LEFT_PRIMARY_DRIVE_ID);
+        m_leftSecondary = new WPI_TalonFX(Constants.CAN.LEFT_SECONDARY_DRIVE_ID);
+        m_rightPrimary = new WPI_TalonFX(Constants.CAN.RIGHT_PRIMARY_DRIVE_ID);
+        m_rightSecondary = new WPI_TalonFX(Constants.CAN.RIGHT_SECONDARY_DRIVE_ID);
+
+        m_leftSecondary.follow(m_leftPrimary);
+        m_rightSecondary.follow(m_rightPrimary);
+        m_rightPrimary.setInverted(InvertType.InvertMotorOutput);
+        m_rightSecondary.setInverted(InvertType.InvertMotorOutput);
 
         m_shifterState = ShifterState.None;
     }
@@ -53,34 +69,22 @@ public class Drive extends SubsystemBase {
         wheelNonLinearity = (shifted) ? 0.6 : 0.5;
 
         /*Apply a sine function that's scaled to make it feel better.*/
-        wheel = Math.sin(Math.PI / 2.0 * wheelNonLinearity * wheel)
-                / Math.sin(Math.PI / 2.0 * wheelNonLinearity);
-        wheel = Math.sin(Math.PI / 2.0 * wheelNonLinearity * wheel)
-                / Math.sin(Math.PI / 2.0 * wheelNonLinearity);
-        wheel = Math.sin(Math.PI / 2.0 * wheelNonLinearity * wheel)
-                / Math.sin(Math.PI / 2.0 * wheelNonLinearity);
+        wheel = Math.sin(Math.PI / 2.0 * wheelNonLinearity * wheel) / Math.sin(Math.PI / 2.0 * wheelNonLinearity);
 
         sensitivity = (shifted) ? 0.5 : 1.0;
 
         wheel += negInertia;
         linearPower = throttle;
 
-        if (quickTurn > 0.5){
-            angularPower = wheel;
-        } else {
-            angularPower = Math.abs(throttle) * wheel;
-        }
+        angularPower = (quickTurn > 0.5) ? wheel : Math.abs(throttle) * wheel;
 
         double left = -((linearPower + angularPower) * sensitivity);
         double right = (linearPower - angularPower) * sensitivity;
         driveRaw(left, right);
     }
 
-    public void driveArcade(double throttle, double turn, boolean shifter) {
+    public void arcadeDrive(double throttle, double turn) {
         /*Please don't touch this code, but feel free to read and ask questions*/
-
-	    /*shifter multiplier*/
-		double shiftVal = shifter ? 1 : 0.5;
 
 		double lDrive;
         double rDrive;
@@ -92,12 +96,12 @@ public class Drive extends SubsystemBase {
 
 		/*if there is no throttle do a zero point turn, or a "quick turn"*/
 		if (Math.abs(throttle) < 0.05) {
-			lDrive = -turn * shiftVal * 0.75;
-			rDrive = turn * shiftVal * 0.75;
+			lDrive = -turn * 0.75;
+			rDrive = turn * 0.75;
 		} else {
 			/*if not driving with quick turn then driveTrain with split arcade*/
-			lDrive = shiftVal * throttle * (1 + Math.min(0, turn));
-			rDrive = shiftVal * throttle * (1 - Math.max(0, turn));
+			lDrive = throttle * (1 + Math.min(0, turn));
+			rDrive = throttle * (1 - Math.max(0, turn));
 		}
 
 		driveRaw(lDrive, rDrive);
@@ -110,6 +114,8 @@ public class Drive extends SubsystemBase {
         Call the .set(left) for the primary drive motor on the left
         Call the .set(right) for the primary drive motor on the right
 	    */
+        m_leftPrimary.set(left);
+        m_rightPrimary.set(right);
 	}
 
     public ShifterState getShifterState() {
