@@ -1,8 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
+    private Vision m_visionSybsystem = new Vision();
+    
     public RobotContainer() {
         configureButtonBindings();
     }
