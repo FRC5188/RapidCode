@@ -7,6 +7,9 @@ public final class Constants {
     If it is a general constant (not a port/id), put between this comment and the next class
     If it is a port/id, put it into its class based on type (CAN, DIO, AIO, etc)
     */
+    public static final double QUICK_TURN_DEADBAND = 0.05;
+    public static final double QUICK_TURN_MULTIPLIER = 0.75;
+    public static final double ARCADE_DRIVE_DEADBAND = 0.025;
 
     public final class AIO {
         /*

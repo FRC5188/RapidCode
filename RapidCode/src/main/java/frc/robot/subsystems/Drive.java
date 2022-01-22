@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -41,8 +42,14 @@ public class Drive extends SubsystemBase {
 
         m_leftSecondary.follow(m_leftPrimary);
         m_rightSecondary.follow(m_rightPrimary);
+
         m_rightPrimary.setInverted(InvertType.InvertMotorOutput);
         m_rightSecondary.setInverted(InvertType.InvertMotorOutput);
+
+        m_leftPrimary.setNeutralMode(NeutralMode.Brake);
+        m_leftSecondary.setNeutralMode(NeutralMode.Brake);
+        m_rightPrimary.setNeutralMode(NeutralMode.Brake);
+        m_rightSecondary.setNeutralMode(NeutralMode.Brake);
 
         m_shifterState = ShifterState.None;
     }
@@ -90,14 +97,14 @@ public class Drive extends SubsystemBase {
         double rDrive;
 
         /*reverse turning when driving backwards*/
-		if (-throttle < 0){
-			turn = turn * -1;
+		if (throttle < -Constants.ARCADE_DRIVE_DEADBAND){
+			turn *= -1;
 		}
 
 		/*if there is no throttle do a zero point turn, or a "quick turn"*/
-		if (Math.abs(throttle) < 0.05) {
-			lDrive = -turn * 0.75;
-			rDrive = turn * 0.75;
+		if (Math.abs(throttle) < Constants.QUICK_TURN_DEADBAND) {
+			lDrive = turn * Constants.QUICK_TURN_MULTIPLIER;
+			rDrive = -turn * Constants.QUICK_TURN_MULTIPLIER;
 		} else {
 			/*if not driving with quick turn then driveTrain with split arcade*/
 			lDrive = throttle * (1 + Math.min(0, turn));
@@ -142,5 +149,6 @@ public class Drive extends SubsystemBase {
         to the parameter state
         This method should only be a couple lines!
         */
+        
     }
 }

@@ -16,8 +16,8 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
-                                                                () -> applyDeadband(-m_driveController.getLeftY(), 0.025), 
-                                                                () -> applyDeadband(-m_driveController.getRightX(), 0.025)));
+                                                                () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
+                                                                () -> applyDeadband( 0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
     }
 
     public Command getAutonomousCommand() {
