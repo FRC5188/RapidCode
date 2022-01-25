@@ -140,7 +140,20 @@ public class Drive extends SubsystemBase {
                 break;
         }
         */
-        return ShifterState.None;
+        switch (m_shifterState) {
+            case Normal:
+                m_shifterState = ShifterState.Normal;
+                break;
+            case Shifted:
+                m_shifterState = ShifterState.Shifted;
+                break;
+            case None:
+            default:
+                m_shifterState = ShifterState.None;
+                break;
+
+        }
+        return m_shifterState;
     }
 
     public void setShifterState(ShifterState state) {
@@ -149,6 +162,7 @@ public class Drive extends SubsystemBase {
         to the parameter state
         This method should only be a couple lines!
         */
-        
+        m_shifterState = state;
+        // When you add solenoids, make sure to add a line to set them also equal to the shifterState.
     }
 }
