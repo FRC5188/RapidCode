@@ -3,7 +3,13 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -13,16 +19,31 @@ public class Drive extends SubsystemBase {
         Shifted,
         None
     }
+
+    public enum EncoderType {
+        Left,
+        Right,
+        Average,
+        None
+    }
+    private final DifferentialDriveOdometry m_odometry;
+    private final DifferentialDrive m_drive;
+
     private WPI_TalonFX m_leftPrimary;
     private WPI_TalonFX m_leftSecondary;
     private WPI_TalonFX m_rightPrimary;
     private WPI_TalonFX m_rightSecondary;
+
+    private AHRS m_gyro;
 
     private double wheelNonLinearity = .6;
     private double negInertia, oldWheel;
     private double sensitivity;
     private double angularPower;
     private double linearPower;
+
+    private double m_leftEncoderResetPos;
+    private double m_rightEncoderResetPos;
 
     private ShifterState m_shifterState;
 
@@ -35,6 +56,7 @@ public class Drive extends SubsystemBase {
         To initialize an object, use general format: ObjectType objectName = new ObjectType(initParameters)
         If you're giving a port number in the object parameters, reference the Constants class: Constants.PortType.STATIC_VALUE
         */
+
         m_leftPrimary = new WPI_TalonFX(Constants.CAN.LEFT_PRIMARY_DRIVE_ID);
         m_leftSecondary = new WPI_TalonFX(Constants.CAN.LEFT_SECONDARY_DRIVE_ID);
         m_rightPrimary = new WPI_TalonFX(Constants.CAN.RIGHT_PRIMARY_DRIVE_ID);
@@ -51,6 +73,14 @@ public class Drive extends SubsystemBase {
         m_rightPrimary.setNeutralMode(NeutralMode.Brake);
         m_rightSecondary.setNeutralMode(NeutralMode.Brake);
 
+        m_gyro = new AHRS();
+
+        m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
+        m_drive = new DifferentialDrive(m_leftPrimary, m_rightPrimary);
+
+        m_leftEncoderResetPos = 0;
+        m_rightEncoderResetPos = 0;
+
         m_shifterState = ShifterState.None;
     }
 
@@ -62,6 +92,7 @@ public class Drive extends SubsystemBase {
         Try and avoid using this method; rather, use a command
         Ask mentors before putting things in here!
         */
+        m_odometry.update(m_gyro.getRotation2d(), getEncoderPosition(EncoderType.Left) * (Math.PI * Units.inchesToMeters(4)), getEncoderPosition(EncoderType.Right) * (Math.PI * Units.inchesToMeters(4)));
     }
 
     public void cheesyDrive(double throttle, double wheel, double quickTurn, boolean shifted) {
@@ -124,6 +155,71 @@ public class Drive extends SubsystemBase {
         m_leftPrimary.set(left);
         m_rightPrimary.set(right);
 	}
+    
+    public DifferentialDriveWheelSpeeds getDiffWheelSpeeds() {
+        return new DifferentialDriveWheelSpeeds(getEncoderVelocity(EncoderType.Left), getEncoderVelocity(EncoderType.Left));
+    }
+
+    public double getEncoderPosition(EncoderType measureType) {
+        /*
+        This method is used to get the position of the robot's encoders
+        Since there are times where we might want to look at both left and right encoders as well as only one side, 
+        there is an enumeration named EncoderType that is sent in as a parameter named measureType
+        Use a switch-case to assign values to return (go through cases with every possible enumeration value for EncoderType)
+        Also, make sure to subtract the respective encoder pos variables from the returned value, as that is what allows us to reset the encoders
+        Syntax: switch(measureType) {
+            case OneState:
+                encoderPos = m_leftPrimary.getSelectedSensorPosition();
+                break;
+            case AnotherState:
+                encoderPos = m_rightPrimary.getSelectedSensorPosition();
+                break;
+            default:
+                break;
+        }
+        At the end, however, we have a bit of extra math to do, since there is gearing between the encoder and the wheels
+        On top of that, since there is a high and low gear mode, the gearing for each is different
+        So, the amount that we divide by will change based on m_shifterState
+        Since I'm nice, I've already made that last bit of math for you, so only focus on the switch-case statement
+        */
+        double encoderPos = 0;
+
+        return (m_shifterState == ShifterState.Shifted) ? encoderPos / 5.6 : encoderPos / 16.36;
+    }
+
+    public double getEncoderVelocity(EncoderType measureType) {
+        /*
+        This method is used to get the position of the robot's encoders
+        Since there are times where we might want to look at both left and right encoders as well as only one side, 
+        there is an enumeration named EncoderType that is sent in as a parameter named measureType
+        Use a switch-case to assign values to return (go through cases with every possible enumeration value for EncoderType)
+        Syntax: switch(measureType) {
+            case OneState:
+                encoderVel = m_leftPrimary.getSelectedSensorVelocity();
+                break;
+            case AnotherState:
+                encoderVel = m_leftPrimary.getSelectedSensorVelocity();
+                break;
+            default:
+                break;
+        }
+        At the end, however, we have a bit of extra math to do, since there is gearing between the encoder and the wheels
+        On top of that, since there is a high and low gear mode, the gearing for each is different
+        So, the amount that we divide by will change based on m_shifterState
+        Since I'm nice, I've already made that last bit of math for you, so only focus on the switch-case statement
+        */
+        double encoderVel = 0;
+
+        return (m_shifterState == ShifterState.Shifted) ? encoderVel / 5.6 : encoderVel / 16.36;
+    }
+
+    public double getHeading() {
+        return m_gyro.getRotation2d().getDegrees();
+    }
+
+    public Pose2d getPose() {
+        return m_odometry.getPoseMeters();
+      }
 
     public ShifterState getShifterState() {
         /*
@@ -156,6 +252,16 @@ public class Drive extends SubsystemBase {
         return m_shifterState;
     }
 
+    public void resetEncoders() {
+        m_leftEncoderResetPos = getEncoderPosition(EncoderType.Left);
+        m_rightEncoderResetPos = getEncoderPosition(EncoderType.Right);
+    }
+
+    public void resetOdometry(Pose2d pose) {
+        resetEncoders();
+        m_odometry.resetPosition(pose, m_gyro.getRotation2d());
+    }
+
     public void setShifterState(ShifterState state) {
         /*
         This method changes the state of the solenoid and the value of the member-level variable of type ShifterState 
@@ -165,4 +271,12 @@ public class Drive extends SubsystemBase {
         m_shifterState = state;
         // When you add solenoids, make sure to add a line to set them also equal to the shifterState.
     }
+
+    public void tankDriveVolts(double leftVolts, double rightVolts) {
+        m_leftPrimary.setVoltage(leftVolts);
+        m_leftSecondary.setVoltage(leftVolts);
+        m_rightPrimary.setVoltage(rightVolts);
+        m_rightSecondary.setVoltage(rightVolts);
+        m_drive.feed();
+      }
 }

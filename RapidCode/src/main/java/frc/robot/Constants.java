@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+
 public final class Constants {
     /*
     The class that holds constant values
@@ -10,6 +12,20 @@ public final class Constants {
     public static final double QUICK_TURN_DEADBAND = 0.05;
     public static final double QUICK_TURN_MULTIPLIER = 0.75;
     public static final double ARCADE_DRIVE_DEADBAND = 0.025;
+
+    public static final double K_S_VOLTS = 0.6233;
+    public static final double K_V_VOLTS_SECONDS_PER_METER = 1.9149;
+    public static final double K_A_VOLTS_SECONDS_SQUARED_PER_METER = 0.11529;
+    public static final double K_P_DRIVE_VEL = 0.15799;
+
+    public static final double K_TRACK_WIDTH_METERS = 0.69;
+    public static final DifferentialDriveKinematics K_DRIVE_KINEMATICS = new DifferentialDriveKinematics(K_TRACK_WIDTH_METERS);
+
+    public static final double K_MAX_SPEED_METERS_PER_SECOND = 3;
+    public static final double K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 3;
+
+    public static final double K_RAMSETE_B = 2;
+    public static final double K_RAMSETE_ZETA = 0.7;
 
     public final class AIO {
         /*
