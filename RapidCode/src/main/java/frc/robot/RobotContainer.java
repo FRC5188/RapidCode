@@ -83,7 +83,11 @@ public class RobotContainer {
             m_driveSubsystem
         );
 
-        return null;
+        // Reset odometry to the starting pose of the trajectory.
+        m_driveSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
+
+        // Run path following command, then stop at the end.
+        return ramseteCommand.andThen(() -> m_driveSubsystem.tankDriveVolts(0, 0));
     }
 
     private double applyDeadband(double raw, double deadband) {

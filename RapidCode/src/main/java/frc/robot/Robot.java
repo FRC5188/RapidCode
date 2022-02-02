@@ -1,9 +1,13 @@
 package frc.robot;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
 
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
@@ -19,6 +23,7 @@ public class Robot extends TimedRobot {
     private RobotContainer m_robotContainer;
     ArrayList<String> m_jsonList = new ArrayList<String>();
     HashMap<String, Trajectory> m_trajectories = new HashMap<String, Trajectory>();
+    HashMap<String, ArrayList<Trajectory>> m_autoPaths = new HashMap<String, ArrayList<Trajectory>>();
 
     private void loadTrajectory(String jsonPath) {
         String trajName = jsonPath.replace("Paths/", "");
@@ -33,6 +38,23 @@ public class Robot extends TimedRobot {
         }
     }
 
+    private void loadAutonomousPaths() {
+        for (String auto : new File("Autos").list()) {
+            ArrayList<Trajectory> trajectories = new ArrayList<Trajectory>();
+            File f = new File(auto);
+            try {
+                Scanner s = new Scanner(f);
+                while (s.hasNextLine()) {
+                    String name = s.nextLine();
+                    trajectories.add(m_trajectories.get(name));
+                }
+            m_autoPaths.put(auto, trajectories);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public void robotInit() {
         m_robotContainer = new RobotContainer();
@@ -40,6 +62,7 @@ public class Robot extends TimedRobot {
         m_jsonList.add("Paths/TestCurve.wpilib.json");
         
         for (String json : m_jsonList) loadTrajectory(json);
+        loadAutonomousPaths();
     }
 
     @Override
