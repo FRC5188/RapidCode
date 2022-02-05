@@ -1,5 +1,8 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Pickup extends SubsystemBase {
@@ -10,6 +13,8 @@ public class Pickup extends SubsystemBase {
         None
     }
     //We need one neo 550 and one solenoid
+    private CANSparkMax m_pickupMotor;
+    private Solenoid m_pickupSolenoid;
 
     private PickupState m_pickupState;
 
@@ -23,10 +28,24 @@ public class Pickup extends SubsystemBase {
     }
 
     public PickupState getPickupState() {
-        return null;
+        return m_pickupState;
     }
 
     public void setPickupState(PickupState state) {
+        m_pickupState = state;
         
+        switch (m_pickupState){
+            case Deployed:
+                m_pickupSolenoid.set(true);
+                m_pickupMotor.set(0.5);
+                break;
+            case Retracted:
+                m_pickupSolenoid.set(false);
+                m_pickupMotor.set(0);
+                break;
+            case None:
+            default:
+                break;
+        }
     }
 }

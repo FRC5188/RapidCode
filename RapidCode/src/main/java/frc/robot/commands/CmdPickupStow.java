@@ -1,25 +1,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Pickup;
+import frc.robot.subsystems.Pickup.PickupState;
 
 public class CmdPickupStow extends CommandBase {
-    public CmdPickupStow() {
+    private Pickup m_pickupSubsystem;
+     
+    public CmdPickupStow(Pickup pickupSubsystem) {
+        m_pickupSubsystem = pickupSubsystem;
     }
 
     @Override
     public void initialize() {
+        m_pickupSubsystem.setPickupState(PickupState.Retracted);
     }
 
-    @Override
-    public void execute() {
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-    }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 }
