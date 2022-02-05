@@ -12,7 +12,7 @@ public class Pickup extends SubsystemBase {
         Retracted,
         None
     }
-    //We need one neo 550 and one solenoid
+    
     private CANSparkMax m_pickupMotor;
     private Solenoid m_pickupSolenoid;
 

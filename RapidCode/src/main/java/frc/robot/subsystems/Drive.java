@@ -128,31 +128,8 @@ public class Drive extends SubsystemBase {
     public ShifterState getShifterState() {
         /*
         This method is used to get the state of the shifter solenoid
-        Use a switch-case to assign values to return (go through cases with every possible enumeration value for ShifterState)
-        Syntax: switch(m_variableOfTypeShifterState) {
-            case OneState:
-                returnVariable = ShifterState.OneState;
-                break;
-            case AnotherState:
-                returnVariable = ShifterState.AnotherState;
-                break;
-            default:
-                break;
-        }
         */
-        switch (m_shifterState) {
-            case Normal:
-                m_shifterState = ShifterState.Normal;
-                break;
-            case Shifted:
-                m_shifterState = ShifterState.Shifted;
-                break;
-            case None:
-            default:
-                m_shifterState = ShifterState.None;
-                break;
 
-        }
         return m_shifterState;
     }
 
