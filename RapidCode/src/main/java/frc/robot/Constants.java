@@ -13,10 +13,10 @@ public final class Constants {
     public static final double QUICK_TURN_MULTIPLIER = 0.75;
     public static final double ARCADE_DRIVE_DEADBAND = 0.025;
 
-    public static final double K_S_VOLTS = 0.6233;
-    public static final double K_V_VOLTS_SECONDS_PER_METER = 1.9149;
-    public static final double K_A_VOLTS_SECONDS_SQUARED_PER_METER = 0.11529;
-    public static final double K_P_DRIVE_VEL = 0.15799;
+    public static final double K_S_VOLTS = 0.6315;
+    public static final double K_V_VOLTS_SECONDS_PER_METER = 1.8988;
+    public static final double K_A_VOLTS_SECONDS_SQUARED_PER_METER = 0.11795;
+    public static final double K_P_DRIVE_VEL = 2.0434;
 
     public static final double K_TRACK_WIDTH_METERS = 0.69;
     public static final DifferentialDriveKinematics K_DRIVE_KINEMATICS = new DifferentialDriveKinematics(K_TRACK_WIDTH_METERS);

@@ -21,11 +21,11 @@ public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
 
     private RobotContainer m_robotContainer;
-    ArrayList<String> m_jsonList = new ArrayList<String>();
-    HashMap<String, Trajectory> m_trajectories = new HashMap<String, Trajectory>();
-    HashMap<String, ArrayList<Trajectory>> m_autoPaths = new HashMap<String, ArrayList<Trajectory>>();
+    private static ArrayList<String> m_jsonList = new ArrayList<String>();
+    private static HashMap<String, Trajectory> m_trajectories = new HashMap<String, Trajectory>();
+    private static HashMap<String, ArrayList<Trajectory>> m_autoPaths = new HashMap<String, ArrayList<Trajectory>>();
 
-    private void loadTrajectory(String jsonPath) {
+    private static void loadTrajectory(String jsonPath) {
         String trajName = jsonPath.replace("Paths/", "");
 	    trajName = trajName.replace(".wpilib.json", "");
         try {
@@ -38,12 +38,13 @@ public class Robot extends TimedRobot {
         }
     }
 
-    private void loadAutonomousPaths() {
+    private static void loadAutonomousPaths() {
         for (String auto : new File("Autos").list()) {
             ArrayList<Trajectory> trajectories = new ArrayList<Trajectory>();
             File f = new File(auto);
+            Scanner s;
             try {
-                Scanner s = new Scanner(f);
+                s = new Scanner(f);
                 while (s.hasNextLine()) {
                     String name = s.nextLine();
                     trajectories.add(m_trajectories.get(name));
@@ -53,6 +54,10 @@ public class Robot extends TimedRobot {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static ArrayList<Trajectory> getAutoTrajectories(String autoName) {
+        return m_autoPaths.get(autoName);
     }
 
     @Override
