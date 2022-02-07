@@ -42,9 +42,6 @@ public class Drive extends SubsystemBase {
     private double angularPower;
     private double linearPower;
 
-    private double m_leftEncoderResetPos;
-    private double m_rightEncoderResetPos;
-
     private ShifterState m_shifterState;
 
     public Drive() { 
@@ -77,9 +74,6 @@ public class Drive extends SubsystemBase {
 
         m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
         m_drive = new DifferentialDrive(m_leftPrimary, m_rightPrimary);
-
-        m_leftEncoderResetPos = 0;
-        m_rightEncoderResetPos = 0;
 
         m_shifterState = ShifterState.None;
     }
@@ -180,11 +174,24 @@ public class Drive extends SubsystemBase {
         At the end, however, we have a bit of extra math to do, since there is gearing between the encoder and the wheels
         On top of that, since there is a high and low gear mode, the gearing for each is different
         So, the amount that we divide by will change based on m_shifterState
-        Since I'm nice, I've already made that last bit of math for you, so only focus on the switch-case statement
         */
         double encoderPos = 0;
 
-        return (m_shifterState == ShifterState.Shifted) ? encoderPos / 5.6 : encoderPos / 16.36;
+        switch(measureType) {
+            case Left:
+                encoderPos = m_leftPrimary.getSelectedSensorPosition();
+                break;
+            case Right:
+                encoderPos = m_rightPrimary.getSelectedSensorPosition();
+                break;
+            case Average:
+                encoderPos = (m_leftPrimary.getSelectedSensorPosition() + m_rightPrimary.getSelectedSensorPosition()) / 2;
+                break;
+            default:
+                break;
+        }
+
+        return (m_shifterState == ShifterState.Normal) ? encoderPos / 5.6 : encoderPos / 16.36;
     }
 
     public double getEncoderVelocity(EncoderType measureType) {
@@ -210,7 +217,21 @@ public class Drive extends SubsystemBase {
         */
         double encoderVel = 0;
 
-        return (m_shifterState == ShifterState.Shifted) ? encoderVel / 5.6 : encoderVel / 16.36;
+        switch(measureType) {
+            case Left:
+                encoderVel = m_leftPrimary.getSelectedSensorVelocity();
+                break;
+            case Right:
+                encoderVel = m_rightPrimary.getSelectedSensorVelocity();
+                break;
+            case Average:
+                encoderVel = (m_leftPrimary.getSelectedSensorVelocity() + m_rightPrimary.getSelectedSensorVelocity()) / 2;
+                break;
+            default:
+                break;
+        }
+
+        return (m_shifterState == ShifterState.Normal) ? encoderVel / 5.6 : encoderVel / 16.36;
     }
 
     public double getHeading() {
@@ -224,37 +245,13 @@ public class Drive extends SubsystemBase {
     public ShifterState getShifterState() {
         /*
         This method is used to get the state of the shifter solenoid
-        Use a switch-case to assign values to return (go through cases with every possible enumeration value for ShifterState)
-        Syntax: switch(m_variableOfTypeShifterState) {
-            case OneState:
-                returnVariable = ShifterState.OneState;
-                break;
-            case AnotherState:
-                returnVariable = ShifterState.AnotherState;
-                break;
-            default:
-                break;
-        }
         */
-        switch (m_shifterState) {
-            case Normal:
-                m_shifterState = ShifterState.Normal;
-                break;
-            case Shifted:
-                m_shifterState = ShifterState.Shifted;
-                break;
-            case None:
-            default:
-                m_shifterState = ShifterState.None;
-                break;
-
-        }
         return m_shifterState;
     }
 
     public void resetEncoders() {
-        m_leftEncoderResetPos = getEncoderPosition(EncoderType.Left);
-        m_rightEncoderResetPos = getEncoderPosition(EncoderType.Right);
+        m_leftPrimary.setSelectedSensorPosition(0);
+        m_rightPrimary.setSelectedSensorPosition(0);
     }
 
     public void resetOdometry(Pose2d pose) {
