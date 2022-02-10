@@ -28,8 +28,13 @@ public class Shooter extends SubsystemBase {
     public void periodic() {
     }
 
-    public void shoot() {
-        m_shooterLeft.set(1);
-        m_shooterRight.set(1);
+    public void setShooterSpeed(double speed){
+        m_shooterLeft.set(speed);
+        m_shooterRight.set(speed);
+    }
+
+    public double getShooterRPM(){
+        return m_shooterRight.getSelectedSensorVelocity() * 600 * (1/2048.0);
+        //units per 100ms, 2048 units per rotation
     }
 }
