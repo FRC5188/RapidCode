@@ -140,19 +140,6 @@ public class Drive extends SubsystemBase {
                 break;
         }
         */
-        switch (m_shifterState) {
-            case Normal:
-                m_shifterState = ShifterState.Normal;
-                break;
-            case Shifted:
-                m_shifterState = ShifterState.Shifted;
-                break;
-            case None:
-            default:
-                m_shifterState = ShifterState.None;
-                break;
-
-        }
         return m_shifterState;
     }
 
