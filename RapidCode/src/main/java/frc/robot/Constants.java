@@ -31,6 +31,9 @@ public final class Constants {
         public static final int LEFT_SECONDARY_DRIVE_ID = 2;
         public static final int RIGHT_PRIMARY_DRIVE_ID = 3;
         public static final int RIGHT_SECONDARY_DRIVE_ID = 4;
+        public static final int LEFT_SHOOTER_ID = 5;
+        public static final int RIGHT_SHOOTER_ID = 6;
+
     }
 
     public final class DIO {
