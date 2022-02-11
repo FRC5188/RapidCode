@@ -20,6 +20,9 @@ public final class Constants {
         Sensor examples include potentiometers, ultrasonic sensors, range sensors
         Name example: public static final int TURRET_POT_PORT = 0 (name what sensor is/does and end with port)
         */
+        public static final int HOOD_POTENTIOMETER_PORT = 0;
+        public static final int TURRET_POTENTIOMETER_PORT = 1;
+
     }
 
     public final class CAN {
@@ -33,8 +36,12 @@ public final class Constants {
         public static final int LEFT_SECONDARY_DRIVE_ID = 2;
         public static final int RIGHT_PRIMARY_DRIVE_ID = 3;
         public static final int RIGHT_SECONDARY_DRIVE_ID = 4;
-        public static final int LEFT_SHOOTER_ID = 5;
-        public static final int RIGHT_SHOOTER_ID = 6;
+        public static final int LEFT_FLYWHEEL_ID = 5;
+        public static final int RIGHT_FLYWHEEL_ID = 6;
+        public static final int HOOD_MOTOR_ID = 7;
+        public static final int TURRET_MOTOR_ID = 8;
+
+
 
     }
 
