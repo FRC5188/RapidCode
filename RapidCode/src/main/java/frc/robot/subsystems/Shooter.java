@@ -33,8 +33,12 @@ public class Shooter extends SubsystemBase {
         m_shooterRight.set(speed);
     }
 
-    public double getShooterRPM(){
-        return m_shooterRight.getSelectedSensorVelocity() * 600 * (1/2048.0);
-        //units per 100ms, 2048 units per rotation
+    public double getShooterSpeedSetpoint() {
+        return m_shooterRight.get() * 6000/*max RPM*/;
     }
+
+    public double getShooterRPM(){
+        //units per 100ms, 2048 units per rotation
+        return m_shooterRight.getSelectedSensorVelocity() * 600 * (1/2048.0);
+    }   
 }
