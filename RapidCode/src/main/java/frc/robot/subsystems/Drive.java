@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -17,6 +19,9 @@ public class Drive extends SubsystemBase {
     private WPI_TalonFX m_leftSecondary;
     private WPI_TalonFX m_rightPrimary;
     private WPI_TalonFX m_rightSecondary;
+
+    private Solenoid m_leftShifter;
+    private Solenoid m_rightShifter; 
 
     private double wheelNonLinearity = .6;
     private double negInertia, oldWheel;
@@ -39,6 +44,9 @@ public class Drive extends SubsystemBase {
         m_leftSecondary = new WPI_TalonFX(Constants.CAN.LEFT_SECONDARY_DRIVE_ID);
         m_rightPrimary = new WPI_TalonFX(Constants.CAN.RIGHT_PRIMARY_DRIVE_ID);
         m_rightSecondary = new WPI_TalonFX(Constants.CAN.RIGHT_SECONDARY_DRIVE_ID);
+
+        m_leftShifter = new Solenoid(PneumaticsModuleType.REVPH, 0);
+        m_rightShifter = new Solenoid(PneumaticsModuleType.REVPH, 1);
 
         m_leftSecondary.follow(m_leftPrimary);
         m_rightSecondary.follow(m_rightPrimary);
@@ -151,5 +159,7 @@ public class Drive extends SubsystemBase {
         */
         m_shifterState = state;
         // When you add solenoids, make sure to add a line to set them also equal to the shifterState.
+        m_leftShifter.set(m_shifterState == ShifterState.Normal);
+        m_rightShifter.set(m_shifterState == ShifterState.Normal);
     }
 }
