@@ -46,6 +46,8 @@ public class Shooter extends SubsystemBase {
         m_turretPotentiometer = new AnalogInput(Constants.AIO.TURRET_POTENTIOMETER_PORT);
 
         m_hoodPID = new PIDController(0.1, 0, 0);
+
+        m_hoodPID.setTolerance(1);
     }
 
     @Override
@@ -65,8 +67,8 @@ public class Shooter extends SubsystemBase {
         return m_flywheelRight.get() * 6000/*max RPM*/;
     }
 
-    public double execute() {
-        return m_hoodPID.calculate(m_hoodPotentiometer.getVoltage());
+    public void hoodPIDExecute() {
+        m_hood.set(m_hoodPID.calculate(m_hoodPotentiometer.getVoltage()));
     }
 
     public void setHoodSetPoint(double setpoint) {
@@ -76,6 +78,10 @@ public class Shooter extends SubsystemBase {
 
     public double getHoodSetPoint() {
         return m_hoodPID.getSetpoint();
+    }
+
+    public boolean atHoodSetpoint() {
+        return m_hoodPID.atSetpoint();
     }
 
     public double getFlywheelRPM(){
