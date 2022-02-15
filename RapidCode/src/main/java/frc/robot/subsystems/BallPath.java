@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.revrobotics.CANSparkMax;
+
 
 public class BallPath extends SubsystemBase {
 
@@ -14,8 +17,17 @@ public class BallPath extends SubsystemBase {
 
     //need 2 neos and 3 light sensors
 
+    private CANSparkMax m_indexMotorTop;
+    private CANSparkMax m_indexMotorBottom;
+ 
+    private DigitalInput m_entranceSensor;
+    private DigitalInput m_middleSensor;
+    private DigitalInput m_shooterSensor;
+
     private int m_ballCount;
     private BallPathState m_ballPathState;
+
+    private boolean m_ballPreviouslyThere;
 
     public BallPath() {
 
@@ -33,6 +45,10 @@ public class BallPath extends SubsystemBase {
     public void incrementBallCount() {
         m_ballCount++;
     }
+    
+    public void decrementBallCount() {
+        m_ballCount--;
+    }
 
     public BallPathState getBallPathState() {
         return BallPathState.None;
@@ -45,6 +61,19 @@ public class BallPath extends SubsystemBase {
         We will not set any motors here; that will be done in the default command
         We will be setting the ball path state here, however
         */
+        if (m_entranceSensor.get()) {
+            m_ballPathState = BallPathState.Loading;
+        }else if (entranceSensorHasTransitioned()) {
+            incrementBallCount();
+        } else if (middleSensorHasTransitioned()) {
+            m_ballPathState = BallPathState.Stopped;
+        } else if (shooterSensorHasTransitioned()) {
+            m_ballPathState = BallPathState.Shooting; 
+            decrementBallCount();
+        }
+
+
+
     }
 
     private boolean entranceSensorHasTransitioned() {
@@ -53,14 +82,18 @@ public class BallPath extends SubsystemBase {
         A sensor has transitioned if it has previously detected a ball, but then doesn't detect a ball
         We will probably need to add in some private member-level variables to keep track of this
         */
-        return false;
+        if (m_ballPreviouslyThere && !m_entranceSensor.get()) return true;
+        else return false;
+
     }
 
     private boolean middleSensorHasTransitioned() {
-        return false;
+        if (!m_ballPreviouslyThere && m_middleSensor.get()) return true;
+        else return false;
     }
 
     private boolean shooterSensorHasTransitioned() {
-        return false;
+        if (!m_ballPreviouslyThere && m_shooterSensor.get()) return true;
+        else return false;
     }
 }
