@@ -45,8 +45,10 @@ public class Shooter extends SubsystemBase {
         m_turretPotentiometer.setOversampleBits(0);
 
         m_hoodPID = new PIDController(0.1, 0, 0);
+        m_turretPID = new PIDController(0.1, 0, 0);
 
         m_hoodPID.setTolerance(1);
+        m_turretPID.setTolerance(1);
     }
 
     @Override
@@ -98,5 +100,25 @@ public class Shooter extends SubsystemBase {
     public double getTurretPotentiometerAngle() {
         return m_turretPotentiometer.getAverageValue(); //needs to be converted to angle
     }    
+
+    public void setTurretSpeed(double speed) {
+        m_turret.set(speed);
+    }
+
+    public void setTurretSetpoint(double setpoint){
+        m_turretPID.setSetpoint(setpoint);
+    }
+
+    public double getTurretSetpoint() {
+        return m_turretPID.getSetpoint();
+    }
+
+    public void turretPIDExecute() {
+        m_turret.set(m_turretPID.calculate(m_turretPotentiometer.getAverageValue()));
+    }
+
+    public boolean atTurretSetpoint() {
+        return m_turretPID.atSetpoint();
+    }
 
 }

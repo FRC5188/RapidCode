@@ -33,7 +33,8 @@ public class CmdShooterShoot extends CommandBase {
         } else {
             m_shooterSubsystem.setHoodSetPoint(m_hoodAngle.getAsDouble());
             m_shooterSubsystem.hoodPIDExecute();
-            m_shooterSubsystem.setFlywheelSpeed(1);
+            m_shooterSubsystem.setTopFlywheelSpeed(1);
+            m_shooterSubsystem.setBottomFlywheelSpeed(1);
         }
         
     }
