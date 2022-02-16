@@ -59,12 +59,17 @@ public class Shooter extends SubsystemBase {
         m_flywheelRight.set(speed);
     }
 
-    public void setHoodSpeed(double speed){
-        m_hood.set(speed);
-    }
+    public double getFlywheelRPM(){
+        //units per 100ms, 2048 units per rotation
+        return m_flywheelRight.getSelectedSensorVelocity() * 600 * (1/2048.0);
+    }   
 
     public double getFlywheelSpeedSetpoint() {
         return m_flywheelRight.get() * 6000/*max RPM*/;
+    }
+
+    public void setHoodSpeed(double speed){
+        m_hood.set(speed);
     }
 
     public void hoodPIDExecute() {
@@ -84,18 +89,12 @@ public class Shooter extends SubsystemBase {
         return m_hoodPID.atSetpoint();
     }
 
-    public double getFlywheelRPM(){
-        //units per 100ms, 2048 units per rotation
-        return m_flywheelRight.getSelectedSensorVelocity() * 600 * (1/2048.0);
-    }   
-
     public double getHoodPotentiometerAngle() {
         return m_hoodPotentiometer.getVoltage(); //needs to be converted to angle
     }
 
     public double getTurretPotentiometerAngle() {
         return m_turretPotentiometer.getVoltage(); //needs to be converted to angle
-    }
-    
+    }    
 
 }
