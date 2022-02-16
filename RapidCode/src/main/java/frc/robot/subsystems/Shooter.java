@@ -12,8 +12,8 @@ import frc.robot.Constants;
 
 
 public class Shooter extends SubsystemBase {
-    private WPI_TalonFX m_flywheelLeft;
-    private WPI_TalonFX m_flywheelRight;
+    private WPI_TalonFX m_flywheelTop;
+    private WPI_TalonFX m_flywheelBottom;
 
     private CANSparkMax m_hood;
     private CANSparkMax m_turret;
@@ -22,15 +22,15 @@ public class Shooter extends SubsystemBase {
     private AnalogInput m_turretPotentiometer;
 
     private PIDController m_hoodPID;
+    private PIDController m_turretPID;
     double m_hoodSetpoint = 0;
 
 
-
     public Shooter() {
-        m_flywheelLeft = new WPI_TalonFX(Constants.CAN.LEFT_FLYWHEEL_ID);
-        m_flywheelRight = new WPI_TalonFX(Constants.CAN.RIGHT_FLYWHEEL_ID);
+        m_flywheelTop = new WPI_TalonFX(Constants.CAN.LEFT_FLYWHEEL_ID);
+        m_flywheelBottom = new WPI_TalonFX(Constants.CAN.RIGHT_FLYWHEEL_ID);
 
-        m_flywheelRight.setInverted(InvertType.InvertMotorOutput);
+        m_flywheelBottom.setInverted(InvertType.InvertMotorOutput);
 
         m_hood = new CANSparkMax(Constants.CAN.HOOD_MOTOR_ID, MotorType.kBrushless);
 
@@ -53,18 +53,21 @@ public class Shooter extends SubsystemBase {
     public void periodic() {
     }
 
-    public void setFlywheelSpeed(double speed){
-        m_flywheelLeft.set(speed);
-        m_flywheelRight.set(speed);
+    public void setTopFlywheelSpeed(double speed){
+        m_flywheelTop.set(speed);
+    }
+
+    public void setBottomFlywheelSpeed(double speed){
+        m_flywheelBottom.set(speed);
     }
 
     public double getFlywheelRPM(){
         //units per 100ms, 2048 units per rotation
-        return m_flywheelRight.getSelectedSensorVelocity() * 600 * (1/2048.0);
+        return m_flywheelBottom.getSelectedSensorVelocity() * 600 * (1/2048.0);
     }   
 
     public double getFlywheelSpeedSetpoint() {
-        return m_flywheelRight.get() * 6000/*max RPM*/;
+        return m_flywheelBottom.get() * 6000/*max RPM*/;
     }
 
     public void setHoodSpeed(double speed){
