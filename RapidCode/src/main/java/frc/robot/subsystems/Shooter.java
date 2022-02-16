@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
@@ -14,10 +10,8 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-// Current Goal: full send motors when button pressed
 
 public class Shooter extends SubsystemBase {
-    //adding motor controllers for falcon shooter, sparkmax hood/turret, analog hood/turret potentiometers, and hood PID
     private WPI_TalonFX m_flywheelLeft;
     private WPI_TalonFX m_flywheelRight;
 
@@ -43,7 +37,12 @@ public class Shooter extends SubsystemBase {
         m_turret = new CANSparkMax(Constants.CAN.TURRET_MOTOR_ID, MotorType.kBrushless);
 
         m_hoodPotentiometer = new AnalogInput(Constants.AIO.HOOD_POTENTIOMETER_PORT);
+        m_hoodPotentiometer.setAverageBits(2);
+        m_hoodPotentiometer.setOversampleBits(0);
+
         m_turretPotentiometer = new AnalogInput(Constants.AIO.TURRET_POTENTIOMETER_PORT);
+        m_turretPotentiometer.setAverageBits(2);
+        m_turretPotentiometer.setOversampleBits(0);
 
         m_hoodPID = new PIDController(0.1, 0, 0);
 
@@ -73,7 +72,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void hoodPIDExecute() {
-        m_hood.set(m_hoodPID.calculate(m_hoodPotentiometer.getVoltage()));
+        m_hood.set(m_hoodPID.calculate(m_hoodPotentiometer.getAverageValue()));
     }
 
     public void setHoodSetPoint(double setpoint) {
@@ -90,11 +89,11 @@ public class Shooter extends SubsystemBase {
     }
 
     public double getHoodPotentiometerAngle() {
-        return m_hoodPotentiometer.getVoltage(); //needs to be converted to angle
+        return m_hoodPotentiometer.getAverageValue(); //needs to be converted to angle
     }
 
     public double getTurretPotentiometerAngle() {
-        return m_turretPotentiometer.getVoltage(); //needs to be converted to angle
+        return m_turretPotentiometer.getAverageValue(); //needs to be converted to angle
     }    
 
 }
