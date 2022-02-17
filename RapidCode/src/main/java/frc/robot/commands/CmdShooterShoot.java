@@ -11,7 +11,7 @@ public class CmdShooterShoot extends CommandBase {
     DoubleSupplier m_hoodAngle;
     DoubleSupplier m_turretAngle;
 
-    public CmdShooterShoot(Shooter shooterSubsystem, DoubleSupplier hoodAngle, DoubleSupplier turretAngle) {
+    public CmdShooterShoot(Shooter shooterSubsystem) {
         m_shooterSubsystem = shooterSubsystem;
         m_hoodAngle = hoodAngle;
         m_turretAngle = turretAngle;
