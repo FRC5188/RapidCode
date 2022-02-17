@@ -38,6 +38,11 @@ public class BallPath extends SubsystemBase {
 
     }
 
+    public void setMotorSpeed(double speed) {
+        m_indexMotorTop.set(speed);
+        m_indexMotorBottom.set(speed);
+    }
+
     public int getBallCount() {
         return m_ballCount;
     }
@@ -65,6 +70,7 @@ public class BallPath extends SubsystemBase {
             m_ballPathState = BallPathState.Loading;
         }else if (entranceSensorHasTransitioned()) {
             incrementBallCount();
+            m_ballPathState = BallPathState.MovingToPosition;
         } else if (middleSensorHasTransitioned()) {
             m_ballPathState = BallPathState.Stopped;
         } else if (shooterSensorHasTransitioned()) {
@@ -75,7 +81,7 @@ public class BallPath extends SubsystemBase {
 
 
     }
-
+    
     private boolean entranceSensorHasTransitioned() {
         /*
         This applies to the other hasTransitioned methods
@@ -96,4 +102,6 @@ public class BallPath extends SubsystemBase {
         if (!m_ballPreviouslyThere && m_shooterSensor.get()) return true;
         else return false;
     }
+
+
 }

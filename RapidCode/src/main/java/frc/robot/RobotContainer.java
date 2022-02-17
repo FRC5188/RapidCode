@@ -2,22 +2,28 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.CmdBallPathDefaultCommand;
 import frc.robot.commands.CmdDriveJoystick;
+import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Drive;
 
 public class RobotContainer {
     Drive m_driveSubsystem = new Drive();
 
+    BallPath m_ballPathSubsystem = new BallPath();
+
     XboxController m_driveController = new XboxController(0);
     
     public RobotContainer() {
         configureButtonBindings();
+        m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefaultCommand(m_ballPathSubsystem));
     }
 
     private void configureButtonBindings() {
         m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
                                                                 () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
                                                                 () -> applyDeadband( 0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
+        
     }
 
     public Command getAutonomousCommand() {

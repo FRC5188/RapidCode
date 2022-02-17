@@ -161,7 +161,7 @@ public class Drive extends SubsystemBase {
         This method changes the state of the solenoid and the value of the member-level variable of type ShifterState 
         to the parameter state
         This method should only be a couple lines!
-        */
+        */    
         m_shifterState = state;
         // When you add solenoids, make sure to add a line to set them also equal to the shifterState.
     }
