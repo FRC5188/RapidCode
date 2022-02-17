@@ -35,14 +35,17 @@ public class Vision extends SubsystemBase {
     }
 
     public double getRotationAngle() {
-        return 0;
+        return m_horizontalRotation;
     }
-
+    private static final double getHeighttoTarget = 104 - 42; //42 is camera height
+    private static final double cameraangle = 21;
     public double getDistanceToTarget() {
-        return 0;
+        //input of m_verticalRotation, output horizontal distance to target
+        return getHeighttoTarget / ( Math.tan(m_verticalRotation+cameraangle));
     }
 
     public boolean hasTarget() {
-        return false;
+
+        return m_hasTarget;
     }
 }
