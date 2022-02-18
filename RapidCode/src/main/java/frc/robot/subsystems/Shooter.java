@@ -83,10 +83,6 @@ public class Shooter extends SubsystemBase {
         return m_flywheelBottom.get() * 6000/*max RPM*/;
     }
 
-    public void setHoodSpeed(double speed){
-        m_hoodMotor.set(speed);
-    }
-
     public void hoodPIDExecute() {
         m_hoodMotor.set(m_hoodPID.calculate(m_hoodPotentiometer.getAverageValue()));
     }
