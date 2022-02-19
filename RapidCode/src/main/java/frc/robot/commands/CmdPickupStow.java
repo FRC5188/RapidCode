@@ -16,7 +16,6 @@ public class CmdPickupStow extends CommandBase {
         m_pickupSubsystem.setPickupState(PickupState.Retracted);
     }
 
-
     @Override
     public boolean isFinished() {
         return true;

@@ -9,7 +9,6 @@ public class CmdPickupDeploy extends CommandBase {
 
     public CmdPickupDeploy(Pickup pickupSubsystem) {
         m_pickupSubsystem = pickupSubsystem;
-
     }
 
     @Override
