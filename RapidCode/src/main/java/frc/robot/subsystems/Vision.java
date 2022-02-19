@@ -4,6 +4,7 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -37,11 +38,11 @@ public class Vision extends SubsystemBase {
     public double getRotationAngle() {
         return m_horizontalRotation;
     }
-    private static final double getHeighttoTarget = 104 - 42; //42 is camera height
-    private static final double cameraangle = 21;
+    private static final double heightToTarget = Constants.TARGET_HEIGHT_METERS - Constants.CAMERA_HEIGHT_METERS; 
     public double getDistanceToTarget() {
         //input of m_verticalRotation, output horizontal distance to target
-        return getHeighttoTarget / ( Math.tan(m_verticalRotation+cameraangle));
+
+        return heightToTarget / ( Math.tan(m_verticalRotation+Constants.CAMERA_PITCH_RADIANS));
     }
 
     public boolean hasTarget() {
