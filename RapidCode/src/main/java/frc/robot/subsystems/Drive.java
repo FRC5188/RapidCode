@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -21,6 +22,8 @@ public class Drive extends SubsystemBase {
     private WPI_TalonFX m_leftSecondary;
     private WPI_TalonFX m_rightPrimary;
     private WPI_TalonFX m_rightSecondary;
+
+    private AHRS m_gyro;
 
     private Solenoid m_leftShifter;
     private Solenoid m_rightShifter; 
@@ -49,6 +52,8 @@ public class Drive extends SubsystemBase {
         m_leftSecondary = new WPI_TalonFX(Constants.CAN.LEFT_SECONDARY_DRIVE_ID);
         m_rightPrimary = new WPI_TalonFX(Constants.CAN.RIGHT_PRIMARY_DRIVE_ID);
         m_rightSecondary = new WPI_TalonFX(Constants.CAN.RIGHT_SECONDARY_DRIVE_ID);
+
+        m_gyro = new AHRS();
 
         m_leftShifter = new Solenoid(PneumaticsModuleType.REVPH, 0);
         m_rightShifter = new Solenoid(PneumaticsModuleType.REVPH, 1);
@@ -83,15 +88,39 @@ public class Drive extends SubsystemBase {
         */
     }
 
-
-    public void drivePIDInit(double distance, double heading, boolean resetEncoders, boolean resetGyro) {
-        //distance driving, how much need to rotate, if at all, if reset encoders, reset gyro
+    public void resetEncoders() {
         m_rightPrimary.setSelectedSensorPosition(0);
         m_leftPrimary.setSelectedSensorPosition(0);
-
-        
     }
 
+    public void resetGyro() {
+        m_gyro.reset();
+    }
+
+    public void drivePIDInit(double distance, boolean resetEncoders, boolean resetGyro) {
+        //distance driving, how much need to rotate, if at all, if reset encoders, reset gyro
+        if (resetEncoders) {
+            resetEncoders();
+        }
+        if (resetGyro) {
+            resetGyro();
+        }
+        m_drivePID.setSetpoint(distance);
+    }
+
+    public void rotatePIDInit(double heading, boolean resetEncoders, boolean resetGyro) {
+        if(resetEncoders) {
+            resetEncoders();
+        }
+        if (resetGyro) {
+            resetGyro();
+        }
+        m_rotatePID.setSetpoint(heading);
+    }
+
+    public void drivePIDExec() {
+        arcadeDrive(m_drivePID.calculate(), 0);
+    }
     public void cheesyDrive(double throttle, double wheel, double quickTurn, boolean shifted) {
         /*
         This code belongs to the poofs
