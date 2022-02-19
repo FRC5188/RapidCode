@@ -7,14 +7,23 @@ import frc.robot.commands.CmdDriveJoystick;
 import frc.robot.commands.CmdDriveSetShifter;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Drive.ShifterState;
+import frc.robot.commands.CmdShooterShoot;
+import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Shooter;
 
 public class RobotContainer {
     Drive m_driveSubsystem = new Drive();
+
+    Shooter m_shooterSubsystem = new Shooter();
 
     XboxController m_driveController = new XboxController(0);
 
     JoystickButton m_driveAButton = new JoystickButton(m_driveController, Constants.ButtonMappings.A_BUTTON);
     
+    XboxController m_operatorController = new XboxController(1);
+
+    JoystickButton m_operatorAButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.A_BUTTON);
+
     public RobotContainer() {
         configureButtonBindings();
     }
@@ -26,6 +35,9 @@ public class RobotContainer {
         m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
                                                                 () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
                                                                 () -> applyDeadband( 0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
+        
+        // Change speed and hood angle after testing
+        m_operatorAButton.whenPressed(new CmdShooterShoot(m_shooterSubsystem, 0, 0));
     }
 
     public Command getAutonomousCommand() {
