@@ -6,6 +6,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -28,6 +30,9 @@ public class Drive extends SubsystemBase {
     private double sensitivity;
     private double angularPower;
     private double linearPower;
+
+    private PIDController m_drivePID;
+    private PIDController m_rotatePID;
 
     private ShifterState m_shifterState;
 
@@ -59,6 +64,12 @@ public class Drive extends SubsystemBase {
         m_rightPrimary.setNeutralMode(NeutralMode.Brake);
         m_rightSecondary.setNeutralMode(NeutralMode.Brake);
 
+        m_drivePID = new PIDController(0.1, 0, 0);
+        m_drivePID.setTolerance(1);
+
+        m_rotatePID = new PIDController(0.1, 0, 0);
+        m_rotatePID.setTolerance(1);
+
         m_shifterState = ShifterState.None;
     }
 
@@ -70,6 +81,15 @@ public class Drive extends SubsystemBase {
         Try and avoid using this method; rather, use a command
         Ask mentors before putting things in here!
         */
+    }
+
+
+    public void drivePIDInit(double distance, double heading, boolean resetEncoders, boolean resetGyro) {
+        //distance driving, how much need to rotate, if at all, if reset encoders, reset gyro
+        m_rightPrimary.setSelectedSensorPosition(0);
+        m_leftPrimary.setSelectedSensorPosition(0);
+
+        
     }
 
     public void cheesyDrive(double throttle, double wheel, double quickTurn, boolean shifted) {
