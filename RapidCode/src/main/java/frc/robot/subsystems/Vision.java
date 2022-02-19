@@ -1,10 +1,5 @@
 package frc.robot.subsystems;
 
-import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonUtils;
-import org.photonvision.targeting.PhotonTrackedTarget;
-
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -12,6 +7,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Vision extends SubsystemBase {
+    private static double HEIGHT_TO_TARGET = Constants.TARGET_HEIGHT_METERS - Constants.CAMERA_HEIGHT_METERS;
+
     NetworkTable m_networkTable;
     NetworkTableEntry m_tx;
     NetworkTableEntry m_ty;
@@ -38,15 +35,13 @@ public class Vision extends SubsystemBase {
     public double getRotationAngle() {
         return m_horizontalRotation;
     }
-    private static final double heightToTarget = Constants.TARGET_HEIGHT_METERS - Constants.CAMERA_HEIGHT_METERS; 
-    public double getDistanceToTarget() {
-        //input of m_verticalRotation, output horizontal distance to target
 
-        return heightToTarget / ( Math.tan(m_verticalRotation+Constants.CAMERA_PITCH_RADIANS));
+    public double getDistanceToTarget() {
+        // input of m_verticalRotation, output horizontal distance to target
+        return HEIGHT_TO_TARGET / (Math.tan(m_verticalRotation + Constants.CAMERA_PITCH_RADIANS));
     }
 
     public boolean hasTarget() {
-
         return m_hasTarget;
     }
 }
