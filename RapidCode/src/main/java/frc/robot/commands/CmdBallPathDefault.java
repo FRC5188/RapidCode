@@ -4,12 +4,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.BallPath.BallPathState;
 
-public class CmdBallPathDefaultCommand extends CommandBase {
+public class CmdBallPathDefault extends CommandBase {
     private BallPath m_ballPathSubsystem;
 
     private BallPathState m_ballPathState;
 
-    public CmdBallPathDefaultCommand(BallPath ballPathSubsystem) {
+    public CmdBallPathDefault(BallPath ballPathSubsystem) {
         m_ballPathSubsystem = ballPathSubsystem;
 
         addRequirements(m_ballPathSubsystem);

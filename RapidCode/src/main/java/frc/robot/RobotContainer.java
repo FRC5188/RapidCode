@@ -5,20 +5,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CmdDriveJoystick;
 import frc.robot.commands.CmdDriveSetShifter;
-import frc.robot.commands.CmdBallPathDefaultCommand;
-import frc.robot.commands.CmdDriveJoystick;
+import frc.robot.commands.CmdBallPathDefault;
 import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Drive.ShifterState;
 import frc.robot.commands.CmdShooterShoot;
-import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Shooter;
 
 public class RobotContainer {
-    Drive m_driveSubsystem = new Drive();
-
-    Shooter m_shooterSubsystem = new Shooter();
     BallPath m_ballPathSubsystem = new BallPath();
+    Drive m_driveSubsystem = new Drive();
+    Shooter m_shooterSubsystem = new Shooter();
 
     XboxController m_driveController = new XboxController(0);
 
@@ -30,13 +27,13 @@ public class RobotContainer {
 
     public RobotContainer() {
         configureButtonBindings();
-        m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefaultCommand(m_ballPathSubsystem));
     }
 
     private void configureButtonBindings() {
         m_driveAButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
         m_driveAButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
 
+        m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem));
         m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
                                                                 () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
                                                                 () -> applyDeadband( 0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
