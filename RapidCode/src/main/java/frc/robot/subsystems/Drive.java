@@ -13,11 +13,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Drive extends SubsystemBase {
+    public enum EncoderType {
+        Left,
+        Right,
+        Average,
+        None
+    }
+
     public enum ShifterState {
         Normal,
         Shifted,
         None
     }
+
     private WPI_TalonFX m_leftPrimary;
     private WPI_TalonFX m_leftSecondary;
     private WPI_TalonFX m_rightPrimary;
@@ -48,6 +56,8 @@ public class Drive extends SubsystemBase {
         To initialize an object, use general format: ObjectType objectName = new ObjectType(initParameters)
         If you're giving a port number in the object parameters, reference the Constants class: Constants.PortType.STATIC_VALUE
         */
+        
+
         m_leftPrimary = new WPI_TalonFX(Constants.CAN.LEFT_PRIMARY_DRIVE_ID);
         m_leftSecondary = new WPI_TalonFX(Constants.CAN.LEFT_SECONDARY_DRIVE_ID);
         m_rightPrimary = new WPI_TalonFX(Constants.CAN.RIGHT_PRIMARY_DRIVE_ID);
@@ -119,8 +129,22 @@ public class Drive extends SubsystemBase {
     }
 
     public void drivePIDExec() {
-        arcadeDrive(m_drivePID.calculate(), 0);
+        arcadeDrive(m_drivePID.calculate(getEncoderPosition(EncoderType.Average)), 0);
     }
+
+    public void rotatePIDExec() {
+        arcadeDrive(0, m_rotatePID.calculate(getGyroPosition()));
+    }
+
+    public boolean atDrivePIDSetpoint() {
+       return m_drivePID.atSetpoint();
+
+    }
+
+    public boolean atRotatePIDSetpoint() {
+        return m_rotatePID.atSetpoint();
+    }
+
     public void cheesyDrive(double throttle, double wheel, double quickTurn, boolean shifted) {
         /*
         This code belongs to the poofs
@@ -170,6 +194,50 @@ public class Drive extends SubsystemBase {
 
 		driveRaw(lDrive, rDrive);
 	}
+
+    public double getEncoderPosition(EncoderType measureType) {
+        /*
+        This method is used to get the position of the robot's encoders
+        Since there are times where we might want to look at both left and right encoders as well as only one side, 
+        there is an enumeration named EncoderType that is sent in as a parameter named measureType
+        Use a switch-case to assign values to return (go through cases with every possible enumeration value for EncoderType)
+        Also, make sure to subtract the respective encoder pos variables from the returned value, as that is what allows us to reset the encoders
+        Syntax: switch(measureType) {
+            case OneState:
+                encoderPos = m_leftPrimary.getSelectedSensorPosition();
+                break;
+            case AnotherState:
+                encoderPos = m_rightPrimary.getSelectedSensorPosition();
+                break;
+            default:
+                break;
+        }
+        At the end, however, we have a bit of extra math to do, since there is gearing between the encoder and the wheels
+        On top of that, since there is a high and low gear mode, the gearing for each is different
+        So, the amount that we divide by will change based on m_shifterState
+        */
+        double encoderPos = 0;
+
+        switch(measureType) {
+            case Left:
+                encoderPos = m_leftPrimary.getSelectedSensorPosition();
+                break;
+            case Right:
+                encoderPos = m_rightPrimary.getSelectedSensorPosition();
+                break;
+            case Average:
+                encoderPos = (m_leftPrimary.getSelectedSensorPosition() + m_rightPrimary.getSelectedSensorPosition()) / 2;
+                break;
+            default:
+                break;
+        }
+
+        return (m_shifterState == ShifterState.Normal) ? encoderPos / 5.6 : encoderPos / 16.36;
+    }
+
+    public double getGyroPosition() {
+        return m_gyro.getAngle();
+    }
 
     private void driveRaw(double left, double right) {
 	    /*
