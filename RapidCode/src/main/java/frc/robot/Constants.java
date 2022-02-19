@@ -42,12 +42,14 @@ public final class Constants {
         public static final int LEFT_SECONDARY_DRIVE_ID = 2;
         public static final int RIGHT_PRIMARY_DRIVE_ID = 3;
         public static final int RIGHT_SECONDARY_DRIVE_ID = 4;
-        // 5 and 6 are already used in the ball path, so make sure to not duplicate
+
+        public static final int INDEX_MOTOR_TOP_ID = 5;
+        public static final int INDEX_MOTOR_BOTTOM_ID = 6;
+
         public static final int LEFT_FLYWHEEL_ID = 7;
         public static final int RIGHT_FLYWHEEL_ID = 8;
         public static final int HOOD_MOTOR_ID = 9;
         public static final int TURRET_MOTOR_ID = 10;
-
     }
 
     public final class DIO {
@@ -58,6 +60,9 @@ public final class Constants {
          * Name example: public static final int PICKUP_SENSOR_PORT = 0 (name what
          * sensor is/does and end with port)
          */
+        public static final int ENTRANCE_SENSOR_PORT = 0;
+        public static final int MIDDLE_SENSOR_PORT = 1;
+        public static final int SHOOTER_SENSOR_PORT = 2;
     }
 
     public final class PCM {
