@@ -21,31 +21,36 @@ public class CmdBallPathDefaultCommand extends CommandBase {
 
     @Override
     public void execute() {
-       switch (m_ballPathState) {
-        case Loading:
-        //Need motors to be running in this state
-        m_ballPathSubsystem.setMotorSpeed(0.5);
-        break;
-        case MovingToPosition:
-        //Motors running
-        m_ballPathSubsystem.setMotorSpeed(0.5);
-        break;
-        case Shooting:
-        //Need motors to be running in this state
-        m_ballPathSubsystem.setMotorSpeed(0.5);
-        break;
-        case Stopped:
-        //Need motors to not be running in this state
-        m_ballPathSubsystem.setMotorSpeed(0);
-        break;
-        case None:
-        break;
-    }
+        m_ballPathSubsystem.updateBallPathState();
+        m_ballPathState = m_ballPathSubsystem.getBallPathState();
+
+        switch (m_ballPathState) {
+            case Loading:
+                // Need motors to be running in this state
+                m_ballPathSubsystem.setMotorSpeed(0.5);
+                break;
+            case MovingToPosition:
+                // Motors running
+                m_ballPathSubsystem.setMotorSpeed(0.5);
+                break;
+            case Shooting:
+                // Need motors to be running in this state
+                m_ballPathSubsystem.setMotorSpeed(0.5);
+                break;
+            case Stopped:
+                // Need motors to not be running in this state
+                m_ballPathSubsystem.setMotorSpeed(0);
+                break;
+            case None:
+            default:
+                break;
+        }
 
     }
 
     @Override
     public void end(boolean interrupted) {
+        m_ballPathSubsystem.setMotorSpeed(0);
     }
 
     @Override
