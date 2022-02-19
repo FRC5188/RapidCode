@@ -80,10 +80,9 @@ public class BallPath extends SubsystemBase {
         } else if (entranceSensorHasTransitioned()) {
             incrementBallCount();
             m_ballPathState = BallPathState.MovingToPosition;
-        } else if (middleSensorHasTransitioned()) {
+        } else if (!m_middleSensor.get()) {
             m_ballPathState = BallPathState.Stopped;
         } else if (shooterSensorHasTransitioned()) {
-            m_ballPathState = BallPathState.Shooting;
             decrementBallCount();
         }
     }
@@ -100,7 +99,6 @@ public class BallPath extends SubsystemBase {
             return true;
         else
             return false;
-
     }
 
     private boolean middleSensorHasTransitioned() {
