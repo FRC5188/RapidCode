@@ -63,6 +63,10 @@ public class BallPath extends SubsystemBase {
         return m_ballPathState;
     }
 
+    public void setBallPathState(BallPathState state) {
+        m_ballPathState = state; 
+    }
+
     public void updateBallPathState() {
         /*
          * A setter method plus some extra logic to decide what to set to.

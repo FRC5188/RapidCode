@@ -13,6 +13,10 @@ public final class Constants {
     public static final double QUICK_TURN_MULTIPLIER = 0.75;
     public static final double ARCADE_DRIVE_DEADBAND = 0.025;
 
+    public static final double BALL_PATH_LOADING_SPEED = 0.5;
+    public static final double BALL_PATH_POSITION_SPEED = 0.5;
+    public static final double BALL_PATH_SHOOTING_SPEED = 0.5;
+
     public static final double FALCON_MAX_RPM = 6000;
 
     public final class AIO {

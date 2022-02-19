@@ -39,7 +39,7 @@ public class RobotContainer {
                                                                 () -> applyDeadband( 0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
         
         // Change speed and hood angle after testing
-        m_operatorAButton.whenPressed(new CmdShooterShoot(m_shooterSubsystem, 0, 0));
+        m_operatorAButton.whenPressed(new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, 0, 0));
     }
 
     public Command getAutonomousCommand() {
