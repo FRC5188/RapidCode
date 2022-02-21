@@ -7,12 +7,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Vision extends SubsystemBase {
+    
     private static double HEIGHT_TO_TARGET = Constants.TARGET_HEIGHT_METERS - Constants.CAMERA_HEIGHT_METERS;
 
     NetworkTable m_networkTable;
     NetworkTableEntry m_tx;
     NetworkTableEntry m_ty;
     NetworkTableEntry m_tv;
+    NetworkTableEntry m_ledMode;
 
     double m_horizontalRotation;
     double m_verticalRotation;
@@ -23,6 +25,8 @@ public class Vision extends SubsystemBase {
         m_tx = m_networkTable.getEntry("tx");
         m_ty = m_networkTable.getEntry("ty");
         m_tv = m_networkTable.getEntry("tv");
+        m_ledMode = m_networkTable.getEntry("ledMode");
+        m_ledMode.setValue(0);
     }
 
     @Override
@@ -30,6 +34,8 @@ public class Vision extends SubsystemBase {
         m_horizontalRotation = m_tx.getDouble(0.0);
         m_verticalRotation = m_ty.getDouble(0.0);
         m_hasTarget = m_tv.getBoolean(false);
+        System.out.println("Test");
+        System.out.printf("Distance: %f Angle: %f Target: %b\n", getDistanceToTarget(), m_hasTarget);
     }
 
     public double getRotationAngle() {

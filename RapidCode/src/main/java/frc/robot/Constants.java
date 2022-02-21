@@ -9,10 +9,10 @@ public final class Constants {
     If it is a general constant (not a port/id), put between this comment and the next class
     If it is a port/id, put it into its class based on type (CAN, DIO, AIO, etc)
     */
-    public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(24);  //Check this value
+    public static final double CAMERA_HEIGHT_METERS = Units.inchesToMeters(32);  //Check this value
     public static final double TARGET_HEIGHT_METERS = Units.inchesToMeters(102.625);
 
-    public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(0);
+    public static final double CAMERA_PITCH_RADIANS = Units.degreesToRadians(45);
 
     public final class AIO {
         /*
