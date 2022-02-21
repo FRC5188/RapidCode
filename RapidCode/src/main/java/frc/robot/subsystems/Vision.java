@@ -33,7 +33,7 @@ public class Vision extends SubsystemBase {
     public void periodic() {
         m_horizontalRotation = m_tx.getDouble(0.0);
         m_verticalRotation = m_ty.getDouble(0.0);
-        m_hasTarget = m_tv.getBoolean(false);
+        m_hasTarget = (m_tv.getDouble(0.0) == 1.0);
         System.out.println("Test");
         System.out.printf("Distance: %f Angle: %f Target: %b\n", getDistanceToTarget(), m_hasTarget);
     }
