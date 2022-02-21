@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -38,7 +39,7 @@ public class Vision extends SubsystemBase {
 
     public double getDistanceToTarget() {
         // input of m_verticalRotation, output horizontal distance to target
-        return HEIGHT_TO_TARGET / (Math.tan(m_verticalRotation + Constants.CAMERA_PITCH_RADIANS));
+        return HEIGHT_TO_TARGET / (Math.tan(Units.degreesToRadians(m_verticalRotation + Constants.CAMERA_PITCH_DEGREES)));
     }
 
     public boolean hasTarget() {
