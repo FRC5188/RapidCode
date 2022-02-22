@@ -9,17 +9,24 @@ import frc.robot.subsystems.Drive;
 
 public class CmdDriveDistance extends CommandBase {
     /** Creates a new CmdDriveDistance. */
-    private Drive m_driveSubsystem;
+    private Drive m_driveSubsystem; /* Member-Level private variables which serve to increase the scope of the variables that are passed
+    in in the CmdDriveDistance method located below.  */
+    private double m_distance;
+    private boolean m_resetEncoders;
+    private boolean m_resetGyro;
 
-    public CmdDriveDistance(Drive driveSubsystem) {
+    public CmdDriveDistance(Drive driveSubsystem, double distance, boolean resetEncoders, boolean resetGyro) {
         // Use addRequirements() here to declare subsystem dependencies.
-        m_driveSubsystem = driveSubsystem;
+        m_driveSubsystem = driveSubsystem; // Setting values passed in to there equivelent member level variables. 
+        m_distance = distance;
+        m_resetEncoders = resetEncoders;
+        m_resetGyro = resetGyro;
     }
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {
-        m_driveSubsystem.drivePIDInit(distance, resetEncoders, resetGyro);
+    public void initialize() {//Member-level varibles passed in which were orgin from the CmdDriveDistance method above.
+        m_driveSubsystem.drivePIDInit(m_distance, m_resetEncoders, m_resetGyro); 
     }
 
     // Called every time the scheduler runs while the command is scheduled.
