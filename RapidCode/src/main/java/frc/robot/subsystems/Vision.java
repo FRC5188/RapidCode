@@ -9,7 +9,7 @@ import frc.robot.Constants;
 
 public class Vision extends SubsystemBase {
     
-    private static double HEIGHT_TO_TARGET = Constants.TARGET_HEIGHT_METERS - Constants.CAMERA_HEIGHT_METERS;
+    private static double HEIGHT_TO_TARGET = Constants.TARGET_HEIGHT_INCHES - Constants.CAMERA_HEIGHT_INCHES;
 
     NetworkTable m_networkTable;
     NetworkTableEntry m_tx;
@@ -21,6 +21,8 @@ public class Vision extends SubsystemBase {
     double m_verticalRotation;
     boolean m_hasTarget;
 
+    private double m_count;
+
     public Vision() {
         m_networkTable = NetworkTableInstance.getDefault().getTable("limelight");
         m_tx = m_networkTable.getEntry("tx");
@@ -28,6 +30,8 @@ public class Vision extends SubsystemBase {
         m_tv = m_networkTable.getEntry("tv");
         m_ledMode = m_networkTable.getEntry("ledMode");
         m_ledMode.setValue(0);
+
+        m_count = 0;
     }
 
     @Override
@@ -35,8 +39,10 @@ public class Vision extends SubsystemBase {
         m_horizontalRotation = m_tx.getDouble(0.0);
         m_verticalRotation = m_ty.getDouble(0.0);
         m_hasTarget = (m_tv.getDouble(0.0) == 1.0);
-        System.out.println("Test");
-        System.out.printf("Distance: %f Angle: %f Target: %b\n", getDistanceToTarget(), m_hasTarget);
+        if (m_count % 25 == 0) {
+            System.out.printf("Distance: %f Angle: %f Target: %b\n", getDistanceToTarget(), m_verticalRotation, m_hasTarget);
+        }
+        m_count++;
     }
 
     public double getRotationAngle() {

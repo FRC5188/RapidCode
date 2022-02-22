@@ -1,7 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.math.util.Units;
-
 public final class Constants {
     /*
     The class that holds constant values
@@ -9,10 +7,10 @@ public final class Constants {
     If it is a general constant (not a port/id), put between this comment and the next class
     If it is a port/id, put it into its class based on type (CAN, DIO, AIO, etc)
     */
-    public static final double CAMERA_HEIGHT_METERS = 24;  //Check this value
-    public static final double TARGET_HEIGHT_METERS = 102.625;
+    public static final double CAMERA_HEIGHT_INCHES = 24;  //Check this value
+    public static final double TARGET_HEIGHT_INCHES = 102.625;
 
-    public static final double CAMERA_PITCH_DEGREES = 0;
+    public static final double CAMERA_PITCH_DEGREES = 18;
 
     public final class AIO {
         /*
