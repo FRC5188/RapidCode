@@ -22,7 +22,10 @@ public class Vision extends SubsystemBase {
     boolean m_hasTarget;
 
     private double m_count;
-
+    /**
+     * Get the Network Table from the LimeLight and then get the Horizontial Rotation(tx) the Vertical Rotation(ty) the mode of the LED(ledMode)
+     * and then if it has a target(tv).
+     */
     public Vision() {
         m_networkTable = NetworkTableInstance.getDefault().getTable("limelight");
         m_tx = m_networkTable.getEntry("tx");
@@ -44,16 +47,25 @@ public class Vision extends SubsystemBase {
         }
         m_count++;
     }
-
+    /**
+     * Returns the horizontal angle of the robot relative to the target
+     * @return the horizontal angle of the robot relative to the target
+     */
     public double getRotationAngle() {
         return m_horizontalRotation;
     }
-
+    /**
+     * Method which returns the distance of the robot to the base of the target in inches using math class in Java.
+     * @return The distance in inches that the robot is from the base of the target which it has.
+     */
     public double getDistanceToTarget() {
         // input of m_verticalRotation, output horizontal distance to target
         return HEIGHT_TO_TARGET / (Math.tan(Units.degreesToRadians(m_verticalRotation + Constants.CAMERA_PITCH_DEGREES)));
     }
-
+    /**
+     * Method which returns if the LimeLight(Camera) has a aquired a target.
+     * @return primative boolean which if true means the LimeLight has a target. 
+     */
     public boolean hasTarget() {
         return m_hasTarget;
     }
