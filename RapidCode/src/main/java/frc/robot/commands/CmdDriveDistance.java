@@ -13,20 +13,18 @@ public class CmdDriveDistance extends CommandBase {
     in in the CmdDriveDistance method located below.  */
     private double m_distance;
     private boolean m_resetEncoders;
-    private boolean m_resetGyro;
 
-    public CmdDriveDistance(Drive driveSubsystem, double distance, boolean resetEncoders, boolean resetGyro) {
+    public CmdDriveDistance(Drive driveSubsystem, double distance, boolean resetEncoders) {
         // Use addRequirements() here to declare subsystem dependencies.
         m_driveSubsystem = driveSubsystem; // Setting values passed in to there equivelent member level variables. 
         m_distance = distance;
         m_resetEncoders = resetEncoders;
-        m_resetGyro = resetGyro;
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {//Member-level varibles passed in which were orgin from the CmdDriveDistance method above.
-        m_driveSubsystem.drivePIDInit(m_distance, m_resetEncoders, m_resetGyro); 
+        m_driveSubsystem.drivePIDInit(m_distance, m_resetEncoders); 
     }
 
     // Called every time the scheduler runs while the command is scheduled.

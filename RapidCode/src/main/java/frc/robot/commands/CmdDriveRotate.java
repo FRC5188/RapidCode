@@ -12,7 +12,6 @@ public class CmdDriveRotate extends CommandBase {
     /* Declare variables which will be used to increase the scope of the variables taken in from CmdDriveRotate and let them be used in 
     initialize method.  */
     private double m_heading;
-    private boolean m_resetEncoder;
     private boolean m_resetGyro;
     /**
      * Sets the arguements that are passed in into the method to their member-level variables. 
@@ -21,17 +20,16 @@ public class CmdDriveRotate extends CommandBase {
      * @param resetEncoders true if you want to reset encoders
      * @param resetGyro true if you want to reset gyro
      */
-    public CmdDriveRotate(Drive driveSubsystem, double heading, boolean resetEncoders, boolean resetGyro) {
+    public CmdDriveRotate(Drive driveSubsystem, double heading, boolean resetGyro) {
         m_driveSubsystem = driveSubsystem;
         m_heading = heading;
-        m_resetEncoder = resetEncoders;
         m_resetGyro = resetGyro;
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        m_driveSubsystem.rotatePIDInit(m_heading, m_resetEncoder, m_resetGyro);
+        m_driveSubsystem.rotatePIDInit(m_heading, m_resetGyro);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

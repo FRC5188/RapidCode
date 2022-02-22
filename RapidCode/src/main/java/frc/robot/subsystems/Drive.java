@@ -107,21 +107,15 @@ public class Drive extends SubsystemBase {
         m_gyro.reset();
     }
 
-    public void drivePIDInit(double distance, boolean resetEncoders, boolean resetGyro) {
+    public void drivePIDInit(double distance, boolean resetEncoders) {
         //distance driving, how much need to rotate, if at all, if reset encoders, reset gyro
         if (resetEncoders) {
             resetEncoders();
         }
-        if (resetGyro) {
-            resetGyro();
-        }
         m_drivePID.setSetpoint(distance);
     }
 
-    public void rotatePIDInit(double heading, boolean resetEncoders, boolean resetGyro) {
-        if(resetEncoders) {
-            resetEncoders();
-        }
+    public void rotatePIDInit(double heading, boolean resetGyro) {
         if (resetGyro) {
             resetGyro();
         }
