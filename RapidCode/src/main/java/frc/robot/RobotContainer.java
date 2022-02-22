@@ -6,16 +6,18 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CmdDriveJoystick;
 import frc.robot.commands.CmdDriveSetShifter;
 import frc.robot.commands.CmdBallPathDefault;
+import frc.robot.commands.CmdShooterShoot;
 import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Drive.ShifterState;
-import frc.robot.commands.CmdShooterShoot;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
     BallPath m_ballPathSubsystem = new BallPath();
     Drive m_driveSubsystem = new Drive();
     Shooter m_shooterSubsystem = new Shooter();
+    private Vision m_visionSybsystem = new Vision();
 
     XboxController m_driveController = new XboxController(0);
 
@@ -24,10 +26,6 @@ public class RobotContainer {
     XboxController m_operatorController = new XboxController(1);
 
     JoystickButton m_operatorAButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.A_BUTTON);
-
-    public RobotContainer() {
-        configureButtonBindings();
-    }
 
     private void configureButtonBindings() {
         m_driveAButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));

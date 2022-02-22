@@ -19,6 +19,10 @@ public final class Constants {
 
     public static final double FALCON_MAX_RPM = 6000;
 
+    public static final double CAMERA_HEIGHT_INCHES = 24;  //Check this value
+    public static final double TARGET_HEIGHT_INCHES = 102.625;
+    public static final double CAMERA_PITCH_DEGREES = 18;
+
     public final class AIO {
         /*
          * The class that holds the AIO ports used (AIO = analog input/output)
