@@ -24,7 +24,8 @@ public class RobotContainer {
     JoystickButton m_driveAButton = new JoystickButton(m_driveController, Constants.ButtonMappings.A_BUTTON);
     
     XboxController m_operatorController = new XboxController(1);
-
+    double hoodAngle = 0;
+    double shooterSpeed = 0;
     JoystickButton m_operatorAButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.A_BUTTON);
 
     private void configureButtonBindings() {
@@ -35,9 +36,25 @@ public class RobotContainer {
         m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
                                                                 () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
                                                                 () -> applyDeadband( 0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
-        
+        switch(m_operatorController.getPOV()){ 
+            case 0:
+                shooterSpeed += 0.01;
+                break;
+            case 90:
+                hoodAngle += 3;
+                new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, 0);
+                break;
+            case 180:
+                shooterSpeed -= 0.01;
+                break;
+            case 270:
+                hoodAngle -= 3;
+                new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, 0);
+                break; 
+        }
+           
         // Change speed and hood angle after testing
-        m_operatorAButton.whenPressed(new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, 0, 0));
+        m_operatorAButton.whenPressed(new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, shooterSpeed));
     }
 
     public Command getAutonomousCommand() {
