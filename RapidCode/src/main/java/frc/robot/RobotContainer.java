@@ -11,22 +11,24 @@ import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Drive.ShifterState;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterLookupTable;
 import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
-    BallPath m_ballPathSubsystem = new BallPath();
-    Drive m_driveSubsystem = new Drive();
-    Shooter m_shooterSubsystem = new Shooter();
+    private BallPath m_ballPathSubsystem = new BallPath();
+    private Drive m_driveSubsystem = new Drive();
+    private Shooter m_shooterSubsystem = new Shooter();
     private Vision m_visionSubsystem = new Vision();
+    private ShooterLookupTable m_shooterLookupTable = new ShooterLookupTable();
 
-    XboxController m_driveController = new XboxController(0);
+    private XboxController m_driveController = new XboxController(0);
 
-    JoystickButton m_driveAButton = new JoystickButton(m_driveController, Constants.ButtonMappings.A_BUTTON);
+    private JoystickButton m_driveAButton = new JoystickButton(m_driveController, Constants.ButtonMappings.A_BUTTON);
     
-    XboxController m_operatorController = new XboxController(1);
-    double hoodAngle = 0;
-    double shooterSpeed = 0;
-    JoystickButton m_operatorAButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.A_BUTTON);
+    private XboxController m_operatorController = new XboxController(1);
+    private double hoodAngle = 0;
+    private double shooterSpeed = 0;
+    private JoystickButton m_operatorAButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.A_BUTTON);
 
     private void configureButtonBindings() {
         m_driveAButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
@@ -43,14 +45,14 @@ public class RobotContainer {
                 break;
             case 90:
                 hoodAngle += 3;
-                new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, 0);
+                //new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, 0);
                 break;
             case 180:
                 shooterSpeed -= 0.01;
                 break;
             case 270:
                 hoodAngle -= 3;
-                new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, 0);
+                //new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, 0);
                 break; 
         }
            
