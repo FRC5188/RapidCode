@@ -17,7 +17,7 @@ public class RobotContainer {
     BallPath m_ballPathSubsystem = new BallPath();
     Drive m_driveSubsystem = new Drive();
     Shooter m_shooterSubsystem = new Shooter();
-    private Vision m_visionSybsystem = new Vision();
+    private Vision m_visionSubsystem = new Vision();
 
     XboxController m_driveController = new XboxController(0);
 
