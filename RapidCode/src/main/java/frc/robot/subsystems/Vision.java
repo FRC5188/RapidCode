@@ -42,6 +42,7 @@ public class Vision extends SubsystemBase {
         m_horizontalRotation = m_tx.getDouble(0.0);
         m_verticalRotation = m_ty.getDouble(0.0);
         m_hasTarget = (m_tv.getDouble(0.0) == 1.0);
+        // Prints out some limelight information every half second
         if (m_count % 25 == 0) {
             System.out.printf("Distance: %f Angle: %f Target: %b\n", getDistanceToTarget(), m_verticalRotation, m_hasTarget);
         }

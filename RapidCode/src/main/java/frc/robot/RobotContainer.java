@@ -36,6 +36,7 @@ public class RobotContainer {
         m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
                                                                 () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
                                                                 () -> applyDeadband( 0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
+        // Adjusts hood angle and flywheel speed on D-Pad presses
         switch(m_operatorController.getPOV()){ 
             case 0:
                 shooterSpeed += 0.01;
