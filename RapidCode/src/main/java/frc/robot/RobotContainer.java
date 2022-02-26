@@ -8,6 +8,7 @@ import frc.robot.commands.CmdDriveSetShifter;
 import frc.robot.commands.CmdPickupDeploy;
 import frc.robot.commands.CmdPickupStow;
 import frc.robot.commands.CmdBallPathDefault;
+import frc.robot.commands.CmdBallPathManual;
 import frc.robot.commands.CmdShooterShoot;
 import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Drive;
@@ -41,6 +42,8 @@ public class RobotContainer {
     private double hoodAngle = 0;
     private double shooterSpeed = 0;
     private JoystickButton m_operatorAButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.A_BUTTON);
+    private JoystickButton m_operatorYButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.Y_BUTTON);
+    private JoystickButton m_operatorXButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.X_BUTTON);
 
     private void configureButtonBindings() {
         m_driveAButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
@@ -69,6 +72,11 @@ public class RobotContainer {
         }
            
         // Change speed and hood angle after testing
+        m_operatorXButton.whenPressed(new CmdBallPathManual(m_ballPathSubsystem, 1));
+        m_operatorXButton.whenReleased(new CmdBallPathManual(m_ballPathSubsystem, 0));
+        m_operatorYButton.whenPressed(new CmdBallPathManual(m_ballPathSubsystem, -1));
+        m_operatorYButton.whenReleased(new CmdBallPathManual(m_ballPathSubsystem, 0));
+
         m_operatorAButton.whenPressed(new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, shooterSpeed));
         m_operatorRBButton.whenPressed(new CmdPickupDeploy(m_pickupSubsystem)); // When RB Button Pressed Activates The Depoly Cmd.
         m_operatorLBButton.whenPressed(new CmdPickupStow(m_pickupSubsystem)); // When LB Button Pressed Activates The Stow Cmd.
