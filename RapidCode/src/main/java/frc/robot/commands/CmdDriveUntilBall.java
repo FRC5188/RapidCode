@@ -8,13 +8,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drive;
 import frc.robot.Constants;
 import frc.robot.subsystems.BallPath;
-import frc.robot.subsystems.BallPath.*;
 
 public class CmdDriveUntilBall extends CommandBase {
     private Drive m_driveSubsystem; 
 
     private BallPath m_ballPathSubsystem;
-    private BallPathState m_ballPathState;
 
     public CmdDriveUntilBall(Drive driveSubsystem, boolean resetEncoders) {
         // Use addRequirements() here to declare subsystem dependencies.

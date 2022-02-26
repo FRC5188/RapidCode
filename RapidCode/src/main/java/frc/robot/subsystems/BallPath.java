@@ -75,7 +75,7 @@ public class BallPath extends SubsystemBase {
         m_ballPathState = state; 
     }
 
-    public boolean hasEnteredBallPath() {
+    public boolean hasEnteredBallPath() { // For CmdDriveUntilBall command
         return m_entranceSensor.get();
     }
 
