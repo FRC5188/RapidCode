@@ -5,10 +5,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CmdDriveJoystick;
 import frc.robot.commands.CmdDriveSetShifter;
+import frc.robot.commands.CmdPickupDeploy;
+import frc.robot.commands.CmdPickupStow;
 import frc.robot.commands.CmdBallPathDefault;
 import frc.robot.commands.CmdShooterShoot;
 import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Pickup;
 import frc.robot.subsystems.Drive.ShifterState;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShooterLookupTable;
@@ -20,12 +23,21 @@ public class RobotContainer {
     private Shooter m_shooterSubsystem = new Shooter();
     private Vision m_visionSubsystem = new Vision();
     private ShooterLookupTable m_shooterLookupTable = new ShooterLookupTable();
+    private Pickup m_pickupSubsystem = new Pickup();
 
     private XboxController m_driveController = new XboxController(0);
 
     private JoystickButton m_driveAButton = new JoystickButton(m_driveController, Constants.ButtonMappings.A_BUTTON);
     
     private XboxController m_operatorController = new XboxController(1);
+    /* 
+    Declares the RB Joystick Bumber For The Operator's Controller
+     */
+    private JoystickButton m_operatorRBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.RIGHT_BUMPER); 
+    /*
+    Declares the LB Joystick Bumber For The Operator's Controller
+    */
+    private JoystickButton m_operatorLBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.LEFT_BUMPER);
     private double hoodAngle = 0;
     private double shooterSpeed = 0;
     private JoystickButton m_operatorAButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.A_BUTTON);
@@ -58,6 +70,8 @@ public class RobotContainer {
            
         // Change speed and hood angle after testing
         m_operatorAButton.whenPressed(new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, shooterSpeed));
+        m_operatorRBButton.whenPressed(new CmdPickupDeploy(m_pickupSubsystem)); // When RB Button Pressed Activates The Depoly Cmd.
+        m_operatorLBButton.whenPressed(new CmdPickupStow(m_pickupSubsystem)); // When LB Button Pressed Activates The Stow Cmd.
     }
 
     public Command getAutonomousCommand() {
