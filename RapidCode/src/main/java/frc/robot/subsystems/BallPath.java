@@ -63,8 +63,20 @@ public class BallPath extends SubsystemBase {
         return m_ballPathState;
     }
 
+    public boolean inBallPath() { 
+        if (m_ballPathState == BallPathState.None) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public void setBallPathState(BallPathState state) {
         m_ballPathState = state; 
+    }
+
+    public boolean hasEnteredBallPath() {
+        return m_entranceSensor.get();
     }
 
     public void updateBallPathState() {

@@ -17,6 +17,8 @@ public final class Constants {
     public static final double BALL_PATH_POSITION_SPEED = 0.5;
     public static final double BALL_PATH_SHOOTING_SPEED = 0.5;
 
+    public static final double AUTO_DRIVE_SPEED = 0.25;
+
     public static final double FALCON_MAX_RPM = 6000;
 
     public static final double CAMERA_HEIGHT_INCHES = 24;  //Check this value
