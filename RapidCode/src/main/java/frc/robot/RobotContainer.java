@@ -19,12 +19,12 @@ import frc.robot.subsystems.ShooterLookupTable;
 import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
-    private BallPath m_ballPathSubsystem = new BallPath();
+    // private BallPath m_ballPathSubsystem = new BallPath();
     private Drive m_driveSubsystem = new Drive();
-    private Shooter m_shooterSubsystem = new Shooter();
-    private Vision m_visionSubsystem = new Vision();
-    private ShooterLookupTable m_shooterLookupTable = new ShooterLookupTable();
-    private Pickup m_pickupSubsystem = new Pickup();
+    // private Shooter m_shooterSubsystem = new Shooter();
+    // private Vision m_visionSubsystem = new Vision();
+    // private ShooterLookupTable m_shooterLookupTable = new ShooterLookupTable();
+    // private Pickup m_pickupSubsystem = new Pickup();
 
     private XboxController m_driveController = new XboxController(0);
 
@@ -45,11 +45,15 @@ public class RobotContainer {
     private JoystickButton m_operatorYButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.Y_BUTTON);
     private JoystickButton m_operatorXButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.X_BUTTON);
 
+    public RobotContainer() {
+        configureButtonBindings();
+    }
+
     private void configureButtonBindings() {
         //m_driveAButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
         //m_driveAButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
 
-        m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem));
+        // m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem));
         m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
                                                                 () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
                                                                 () -> applyDeadband( 0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
@@ -72,14 +76,14 @@ public class RobotContainer {
         }
            
         // Change speed and hood angle after testing
-        m_operatorXButton.whenPressed(new CmdBallPathManual(m_ballPathSubsystem, 1));
-        m_operatorXButton.whenReleased(new CmdBallPathManual(m_ballPathSubsystem, 0));
-        m_operatorYButton.whenPressed(new CmdBallPathManual(m_ballPathSubsystem, -1));
-        m_operatorYButton.whenReleased(new CmdBallPathManual(m_ballPathSubsystem, 0));
+    //     m_operatorXButton.whenPressed(new CmdBallPathManual(m_ballPathSubsystem, 1));
+    //     m_operatorXButton.whenReleased(new CmdBallPathManual(m_ballPathSubsystem, 0));
+    //     m_operatorYButton.whenPressed(new CmdBallPathManual(m_ballPathSubsystem, -1));
+    //     m_operatorYButton.whenReleased(new CmdBallPathManual(m_ballPathSubsystem, 0));
 
-        m_operatorAButton.whenPressed(new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, shooterSpeed));
-        m_operatorRBButton.whenPressed(new CmdPickupDeploy(m_pickupSubsystem)); // When RB Button Pressed Activates The Depoly Cmd.
-        m_operatorLBButton.whenPressed(new CmdPickupStow(m_pickupSubsystem)); // When LB Button Pressed Activates The Stow Cmd.
+    //     m_operatorAButton.whenPressed(new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, shooterSpeed));
+    //     m_operatorRBButton.whenPressed(new CmdPickupDeploy(m_pickupSubsystem)); // When RB Button Pressed Activates The Depoly Cmd.
+    //     m_operatorLBButton.whenPressed(new CmdPickupStow(m_pickupSubsystem)); // When LB Button Pressed Activates The Stow Cmd.
     }
 
     public Command getAutonomousCommand() {
