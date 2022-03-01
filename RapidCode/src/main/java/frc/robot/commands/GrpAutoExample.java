@@ -3,7 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Pickup;
-import frc.robot.subsystems.Vision; // We'll use this later ;)
+// import frc.robot.subsystems.Vision; // We'll use this later ;)
 
 public class GrpAutoExample extends SequentialCommandGroup {
     // put any subsystems used in the auto routine in the parameters
@@ -22,6 +22,7 @@ public class GrpAutoExample extends SequentialCommandGroup {
             The section will leave the tarmac, pick up one ball, and then shoot the one which is stored and also the one which it's just
             picked up. 
             */
+            // IMPORTANT NOTE!!! The practice robot can only drive and turn, so we cannot call commands using the pickup, shooter, shifter, etc.
             new CmdPickupDeploy(pickupSubsystem), // Engages the grabber at the front of the robot. 
             new CmdDriveDistance(driveSubsystem, 99, true), /* Drives 99 Inches torward the ball, we plan on adding code which will check if a ball
             has been passed in. */

@@ -113,12 +113,12 @@ public class BallPath extends SubsystemBase {
             return false;
     }
 
-    private boolean middleSensorHasTransitioned() {
-        if (!m_ballPreviouslyThere && m_middleSensor.get())
-            return true;
-        else
-            return false;
-    }
+    // private boolean middleSensorHasTransitioned() {
+    //     if (!m_ballPreviouslyThere && m_middleSensor.get())
+    //         return true;
+    //     else
+    //         return false;
+    // }
 
     private boolean shooterSensorHasTransitioned() {
         if (!m_ballPreviouslyThere && m_shooterSensor.get())

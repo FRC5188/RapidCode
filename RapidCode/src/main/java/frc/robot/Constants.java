@@ -48,6 +48,7 @@ public final class Constants {
          * Name example: public static final int LEFT_PRIMARY_DRIVE_ID (name with what
          * motor does and end with id)
          */
+        //Front is primary, back is secondary
         public static final int LEFT_PRIMARY_DRIVE_ID = 1;
         public static final int LEFT_SECONDARY_DRIVE_ID = 2;
         public static final int RIGHT_PRIMARY_DRIVE_ID = 3;

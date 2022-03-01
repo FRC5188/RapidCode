@@ -63,10 +63,10 @@ public class Dashboard extends SubsystemBase {
         ballPath.add("Middle Sensor", m_middleSensorState).withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
         ballPath.add("Shooter Sensor", m_shooterSensorState).withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
 
-        ShuffleboardLayout climber = dashboard.getLayout("Climber Subsystem", BuiltInLayouts.kList)
-            .withPosition(33, 10)
-            .withSize(6, 7)
-            .withProperties(Map.of("Label position", "BOTTOM"));
+        // ShuffleboardLayout climber = dashboard.getLayout("Climber Subsystem", BuiltInLayouts.kList)
+        //     .withPosition(33, 10)
+        //     .withSize(6, 7)
+        //     .withProperties(Map.of("Label position", "BOTTOM"));
 
         ShuffleboardLayout drivebase = dashboard.getLayout("Drivebase Subsystem", BuiltInLayouts.kList)
             .withPosition(0, 0)
@@ -83,10 +83,10 @@ public class Dashboard extends SubsystemBase {
 
         pickup.add("Pickup is Deployed", m_pickupIsDeployed).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Red", "Color when false", "Lime")).getEntry();
 
-        ShuffleboardLayout shooter = dashboard.getLayout("Shooter Subsystem", BuiltInLayouts.kList)
-            .withPosition(7, 0)
-            .withSize(6, 12)
-            .withProperties(Map.of("Label position", "BOTTOM"));
+        // ShuffleboardLayout shooter = dashboard.getLayout("Shooter Subsystem", BuiltInLayouts.kList)
+        //     .withPosition(7, 0)
+        //     .withSize(6, 12)
+        //     .withProperties(Map.of("Label position", "BOTTOM"));
     }
 
     @Override

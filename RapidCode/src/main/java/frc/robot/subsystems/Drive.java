@@ -5,10 +5,10 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
+// import edu.wpi.first.wpilibj.PneumaticsModuleType;
+// import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
+//import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -33,8 +33,8 @@ public class Drive extends SubsystemBase {
 
     private AHRS m_gyro;
 
-    private Solenoid m_leftShifter;
-    private Solenoid m_rightShifter; 
+    // private Solenoid m_leftShifter;
+    // private Solenoid m_rightShifter; 
 
     private double wheelNonLinearity = .6;
     private double negInertia, oldWheel;
@@ -45,7 +45,7 @@ public class Drive extends SubsystemBase {
     private PIDController m_drivePID;
     private PIDController m_rotatePID;
 
-    private ShifterState m_shifterState;
+    //private ShifterState m_shifterState;
 
     public Drive() { 
         /*
@@ -65,8 +65,8 @@ public class Drive extends SubsystemBase {
 
         m_gyro = new AHRS();
 
-        m_leftShifter = new Solenoid(PneumaticsModuleType.REVPH, 0);
-        m_rightShifter = new Solenoid(PneumaticsModuleType.REVPH, 1);
+        // m_leftShifter = new Solenoid(PneumaticsModuleType.REVPH, 0);
+        // m_rightShifter = new Solenoid(PneumaticsModuleType.REVPH, 1);
 
         m_leftSecondary.follow(m_leftPrimary);
         m_rightSecondary.follow(m_rightPrimary);
@@ -85,7 +85,7 @@ public class Drive extends SubsystemBase {
         m_rotatePID = new PIDController(0.1, 0, 0);
         m_rotatePID.setTolerance(1);
 
-        m_shifterState = ShifterState.None;
+        //m_shifterState = ShifterState.None;
     }
 
     @Override
@@ -226,7 +226,13 @@ public class Drive extends SubsystemBase {
                 break;
         }
 
-        return (m_shifterState == ShifterState.Normal) ? encoderPos / 5.6 : encoderPos / 16.36;
+        // handle shifting ratio for encoders, two shifting states
+        // return (m_shifterState == ShifterState.Normal) ? encoderPos / 5.6 : encoderPos / 16.36;
+
+
+        // no shifter on practice bot, one values
+        // TODO: find this value
+        return encoderPos / 5;
     }
 
     public double getGyroPosition() {
@@ -244,22 +250,22 @@ public class Drive extends SubsystemBase {
         m_rightPrimary.set(right);
 	}
 
-    public ShifterState getShifterState() {
+   // public ShifterState getShifterState() {
         /*
         This method is used to get the state of the shifter solenoid
         */
-        return m_shifterState;
-    }
+        //return m_shifterState;
+    //}
 
-    public void setShifterState(ShifterState state) {
+    // public void setShifterState(ShifterState state) {
         /*
         This method changes the state of the solenoid and the value of the member-level variable of type ShifterState 
         to the parameter state
         This method should only be a couple lines!
         */    
-        m_shifterState = state;
+        // m_shifterState = state;
         // When you add solenoids, make sure to add a line to set them also equal to the shifterState.
-        m_leftShifter.set(m_shifterState == ShifterState.Normal);
-        m_rightShifter.set(m_shifterState == ShifterState.Normal);
-    }
+        // m_leftShifter.set(m_shifterState == ShifterState.Normal);
+        // m_rightShifter.set(m_shifterState == ShifterState.Normal);
+    // }
 }

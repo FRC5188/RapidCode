@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CmdDriveJoystick;
-import frc.robot.commands.CmdDriveSetShifter;
+//import frc.robot.commands.CmdDriveSetShifter;
 import frc.robot.commands.CmdPickupDeploy;
 import frc.robot.commands.CmdPickupStow;
 import frc.robot.commands.CmdBallPathDefault;
@@ -46,8 +46,8 @@ public class RobotContainer {
     private JoystickButton m_operatorXButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.X_BUTTON);
 
     private void configureButtonBindings() {
-        m_driveAButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
-        m_driveAButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
+        //m_driveAButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
+        //m_driveAButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
 
         m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem));
         m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
