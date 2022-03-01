@@ -35,6 +35,11 @@ public class BallPath extends SubsystemBase {
         // You need to initialize each member level thing. See example below
         // The ids for each motor/sensor have been made. Find where they are and reference
         m_indexMotorBottom = new CANSparkMax(Constants.CAN.INDEX_MOTOR_BOTTOM_ID, MotorType.kBrushless);
+        m_indexMotorTop = new CANSparkMax(Constants.CAN.INDEX_MOTOR_TOP_ID, MotorType.kBrushless);
+
+        m_entranceSensor = new DigitalInput(Constants.DIO.ENTRANCE_SENSOR_PORT);
+        m_middleSensor = new DigitalInput(Constants.DIO.MIDDLE_SENSOR_PORT);
+        m_shooterSensor = new DigitalInput(Constants.DIO.SHOOTER_SENSOR_PORT);
     }
 
     @Override
