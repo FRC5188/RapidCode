@@ -8,7 +8,7 @@ import frc.robot.subsystems.Pickup;
 public class GrpAutoExample extends SequentialCommandGroup {
     // put any subsystems used in the auto routine in the parameters
     // you don't need any member level variables
-    public GrpAutoExample(Drive driveSubsystem, Pickup pickupSubsystem) {
+    public GrpAutoExample(Drive driveSubsystem) {
         /**
          * Autonomous Mode Procedure Version 1
          * Purpose: It will drive from the tarmac, pick up one ball, and shoot two balls into the high goal.
@@ -23,11 +23,11 @@ public class GrpAutoExample extends SequentialCommandGroup {
             picked up. 
             */
             // IMPORTANT NOTE!!! The practice robot can only drive and turn, so we cannot call commands using the pickup, shooter, shifter, etc.
-            new CmdPickupDeploy(pickupSubsystem), // Engages the grabber at the front of the robot. 
+            // new CmdPickupDeploy(pickupSubsystem), // Engages the grabber at the front of the robot. 
             new CmdDriveDistance(driveSubsystem, 99, true), /* Drives 99 Inches torward the ball, we plan on adding code which will check if a ball
             has been passed in. */
-            new CmdDriveRotate(driveSubsystem, 180, true), // Turns the robot 180 degrees. 
-            new CmdPickupStow(pickupSubsystem) // Stop the grabby grabby thing
+            new CmdDriveRotate(driveSubsystem, 180, true) // Turns the robot 180 degrees. 
+            // new CmdPickupStow(pickupSubsystem) // Stop the grabby grabby thing
         );
     }
 }

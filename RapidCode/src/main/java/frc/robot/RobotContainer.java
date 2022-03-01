@@ -10,6 +10,7 @@ import frc.robot.commands.CmdPickupStow;
 import frc.robot.commands.CmdBallPathDefault;
 import frc.robot.commands.CmdBallPathManual;
 import frc.robot.commands.CmdShooterShoot;
+import frc.robot.commands.GrpAutoExample;
 import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Pickup;
@@ -25,6 +26,8 @@ public class RobotContainer {
     // private Vision m_visionSubsystem = new Vision();
     // private ShooterLookupTable m_shooterLookupTable = new ShooterLookupTable();
     // private Pickup m_pickupSubsystem = new Pickup();
+
+    private GrpAutoExample m_AutoExample = new GrpAutoExample(m_driveSubsystem);
 
     private XboxController m_driveController = new XboxController(0);
 
@@ -87,7 +90,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return null;
+        return m_AutoExample;
     }
 
     private double applyDeadband(double raw, double deadband) {
