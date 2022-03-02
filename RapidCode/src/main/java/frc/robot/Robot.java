@@ -15,7 +15,8 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         m_robotContainer = new RobotContainer();
-        m_compressor = new Compressor(PneumaticsModuleType.REVPH);
+        m_compressor = new Compressor(13, PneumaticsModuleType.REVPH);
+        m_compressor.enableDigital();
     }
 
     @Override

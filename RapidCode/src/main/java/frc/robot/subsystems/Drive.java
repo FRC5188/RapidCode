@@ -65,8 +65,10 @@ public class Drive extends SubsystemBase {
 
         m_gyro = new AHRS();
 
+
+        // TODO: MAKE THESE CONSTANTS :((((()))))
         m_leftShifter = new Solenoid(PneumaticsModuleType.REVPH, 0);
-        m_rightShifter = new Solenoid(PneumaticsModuleType.REVPH, 1);
+        m_rightShifter = new Solenoid(PneumaticsModuleType.REVPH, 8);
 
         m_leftSecondary.follow(m_leftPrimary);
         m_rightSecondary.follow(m_rightPrimary);
