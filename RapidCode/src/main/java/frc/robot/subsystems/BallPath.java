@@ -47,7 +47,9 @@ public class BallPath extends SubsystemBase {
 
     }
 
+    //negative will take ball up
     public void setMotorSpeed(double speed) {
+        //speed = 0.5;
         m_indexMotorTop.set(speed);
         m_indexMotorBottom.set(speed);
     }

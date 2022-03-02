@@ -20,7 +20,7 @@ public class CmdDriveJoystick extends CommandBase {
 
     @Override
     public void execute() {
-        m_driveSubsystem.arcadeDrive(m_drive.getAsDouble(), m_rotate.getAsDouble());
+        m_driveSubsystem.arcadeDrive(m_drive.getAsDouble(), -m_rotate.getAsDouble());
     }
 
     @Override
