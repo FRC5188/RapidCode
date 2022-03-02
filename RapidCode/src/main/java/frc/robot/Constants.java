@@ -61,7 +61,9 @@ public final class Constants {
         public static final int HOOD_MOTOR_ID = 9;
         public static final int TURRET_MOTOR_ID = 10;
         
-        public static final int PICKUP_MOTOR_ID =11;
+        public static final int PICKUP_MOTOR_ID = 11;
+
+        public static final int REV_PH_ID = 13;
     }
 
     public final class DIO {
@@ -86,8 +88,8 @@ public final class Constants {
          * Name example: public static final int PICKUP_SOLENOID = 0 (name what solenoid
          * does and end with solenoid)
          */
-        public static final int DRIVE_LEFT_SOLENOID = 0;
-        public static final int DRIVE_RIGHT_SOLENOID = 1;
+        public static final int DRIVE_LEFT_SOLENOID = 8;
+        public static final int DRIVE_RIGHT_SOLENOID = 9;
         public static final int PICKUP_LEFT_SOLENOID = 2;
         public static final int PICKUP_RIGHT_SOLENOID = 3;
     }
