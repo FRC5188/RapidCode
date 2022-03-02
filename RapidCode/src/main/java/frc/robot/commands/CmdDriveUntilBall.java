@@ -16,7 +16,7 @@ public class CmdDriveUntilBall extends CommandBase {
 
     public CmdDriveUntilBall(Drive driveSubsystem, boolean resetEncoders) {
         // Use addRequirements() here to declare subsystem dependencies.
-        m_driveSubsystem = driveSubsystem; // Setting values passed in to there equivelent member level variables. 
+        m_driveSubsystem = driveSubsystem; // Setting values passed in to their equivelent member level variables. 
     }
 
     // Called when the command is initially scheduled.

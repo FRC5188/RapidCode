@@ -16,7 +16,7 @@ public class CmdDriveDistance extends CommandBase {
 
     public CmdDriveDistance(Drive driveSubsystem, double distance, boolean resetEncoders) {
         // Use addRequirements() here to declare subsystem dependencies.
-        m_driveSubsystem = driveSubsystem; // Setting values passed in to there equivelent member level variables. 
+        m_driveSubsystem = driveSubsystem; // Setting values passed in to there equivalent member level variables. 
         m_distance = distance;
         m_resetEncoders = resetEncoders;
     }

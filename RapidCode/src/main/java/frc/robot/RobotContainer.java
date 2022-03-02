@@ -14,6 +14,7 @@ import frc.robot.commands.GrpAutoExample;
 import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Pickup;
+import frc.robot.subsystems.Drive.EncoderType;
 import frc.robot.subsystems.Drive.ShifterState;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShooterLookupTable;
@@ -29,27 +30,28 @@ public class RobotContainer {
 
     private GrpAutoExample m_AutoExample = new GrpAutoExample(m_driveSubsystem);
 
-    private XboxController m_driveController = new XboxController(0);
+    //private XboxController m_driveController = new XboxController(0);
 
-    private JoystickButton m_driveAButton = new JoystickButton(m_driveController, Constants.ButtonMappings.A_BUTTON);
+    //private JoystickButton m_driveAButton = new JoystickButton(m_driveController, Constants.ButtonMappings.A_BUTTON);
     
-    private XboxController m_operatorController = new XboxController(1);
+    //private XboxController m_operatorController = new XboxController(1);
     /* 
     Declares the RB Joystick Bumber For The Operator's Controller
      */
-    private JoystickButton m_operatorRBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.RIGHT_BUMPER); 
+    //private JoystickButton m_operatorRBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.RIGHT_BUMPER); 
     /*
     Declares the LB Joystick Bumber For The Operator's Controller
     */
-    private JoystickButton m_operatorLBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.LEFT_BUMPER);
-    private double hoodAngle = 0;
-    private double shooterSpeed = 0;
-    private JoystickButton m_operatorAButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.A_BUTTON);
-    private JoystickButton m_operatorYButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.Y_BUTTON);
-    private JoystickButton m_operatorXButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.X_BUTTON);
+   // private JoystickButton m_operatorLBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.LEFT_BUMPER);
+   // private double hoodAngle = 0;
+   // private double shooterSpeed = 0;
+   // private JoystickButton m_operatorAButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.A_BUTTON);
+   // private JoystickButton m_operatorYButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.Y_BUTTON);
+   // private JoystickButton m_operatorXButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.X_BUTTON);
 
     public RobotContainer() {
         configureButtonBindings();
+        m_driveSubsystem.resetEncoders();
     }
 
     private void configureButtonBindings() {
@@ -57,7 +59,7 @@ public class RobotContainer {
         //m_driveAButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
 
         // m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem));
-        m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
+      /*  m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
                                                                 () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
                                                                 () -> applyDeadband( 0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
         // Adjusts hood angle and flywheel speed on D-Pad presses
@@ -76,7 +78,10 @@ public class RobotContainer {
                 hoodAngle -= 3;
                 //new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, 0);
                 break; 
-        }
+        }*/
+
+        
+    
            
         // Change speed and hood angle after testing
     //     m_operatorXButton.whenPressed(new CmdBallPathManual(m_ballPathSubsystem, 1));
@@ -87,12 +92,16 @@ public class RobotContainer {
     //     m_operatorAButton.whenPressed(new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, shooterSpeed));
     //     m_operatorRBButton.whenPressed(new CmdPickupDeploy(m_pickupSubsystem)); // When RB Button Pressed Activates The Depoly Cmd.
     //     m_operatorLBButton.whenPressed(new CmdPickupStow(m_pickupSubsystem)); // When LB Button Pressed Activates The Stow Cmd.
-    }
+    
+}
 
     public Command getAutonomousCommand() {
         return m_AutoExample;
     }
 
+    public void printEncoder() {
+        System.out.println(m_driveSubsystem.getEncoderPosition(EncoderType.Average));
+    }
     private double applyDeadband(double raw, double deadband) {
         /* Please don't modify, but please do ask if you wanna know how it works! */
         

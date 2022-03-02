@@ -79,10 +79,10 @@ public class Drive extends SubsystemBase {
         m_rightPrimary.setNeutralMode(NeutralMode.Brake);
         m_rightSecondary.setNeutralMode(NeutralMode.Brake);
 
-        m_drivePID = new PIDController(0.1, 0, 0);
-        m_drivePID.setTolerance(1);
+        m_drivePID = new PIDController(0.02, 0, 0);
+        // m_drivePID.setTolerance(.5);
 
-        m_rotatePID = new PIDController(0.1, 0, 0);
+        m_rotatePID = new PIDController(0.01, 0, 0);
         m_rotatePID.setTolerance(1);
 
         //m_shifterState = ShifterState.None;
@@ -123,6 +123,8 @@ public class Drive extends SubsystemBase {
     }
 
     public void drivePIDExec() {
+        // System.out.println(getEncoderPosition(EncoderType.Average));
+        System.out.println(m_drivePID.calculate(getEncoderPosition(EncoderType.Average)));
         arcadeDrive(m_drivePID.calculate(getEncoderPosition(EncoderType.Average)), 0);
     }
 
@@ -189,7 +191,7 @@ public class Drive extends SubsystemBase {
 		driveRaw(lDrive, rDrive);
 	}
 
-    public double getEncoderPosition(EncoderType measureType) {
+    public double getEncoderPosition(EncoderType measureType) {//return in inches
         /*
         This method is used to get the position of the robot's encoders
         Since there are times where we might want to look at both left and right encoders as well as only one side, 
@@ -232,7 +234,7 @@ public class Drive extends SubsystemBase {
 
         // no shifter on practice bot, one values
         // TODO: find this value
-        return encoderPos / 5;
+        return encoderPos * (1/4096.0) * (1/4.0) * 7 * Math.PI;
     }
 
     public double getGyroPosition() {

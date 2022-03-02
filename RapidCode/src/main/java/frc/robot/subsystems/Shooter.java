@@ -32,16 +32,16 @@ public class Shooter extends SubsystemBase {
 
 
     public Shooter() {
-        m_flywheelTop = new WPI_TalonFX(Constants.CAN.LEFT_FLYWHEEL_ID);
-        m_flywheelBottom = new WPI_TalonFX(Constants.CAN.RIGHT_FLYWHEEL_ID);
+        // m_flywheelTop = new WPI_TalonFX(Constants.CAN.LEFT_FLYWHEEL_ID);
+        // m_flywheelBottom = new WPI_TalonFX(Constants.CAN.RIGHT_FLYWHEEL_ID);
         m_flywheelTop.setNeutralMode(NeutralMode.Coast);
         m_flywheelBottom.setNeutralMode(NeutralMode.Coast);
         m_flywheelBottom.setInverted(InvertType.InvertMotorOutput);
 
-        m_hoodMotor = new CANSparkMax(Constants.CAN.HOOD_MOTOR_ID, MotorType.kBrushless);
+        // m_hoodMotor = new CANSparkMax(Constants.CAN.HOOD_MOTOR_ID, MotorType.kBrushless);
         m_hoodMotor.setIdleMode(IdleMode.kBrake);
 
-        m_turretMotor = new CANSparkMax(Constants.CAN.TURRET_MOTOR_ID, MotorType.kBrushless);
+        // m_turretMotor = new CANSparkMax(Constants.CAN.TURRET_MOTOR_ID, MotorType.kBrushless);
         m_turretMotor.setIdleMode(IdleMode.kBrake);
 
         m_hoodPotentiometer = new AnalogInput(Constants.AIO.HOOD_POTENTIOMETER_PORT);
