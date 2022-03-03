@@ -79,10 +79,10 @@ public class Drive extends SubsystemBase {
         m_rightPrimary.setNeutralMode(NeutralMode.Brake);
         m_rightSecondary.setNeutralMode(NeutralMode.Brake);
 
-        m_drivePID = new PIDController(0.02, 0, 0);
-        // m_drivePID.setTolerance(.5);
+        m_drivePID = new PIDController(0.017, 0, 0.001);
+        m_drivePID.setTolerance(1);
 
-        m_rotatePID = new PIDController(0.01, 0, 0);
+        m_rotatePID = new PIDController(0.0090, 0.0005, 0.0030);
         m_rotatePID.setTolerance(1);
 
         //m_shifterState = ShifterState.None;
@@ -123,13 +123,18 @@ public class Drive extends SubsystemBase {
     }
 
     public void drivePIDExec() {
-        // System.out.println(getEncoderPosition(EncoderType.Average));
-        System.out.println(m_drivePID.calculate(getEncoderPosition(EncoderType.Average)));
-        arcadeDrive(m_drivePID.calculate(getEncoderPosition(EncoderType.Average)), 0);
+        double position = getEncoderPosition(EncoderType.Average);
+        double power = m_drivePID.calculate(position);
+        System.out.println(position); 
+        driveRaw(power, power);
     }
 
-    public void rotatePIDExec() {
-        arcadeDrive(0, m_rotatePID.calculate(getGyroPosition()));
+    public void rotatePIDExec() 
+    {
+        double angle = getGyroPosition();
+        double power = m_rotatePID.calculate(angle);
+        System.out.printf("Angle: %f PID: %f\n", angle, power); 
+        driveRaw(power, -power);
     }
 
     public boolean atDrivePIDSetpoint() {
@@ -241,7 +246,7 @@ public class Drive extends SubsystemBase {
         return m_gyro.getAngle();
     }
 
-    private void driveRaw(double left, double right) {
+    public void driveRaw(double left, double right) {
 	    /*
 	    This method is used to supply values to the drive motors
         Variables left and right will be between -1 and 1

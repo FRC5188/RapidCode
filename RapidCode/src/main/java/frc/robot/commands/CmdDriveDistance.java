@@ -36,6 +36,7 @@ public class CmdDriveDistance extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        m_driveSubsystem.driveRaw(0, 0);
     }
 
     // Returns true when the command should end.

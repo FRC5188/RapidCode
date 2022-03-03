@@ -52,6 +52,7 @@ public class RobotContainer {
     public RobotContainer() {
         configureButtonBindings();
         m_driveSubsystem.resetEncoders();
+        m_driveSubsystem.resetGyro();
     }
 
     private void configureButtonBindings() {
@@ -101,6 +102,10 @@ public class RobotContainer {
 
     public void printEncoder() {
         System.out.println(m_driveSubsystem.getEncoderPosition(EncoderType.Average));
+    }
+    public void printGyroAngle() {
+        System.out.println(m_driveSubsystem.getGyroPosition());
+        
     }
     private double applyDeadband(double raw, double deadband) {
         /* Please don't modify, but please do ask if you wanna know how it works! */
