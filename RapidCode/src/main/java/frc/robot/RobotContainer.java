@@ -29,6 +29,7 @@ public class RobotContainer {
     private XboxController m_driveController = new XboxController(0);
 
     private JoystickButton m_driveAButton = new JoystickButton(m_driveController, Constants.ButtonMappings.A_BUTTON);
+    private JoystickButton m_driveRBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.RIGHT_BUMPER);
     
     private XboxController m_operatorController = new XboxController(1);
     /* 
@@ -51,8 +52,8 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        m_driveAButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
-        m_driveAButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
+        m_driveRBButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
+        m_driveRBButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
 
         //command is broken; defaults to turning on both commands in the indexer
         //m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem));

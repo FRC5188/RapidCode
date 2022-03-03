@@ -259,7 +259,19 @@ public class Drive extends SubsystemBase {
         */    
         m_shifterState = state;
         // When you add solenoids, make sure to add a line to set them also equal to the shifterState.
-        m_leftShifter.set(m_shifterState == ShifterState.Normal);
-        m_rightShifter.set(m_shifterState == ShifterState.Normal);
+
+        //shifting is inverted. so we invert the set command GH
+        if(this.m_shifterState == ShifterState.Normal){
+            m_leftShifter.set(false);
+            m_rightShifter.set(false);
+        }
+        else{
+            m_leftShifter.set(true);
+            m_rightShifter.set(true);
+        }
+
+        // old logic that was inverted GH
+        // m_leftShifter.set(m_shifterState == ShifterState.Normal);
+        // m_rightShifter.set(m_shifterState == ShifterState.Normal);
     }
 }

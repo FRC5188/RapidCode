@@ -25,8 +25,8 @@ public class Pickup extends SubsystemBase {
     public Pickup() {
         m_pickupState = PickupState.None;
 
-        m_pickupLeftSolenoid = new Solenoid(PneumaticsModuleType.REVPH, Constants.PCM.PICKUP_LEFT_SOLENOID);
-        m_pickupRightSolenoid = new Solenoid(PneumaticsModuleType.REVPH, Constants.PCM.PICKUP_RIGHT_SOLENOID);
+        m_pickupLeftSolenoid = new Solenoid(Constants.CAN.REV_PH_ID, PneumaticsModuleType.REVPH, Constants.PCM.PICKUP_LEFT_SOLENOID);
+        m_pickupRightSolenoid = new Solenoid(Constants.CAN.REV_PH_ID, PneumaticsModuleType.REVPH, Constants.PCM.PICKUP_RIGHT_SOLENOID);
 
         m_pickupMotor = new CANSparkMax(Constants.CAN.PICKUP_MOTOR_ID, MotorType.kBrushless);
     }

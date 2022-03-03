@@ -90,10 +90,10 @@ public final class Constants {
          * Name example: public static final int PICKUP_SOLENOID = 0 (name what solenoid
          * does and end with solenoid)
          */
-        public static final int DRIVE_LEFT_SOLENOID = 8;
-        public static final int DRIVE_RIGHT_SOLENOID = 9;
-        public static final int PICKUP_LEFT_SOLENOID = 2;
-        public static final int PICKUP_RIGHT_SOLENOID = 3;
+        public static final int DRIVE_LEFT_SOLENOID = 9;
+        public static final int DRIVE_RIGHT_SOLENOID = 8;
+        public static final int PICKUP_LEFT_SOLENOID = 10;
+        public static final int PICKUP_RIGHT_SOLENOID = 11;
     }
 
     public final class ButtonMappings {
