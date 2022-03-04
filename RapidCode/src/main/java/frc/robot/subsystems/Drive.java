@@ -79,11 +79,11 @@ public class Drive extends SubsystemBase {
         m_rightPrimary.setNeutralMode(NeutralMode.Brake);
         m_rightSecondary.setNeutralMode(NeutralMode.Brake);
 
-        m_drivePID = new PIDController(0.017, 0, 0.001);
-        m_drivePID.setTolerance(1);
+        m_drivePID = new PIDController(Constants.PID.DRIVE_PROPORTIONAL_PRACTICE, Constants.PID.DRIVE_INTEGRAL_PRACTICE, Constants.PID.DRIVE_DERIVATIVE_PRACTICE);
+        m_drivePID.setTolerance(Constants.PID.DRIVE_TOLERANCE_PRACTICE);
 
-        m_rotatePID = new PIDController(0.0090, 0.0005, 0.0030);
-        m_rotatePID.setTolerance(1);
+        m_rotatePID = new PIDController(Constants.PID.ROTATE_PROPORTIONAL_PRACTICE, Constants.PID.ROTATE_INTEGRAL_PRACTICE, Constants.PID.ROTATE_DERIVATIVE_PRACTICE);
+        m_rotatePID.setTolerance(Constants.PID.ROTATE_TOLERANCE_PRACTICE);
 
         //m_shifterState = ShifterState.None;
     }
