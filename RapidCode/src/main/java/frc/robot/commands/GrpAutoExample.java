@@ -26,9 +26,16 @@ public class GrpAutoExample extends SequentialCommandGroup {
             */
             // IMPORTANT NOTE!!! The practice robot can only drive and turn, so we cannot call commands using the pickup, shooter, shifter, etc.
             // new CmdPickupDeploy(pickupSubsystem), // Engages the grabber at the front of the robot. 
-            new CmdDriveDistance(m_driveSubsystem, 99, true) /* Drives 99 Inches torward the ball, we plan on adding code which will check if a ball
+            new CmdDriveDistance(m_driveSubsystem, 30, true), /* Drives 99 Inches torward the ball, we plan on adding code which will check if a ball
             has been passed in. */
-            //new CmdDriveRotate(driveSubsystem, 180, true) // Turns the robot 180 degrees. 
+            new CmdDriveRotate(m_driveSubsystem, -90, true),
+            new CmdDriveDistance(m_driveSubsystem,30, true),
+            new CmdDriveRotate(m_driveSubsystem, -90, true),
+            new CmdDriveDistance(m_driveSubsystem, 30, true),
+            new CmdDriveRotate(m_driveSubsystem, -90, true),
+            new CmdDriveDistance(m_driveSubsystem, 30, true),
+            new CmdDriveRotate(m_driveSubsystem, -90, true) // Turns the robot 180 degrees. 
+
             // new CmdPickupStow(pickupSubsystem) // Stop the grabby grabby thing
         );
     }
