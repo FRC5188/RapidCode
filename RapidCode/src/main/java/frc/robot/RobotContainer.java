@@ -10,6 +10,7 @@ import frc.robot.commands.CmdPickupStow;
 import frc.robot.commands.CmdBallPathDefault;
 import frc.robot.commands.CmdBallPathManual;
 import frc.robot.commands.CmdShooterShoot;
+import frc.robot.commands.GrpAutoExample;
 import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Pickup;
@@ -90,7 +91,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return null;
+        return new GrpAutoExample(m_driveSubsystem, m_pickupSubsystem);
     }
 
     private double applyDeadband(double raw, double deadband) {

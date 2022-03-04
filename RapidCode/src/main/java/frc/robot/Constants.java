@@ -24,6 +24,18 @@ public final class Constants {
     public static final double CAMERA_HEIGHT_INCHES = 24;  //Check this value
     public static final double TARGET_HEIGHT_INCHES = 102.625;
     public static final double CAMERA_PITCH_DEGREES = 18;
+    
+    public static final double DRIVE_PID_P = .01; //still needs tuned
+    public static final double DRIVE_PID_I = 0;
+    public static final double DRIVE_PID_D = 0;
+
+    public static final double ROTATE_PID_P = .01;
+    public static final double ROTATE_PID_I = 0;
+    public static final double ROTATE_PID_D = 0;
+
+    public static final double HOOD_PID_P = .1;
+    public static final double HOOD_PID_I = 0;
+    public static final double HOOD_PID_D = 0;
 
     public final class AIO {
         /*
