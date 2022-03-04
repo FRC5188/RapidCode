@@ -52,10 +52,10 @@ public class Shooter extends SubsystemBase {
         m_turretPotentiometer.setAverageBits(2);
         m_turretPotentiometer.setOversampleBits(0);
 
-        m_hoodPID = new PIDController(0.1, 0, 0); // Tune these values later
+        m_hoodPID = new PIDController(Constants.HOOD_PID_P, Constants.HOOD_PID_I, Constants.HOOD_PID_D); 
         m_hoodPID.setTolerance(1);
 
-        m_turretPID = new PIDController(0.1, 0, 0); // Tune these values later
+        m_turretPID = new PIDController(0.1, 0, 0);
         m_turretPID.setTolerance(1);
 
         m_hoodSetpoint = 0;
