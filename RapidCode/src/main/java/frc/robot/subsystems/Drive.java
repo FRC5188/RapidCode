@@ -123,11 +123,18 @@ public class Drive extends SubsystemBase {
     }
 
     public void drivePIDExec() {
-        arcadeDrive(m_drivePID.calculate(getEncoderPosition(EncoderType.Average)), 0);
+        double position = getEncoderPosition(EncoderType.Average);
+        double power = m_drivePID.calculate(position);
+        System.out.println(position); 
+        driveRaw(power, power);
     }
 
-    public void rotatePIDExec() {
-        arcadeDrive(0, m_rotatePID.calculate(getGyroPosition()));
+    public void rotatePIDExec() 
+    {
+        double angle = getGyroPosition();
+        double power = m_rotatePID.calculate(angle);
+        System.out.printf("Angle: %f PID: %f\n", angle, power); 
+        driveRaw(power, -power);
     }
 
     public boolean atDrivePIDSetpoint() {
@@ -233,7 +240,7 @@ public class Drive extends SubsystemBase {
         return m_gyro.getAngle();
     }
 
-    private void driveRaw(double left, double right) {
+    public void driveRaw(double left, double right) {
 	    /*
 	    This method is used to supply values to the drive motors
         Variables left and right will be between -1 and 1

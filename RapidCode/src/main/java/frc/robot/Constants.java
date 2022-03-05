@@ -24,18 +24,6 @@ public final class Constants {
     public static final double CAMERA_HEIGHT_INCHES = 24;  //Check this value
     public static final double TARGET_HEIGHT_INCHES = 102.625;
     public static final double CAMERA_PITCH_DEGREES = 18;
-    
-    public static final double DRIVE_PID_P = .01; //still needs tuned
-    public static final double DRIVE_PID_I = 0;
-    public static final double DRIVE_PID_D = 0;
-
-    public static final double ROTATE_PID_P = .01;
-    public static final double ROTATE_PID_I = 0;
-    public static final double ROTATE_PID_D = 0;
-
-    public static final double HOOD_PID_P = .1;
-    public static final double HOOD_PID_I = 0;
-    public static final double HOOD_PID_D = 0;
 
     public final class PID {
         public static final double DRIVE_PROPORTIONAL_PRACTICE     = 0.017;
@@ -57,6 +45,18 @@ public final class Constants {
         public static final double ROTATE_INTEGRAL_COMPETITION     = 0.0005;
         public static final double ROTATE_DERIVATIVE_COMPETITION   = 0.0030;
         public static final double ROTATE_TOLERANCE_COMPETITION    =    1.0;
+
+        public static final double HOOD_PROPORTIONAL = 0.01;
+        public static final double HOOD_INTEGRAL = 0.00;
+        public static final double HOOD_DERIVATIVE = 0.00;
+        public static final double HOOD_TOLERANCE = 1.0;
+
+        public static final double TURRET_PROPORTIONAL = 0.01;
+        public static final double TURRET_INTEGRAL = 0.00;
+        public static final double TURRET_DERIVATIVE = 0.00;
+        public static final double TURRET_TOLERANCE = 0.00;
+
+    
     }
 
     public final class AIO {
