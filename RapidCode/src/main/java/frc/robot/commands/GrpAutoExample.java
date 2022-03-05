@@ -22,11 +22,11 @@ public class GrpAutoExample extends SequentialCommandGroup {
             The section will leave the tarmac, pick up one ball, and then shoot the one which is stored and also the one which it's just
             picked up. 
             */
-            new CmdPickupDeploy(pickupSubsystem), // Engages the grabber at the front of the robot. 
-            new CmdDriveDistance(driveSubsystem, 99, true), /* Drives 99 Inches torward the ball, we plan on adding code which will check if a ball
+            // new CmdPickupDeploy(pickupSubsystem), // Engages the grabber at the front of the robot. 
+            new CmdDriveDistance(driveSubsystem, 60, true) /* Drives 99 Inches torward the ball, we plan on adding code which will check if a ball
             has been passed in. */
-            new CmdDriveRotate(driveSubsystem, 180, true), // Turns the robot 180 degrees. 
-            new CmdPickupStow(pickupSubsystem) // Stop the grabby grabby thing
+            // new CmdDriveRotate(driveSubsystem, 180, true), // Turns the robot 180 degrees. 
+            // new CmdPickupStow(pickupSubsystem) // Stop the grabby grabby thing
         );
     }
 }
