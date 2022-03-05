@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.revrobotics.EncoderType;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -58,9 +60,10 @@ public class RobotContainer {
 
         //command is broken; defaults to turning on both commands in the indexer
         //m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem));
-        m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
-                                                                () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
-                                                                () -> applyDeadband( 0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
+        // if there is a default command auto doesnt work
+        // m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
+        //                                                         () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
+        //                                                         () -> applyDeadband( 0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
         // Adjusts hood angle and flywheel speed on D-Pad presses
         switch(m_operatorController.getPOV()){ 
             case 0:
@@ -94,6 +97,16 @@ public class RobotContainer {
         return new GrpAutoExample(m_driveSubsystem, m_pickupSubsystem);
     }
 
+    public Command getTeleopCommand(){
+        return new CmdDriveJoystick(m_driveSubsystem, 
+        () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
+        () -> applyDeadband( 0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND));
+    }
+
+    public void setAutoRampRate(double rampRate) {
+        this.m_driveSubsystem.setAutoRampRate(rampRate);
+    }
+
     private double applyDeadband(double raw, double deadband) {
         /* Please don't modify, but please do ask if you wanna know how it works! */
         
@@ -107,5 +120,13 @@ public class RobotContainer {
             modified = ((raw - 1) / (1 - deadband)) + 1;
 
         return modified;
+    }
+
+    public void resetEncoders() {
+        m_driveSubsystem.resetEncoders();
+    }
+
+    public double getEncoderPosition(){
+        return this.m_driveSubsystem.getEncoderPosition();
     }
 }

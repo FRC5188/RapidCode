@@ -36,9 +36,10 @@ public final class Constants {
         public static final double ROTATE_DERIVATIVE_PRACTICE      = 0.0030;
         public static final double ROTATE_TOLERANCE_PRACTICE       =    1.0;
 
-        public static final double DRIVE_PROPORTIONAL_COMPETITION  = 0.017;
+        // started with 0.017
+        public static final double DRIVE_PROPORTIONAL_COMPETITION  = 0.05;
         public static final double DRIVE_INTEGRAL_COMPETITION      = 0.000;
-        public static final double DRIVE_DERIVATIVE_COMPETITION    = 0.001;
+        public static final double DRIVE_DERIVATIVE_COMPETITION    = 0.000;
         public static final double DRIVE_TOLERANCE_COMPETITION     =   1.0;
 
         public static final double ROTATE_PROPORTIONAL_COMPETITION = 0.0090;

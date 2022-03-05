@@ -34,26 +34,42 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
+        m_robotContainer.resetEncoders();
+        System.out.println("ENOCDERS RESET!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
         }
+
+        m_robotContainer.setAutoRampRate(1);
     }
 
     @Override
     public void autonomousPeriodic() {
+        System.out.println("enocoder pos: " + m_robotContainer.getEncoderPosition());
     }
 
     @Override
     public void teleopInit() {
+        // im sorry this got messy with us testing autos :( GH
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+        m_robotContainer.resetEncoders();
+        System.out.println("ENOCDERS RESET!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+        // this is the workaround we have for the default command not working
+        Command teleopDrive = m_robotContainer.getTeleopCommand();
+        teleopDrive.schedule();
+
+        m_robotContainer.setAutoRampRate(0);
     }
 
     @Override
     public void teleopPeriodic() {
+        System.out.println("enocoder pos: " + m_robotContainer.getEncoderPosition());
+
     }
 
     @Override

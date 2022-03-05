@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -42,8 +43,10 @@ public class Drive extends SubsystemBase {
     private double angularPower;
     private double linearPower;
 
+
     private PIDController m_drivePID;
     private PIDController m_rotatePID;
+    private double m_drivePIDMaxPower;
 
     private ShifterState m_shifterState;
 
@@ -62,6 +65,11 @@ public class Drive extends SubsystemBase {
         m_leftSecondary = new WPI_TalonFX(Constants.CAN.LEFT_SECONDARY_DRIVE_ID);
         m_rightPrimary = new WPI_TalonFX(Constants.CAN.RIGHT_PRIMARY_DRIVE_ID);
         m_rightSecondary = new WPI_TalonFX(Constants.CAN.RIGHT_SECONDARY_DRIVE_ID);
+
+        m_leftPrimary.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+        m_leftSecondary.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+        m_rightPrimary.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+        m_rightSecondary.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
         m_gyro = new AHRS();
 
@@ -107,12 +115,16 @@ public class Drive extends SubsystemBase {
         m_gyro.reset();
     }
 
-    public void drivePIDInit(double distance, boolean resetEncoders) {
+    public void drivePIDInit (double distance, boolean resetEncoders){
+        drivePIDInit(distance, resetEncoders, 1);
+    }
+    public void drivePIDInit(double distance, boolean resetEncoders, double maxPower) {
         //distance driving, how much need to rotate, if at all, if reset encoders, reset gyro
         if (resetEncoders) {
             resetEncoders();
         }
         m_drivePID.setSetpoint(distance);
+        m_drivePIDMaxPower = maxPower;
     }
 
     public void rotatePIDInit(double heading, boolean resetGyro) {
@@ -126,6 +138,14 @@ public class Drive extends SubsystemBase {
         double position = getEncoderPosition(EncoderType.Average);
         double power = m_drivePID.calculate(position);
         System.out.println("POSITION:" + position); 
+        System.out.println("POWER: " + power);
+        if (power > m_drivePIDMaxPower){
+            power = m_drivePIDMaxPower;
+        }
+        if(power < -m_drivePIDMaxPower){
+            power = -m_drivePIDMaxPower;
+        }
+        //Because we're using driveRaw, we have to manually invert the motors
         driveRaw(power, power);
     }
 
@@ -196,6 +216,13 @@ public class Drive extends SubsystemBase {
 		driveRaw(lDrive, rDrive);
 	}
 
+
+    // Example of a method that is overloaded. meaning we have one method but can take different 
+    // amounts / types of arguments.
+    public double getEncoderPosition(){
+        return getEncoderPosition(EncoderType.Average);
+    }
+
     public double getEncoderPosition(EncoderType measureType) {
         /*
         This method is used to get the position of the robot's encoders
@@ -233,7 +260,16 @@ public class Drive extends SubsystemBase {
                 break;
         }
 
-        return (m_shifterState == ShifterState.Normal) ? encoderPos / 5.6 : encoderPos / 16.36;
+
+        // 2048 ticks per rev, according to ctre docs
+        // 5.6 is high gear, 5.6:1 reduction. 
+        // 16.36:1 is low gear
+        double encoderRevs = encoderPos / 2048;
+        return encoderRevs / 5.6 * Math.PI*4;
+
+        //was the logic below, i dont think this is going to work GH
+        //what happens if we shift, and then go back to high? we dont keep a running total of encoderpos
+        // return (m_shifterState == ShifterState.Normal) ? encoderPos / 5.6 : encoderPos / 16.36;
     }
 
     public double getGyroPosition() {
@@ -256,6 +292,23 @@ public class Drive extends SubsystemBase {
         This method is used to get the state of the shifter solenoid
         */
         return m_shifterState;
+    }
+
+    /**
+     * SetAutoRampRate configures motor ramping for the falcons.
+     * A ramp time will limit how fast the motor can go from zero to full thottle.
+     * 
+     * Only use this for auto to help with traction and control. Be sure to disable this before teleop.
+     * 
+     * A ramp time of 0 will disable the ramp. 
+     * 
+     * @param rampTime
+     * Time in seconds that the motor can go from zero to full thottle. 
+     */
+    public void setAutoRampRate(double rampTime){
+        //note: we only do the primary. the secondary will follow
+        m_rightPrimary.configOpenloopRamp(rampTime);
+        m_leftPrimary.configOpenloopRamp(rampTime);
     }
 
     public void setShifterState(ShifterState state) {
