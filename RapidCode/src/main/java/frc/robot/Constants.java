@@ -26,9 +26,9 @@ public final class Constants {
     public static final double CAMERA_PITCH_DEGREES = 18;
 
     public final class PID {
-        public static final double DRIVE_PROPORTIONAL_PRACTICE     = 0.017;
+        public static final double DRIVE_PROPORTIONAL_PRACTICE     = 0.055;
         public static final double DRIVE_INTEGRAL_PRACTICE         = 0.000;
-        public static final double DRIVE_DERIVATIVE_PRACTICE       = 0.001;
+        public static final double DRIVE_DERIVATIVE_PRACTICE       = 0.005;
         public static final double DRIVE_TOLERANCE_PRACTICE        =   1.0;
 
         public static final double ROTATE_PROPORTIONAL_PRACTICE    = 0.0090;
