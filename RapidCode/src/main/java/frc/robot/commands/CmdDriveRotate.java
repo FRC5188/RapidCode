@@ -24,6 +24,8 @@ public class CmdDriveRotate extends CommandBase {
         m_driveSubsystem = driveSubsystem;
         m_heading = heading;
         m_resetGyro = resetGyro;
+
+        addRequirements(m_driveSubsystem);
     }
 
     // Called when the command is initially scheduled.

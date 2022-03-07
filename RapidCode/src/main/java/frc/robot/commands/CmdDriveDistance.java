@@ -19,6 +19,8 @@ public class CmdDriveDistance extends CommandBase {
         m_driveSubsystem = driveSubsystem; // Setting values passed in to there equivelent member level variables. 
         m_distance = distance;
         m_resetEncoders = resetEncoders;
+
+        addRequirements(m_driveSubsystem);
     }
 
     // Called when the command is initially scheduled.
