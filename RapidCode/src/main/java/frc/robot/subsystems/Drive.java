@@ -46,7 +46,8 @@ public class Drive extends SubsystemBase {
 
     private PIDController m_drivePID;
     private PIDController m_rotatePID;
-    private double m_drivePIDMaxPower;
+    private double m_drivePIDMaxSpeed;
+    private double m_rotatePIDMaxSpeed;
 
     private ShifterState m_shifterState;
 
@@ -118,33 +119,36 @@ public class Drive extends SubsystemBase {
     public void drivePIDInit (double distance, boolean resetEncoders){
         drivePIDInit(distance, resetEncoders, 1);
     }
-    public void drivePIDInit(double distance, boolean resetEncoders, double maxPower) {
+
+    public void drivePIDInit(double distance, boolean resetEncoders, double speed) {
         //distance driving, how much need to rotate, if at all, if reset encoders, reset gyro
         if (resetEncoders) {
             resetEncoders();
         }
         m_drivePID.setSetpoint(distance);
-        m_drivePIDMaxPower = maxPower;
+        m_drivePIDMaxSpeed = speed;
     }
 
-    public void rotatePIDInit(double heading, boolean resetGyro) {
+    public void rotatePIDInit(double heading, double speed, boolean resetGyro) {
         if (resetGyro) {
             resetGyro();
         }
         m_rotatePID.setSetpoint(heading);
+        m_rotatePIDMaxSpeed = speed;
     }
 
     public void drivePIDExec() {
         double position = getEncoderPosition(EncoderType.Average);
-        double power = m_drivePID.calculate(position);
+        double power = m_drivePID.calculate(position) * m_drivePIDMaxSpeed;
+        if (power > m_drivePIDMaxSpeed) {
+            power = m_drivePIDMaxSpeed;
+        }
+        if (power < -m_drivePIDMaxSpeed) {
+            power = -m_drivePIDMaxSpeed;
+        }
         System.out.println("POSITION:" + position); 
         System.out.println("POWER: " + power);
-        if (power > m_drivePIDMaxPower){
-            power = m_drivePIDMaxPower;
-        }
-        if(power < -m_drivePIDMaxPower){
-            power = -m_drivePIDMaxPower;
-        }
+        
         //Because we're using driveRaw, we have to manually invert the motors
         driveRaw(power, power);
     }
@@ -152,7 +156,13 @@ public class Drive extends SubsystemBase {
     public void rotatePIDExec() 
     {
         double angle = getGyroPosition();
-        double power = m_rotatePID.calculate(angle);
+        double power = m_rotatePID.calculate(angle) * m_rotatePIDMaxSpeed;
+        if (power > m_rotatePIDMaxSpeed) {
+            power = m_rotatePIDMaxSpeed;
+        }
+        if (power < -m_rotatePIDMaxSpeed) {
+            power = -m_rotatePIDMaxSpeed;
+        }
         System.out.printf("Angle: %f PID: %f\n", angle, power); 
         driveRaw(power, -power);
     }
