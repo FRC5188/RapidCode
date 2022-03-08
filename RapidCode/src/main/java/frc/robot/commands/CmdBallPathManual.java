@@ -4,11 +4,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BallPath;
 
 public class CmdBallPathManual extends CommandBase {
-    // bad, will break
-    // private BallPath m_ballPathSubsystem = new BallPath();
     private BallPath m_ballPathSubsystem;
-
-    double m_speed = 0;
+    private double m_speed;
+    
     public CmdBallPathManual(BallPath ballPathSubsystem, double speed) {
         m_ballPathSubsystem = ballPathSubsystem;
         m_speed = speed;

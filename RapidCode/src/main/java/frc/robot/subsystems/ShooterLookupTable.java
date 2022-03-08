@@ -13,6 +13,7 @@ public class ShooterLookupTable {
 
         // Add entries here using this syntax
         // First is distance in feet, second is flywheel speed, last is hood angle
+        // Below is an example
         this.addEntry(10, 3000, 20.1);
     }
     /**

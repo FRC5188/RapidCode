@@ -17,8 +17,6 @@ public final class Constants {
     public static final double BALL_PATH_POSITION_SPEED = 0.5;
     public static final double BALL_PATH_SHOOTING_SPEED = 0.5;
 
-    public static final double AUTO_DRIVE_SPEED = 0.25;
-
     public static final double FALCON_MAX_RPM = 6000;
 
     public static final double CAMERA_HEIGHT_INCHES = 24;  //Check this value
@@ -26,38 +24,26 @@ public final class Constants {
     public static final double CAMERA_PITCH_DEGREES = 18;
 
     public final class PID {
-        public static final double DRIVE_PROPORTIONAL_PRACTICE     = 0.055;
-        public static final double DRIVE_INTEGRAL_PRACTICE         = 0.000;
-        public static final double DRIVE_DERIVATIVE_PRACTICE       = 0.005;
-        public static final double DRIVE_TOLERANCE_PRACTICE        =   1.0;
 
-        public static final double ROTATE_PROPORTIONAL_PRACTICE    = 0.0090;
-        public static final double ROTATE_INTEGRAL_PRACTICE        = 0.0005;
-        public static final double ROTATE_DERIVATIVE_PRACTICE      = 0.0030;
-        public static final double ROTATE_TOLERANCE_PRACTICE       =    1.0;
-
-        // started with 0.017
-        public static final double DRIVE_PROPORTIONAL_COMPETITION  = 0.05;
+        public static final double DRIVE_PROPORTIONAL_COMPETITION  = 0.0275;
         public static final double DRIVE_INTEGRAL_COMPETITION      = 0.000;
-        public static final double DRIVE_DERIVATIVE_COMPETITION    = 0.000;
-        public static final double DRIVE_TOLERANCE_COMPETITION     =   1.0;
+        public static final double DRIVE_DERIVATIVE_COMPETITION    = 0.225;
+        public static final double DRIVE_TOLERANCE_COMPETITION     = 1.0;
 
-        public static final double ROTATE_PROPORTIONAL_COMPETITION = 0.0090;
-        public static final double ROTATE_INTEGRAL_COMPETITION     = 0.0005;
-        public static final double ROTATE_DERIVATIVE_COMPETITION   = 0.0030;
-        public static final double ROTATE_TOLERANCE_COMPETITION    =    1.0;
+        public static final double ROTATE_PROPORTIONAL_COMPETITION = 0.01;
+        public static final double ROTATE_INTEGRAL_COMPETITION     = 0.005;
+        public static final double ROTATE_DERIVATIVE_COMPETITION   = 0.04;
+        public static final double ROTATE_TOLERANCE_COMPETITION    = 1.0;
 
-        public static final double HOOD_PROPORTIONAL = 0.01;
+        public static final double HOOD_PROPORTIONAL = 0.005;
         public static final double HOOD_INTEGRAL = 0.00;
-        public static final double HOOD_DERIVATIVE = 0.00;
+        public static final double HOOD_DERIVATIVE = 0.001;
         public static final double HOOD_TOLERANCE = 1.0;
 
         public static final double TURRET_PROPORTIONAL = 0.01;
         public static final double TURRET_INTEGRAL = 0.00;
         public static final double TURRET_DERIVATIVE = 0.00;
         public static final double TURRET_TOLERANCE = 0.00;
-
-    
     }
 
     public final class AIO {
@@ -70,7 +56,6 @@ public final class Constants {
          */
         public static final int HOOD_POTENTIOMETER_PORT = 0;
         public static final int TURRET_POTENTIOMETER_PORT = 1;
-
     }
 
     public final class CAN {

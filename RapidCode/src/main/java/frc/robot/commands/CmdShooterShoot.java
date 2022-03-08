@@ -52,6 +52,6 @@ public class CmdShooterShoot extends CommandBase {
     @Override
     public boolean isFinished() {
         // change after merge to finish when ball count is 0
-        return (m_ballPathSubsystem.getBallCount() == 0);
+        return (m_ballPathSubsystem.getBallCount() <= 0);
     }
 }
