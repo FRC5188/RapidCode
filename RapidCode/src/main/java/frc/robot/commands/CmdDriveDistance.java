@@ -21,6 +21,8 @@ public class CmdDriveDistance extends CommandBase {
         m_distance = distance;
         m_speed = speed;
         m_resetEncoders = resetEncoders;
+
+        addRequirements(m_driveSubsystem);
     }
 
     // Called when the command is initially scheduled.

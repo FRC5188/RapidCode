@@ -59,10 +59,6 @@ public class Robot extends TimedRobot {
         m_robotContainer.resetEncoders();
         System.out.println("ENOCDERS RESET!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
-        // this is the workaround we have for the default command not working
-        Command teleopDrive = m_robotContainer.getTeleopCommand();
-        teleopDrive.schedule();
-
         m_robotContainer.setAutoRampRate(0);
     }
 
