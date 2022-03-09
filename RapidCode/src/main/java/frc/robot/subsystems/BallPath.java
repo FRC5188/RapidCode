@@ -46,7 +46,9 @@ public class BallPath extends SubsystemBase {
 
     @Override
     public void periodic() {
-
+        System.out.println(m_ballCount);
+        System.out.println(m_ballPathState);
+        System.out.println(m_entranceSensor);
     }
 
     //negative will take ball up
