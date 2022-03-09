@@ -20,7 +20,6 @@ public class BallPath extends SubsystemBase {
     // need 2 neos and 3 light sensors
 
     private CANSparkMax m_indexMotorTop;
-    private CANSparkMax m_indexMotorBottom;
 
     private DigitalInput m_entranceSensor;
     private DigitalInput m_middleSensor;
@@ -36,12 +35,14 @@ public class BallPath extends SubsystemBase {
     public BallPath() {
         // You need to initialize each member level thing. See example below
         // The ids for each motor/sensor have been made. Find where they are and reference
-        m_indexMotorBottom = new CANSparkMax(Constants.CAN.INDEX_MOTOR_BOTTOM_ID, MotorType.kBrushless);
+        
         m_indexMotorTop = new CANSparkMax(Constants.CAN.INDEX_MOTOR_TOP_ID, MotorType.kBrushless);
 
         m_entranceSensor = new DigitalInput(Constants.DIO.ENTRANCE_SENSOR_PORT);
         m_middleSensor = new DigitalInput(Constants.DIO.MIDDLE_SENSOR_PORT);
         m_shooterSensor = new DigitalInput(Constants.DIO.SHOOTER_SENSOR_PORT);
+
+        m_ballPathState = BallPathState.None;
     }
 
     @Override
@@ -52,7 +53,6 @@ public class BallPath extends SubsystemBase {
     //negative will take ball up
     public void setMotorSpeed(double speed) {
         m_indexMotorTop.set(speed);
-        m_indexMotorBottom.set(speed);
     }
 
     public int getBallCount() {
