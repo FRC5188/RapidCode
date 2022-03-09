@@ -23,6 +23,10 @@ public final class Constants {
     public static final double TARGET_HEIGHT_INCHES = 102.625;
     public static final double CAMERA_PITCH_DEGREES = 18;
 
+
+    public static final double CLIMBER_SPEED = 1;
+    //That is 0-1 on the motor, so full speed. I would test at .5 to be safe
+
     public final class PID {
 
         public static final double DRIVE_PROPORTIONAL_COMPETITION  = 0.0275;
@@ -86,6 +90,11 @@ public final class Constants {
         public static final int PICKUP_MOTOR_ID = 11;
 
         public static final int REV_PH_ID = 13;
+
+        public static final int CLIMBER_MOTOR_ID_RIGHT = 12;
+        public static final int CLIMBER_MOTOR_ID_LEFT = 14; 
+        
+
     }
 
     public final class DIO {
