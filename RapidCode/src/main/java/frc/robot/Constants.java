@@ -105,9 +105,9 @@ public final class Constants {
          * Name example: public static final int PICKUP_SENSOR_PORT = 0 (name what
          * sensor is/does and end with port)
          */
-        public static final int ENTRANCE_SENSOR_PORT = 0;
-        public static final int MIDDLE_SENSOR_PORT = 1;
-        public static final int SHOOTER_SENSOR_PORT = 2;
+        public static final int ENTRANCE_SENSOR_PORT = 8;
+        public static final int MIDDLE_SENSOR_PORT = 7;
+        public static final int SHOOTER_SENSOR_PORT = 9;
     }
 
     public final class PCM {
