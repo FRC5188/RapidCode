@@ -24,7 +24,7 @@ public final class Constants {
     public static final double CAMERA_PITCH_DEGREES = 18;
 
 
-    public static final double CLIMBER_SPEED = 1;
+    public static final double CLIMBER_SPEED = 0.5;
     //That is 0-1 on the motor, so full speed. I would test at .5 to be safe
 
     public final class PID {

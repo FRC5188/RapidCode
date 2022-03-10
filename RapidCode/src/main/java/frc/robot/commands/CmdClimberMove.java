@@ -8,10 +8,10 @@ import frc.robot.subsystems.Climber;
 public class CmdClimberMove extends CommandBase {
     /** Creates a new climberMoveCommand. */
     private final Climber m_climber;
-    private DoubleSupplier m_upSpeed, m_downSpeed;
+    private Double m_upSpeed, m_downSpeed;
 
     /** Creates a new lowerClimber. */
-    public CmdClimberMove(Climber climberSubsystem, DoubleSupplier upSpeed, DoubleSupplier downSpeed) {
+    public CmdClimberMove(Climber climberSubsystem, Double upSpeed, Double downSpeed) {
         m_climber = climberSubsystem;
         m_upSpeed = upSpeed;
         m_downSpeed = downSpeed;
@@ -27,7 +27,7 @@ public class CmdClimberMove extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_climber.climberMove(m_upSpeed.getAsDouble(), m_downSpeed.getAsDouble());
+        m_climber.climberMove(m_upSpeed, m_downSpeed);
     }
 
     // Called once the command ends or is interrupted.
