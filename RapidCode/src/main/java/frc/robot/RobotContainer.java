@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.revrobotics.EncoderType;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -12,9 +13,11 @@ import frc.robot.commands.CmdPickupStow;
 import frc.robot.commands.CmdShooterManual;
 import frc.robot.commands.CmdBallPathDefault;
 import frc.robot.commands.CmdBallPathManual;
+import frc.robot.commands.CmdClimberMove;
 import frc.robot.commands.CmdShooterShoot;
 import frc.robot.commands.GrpAutoExample;
 import frc.robot.subsystems.BallPath;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Pickup;
 import frc.robot.subsystems.Drive.ShifterState;
@@ -29,6 +32,7 @@ public class RobotContainer {
     private Vision m_visionSubsystem = new Vision();
     private ShooterLookupTable m_shooterLookupTable = new ShooterLookupTable();
     private Pickup m_pickupSubsystem = new Pickup();
+    private Climber m_climberSubsystem = new Climber();
 
     private XboxController m_driveController = new XboxController(0);
 
@@ -36,6 +40,9 @@ public class RobotContainer {
     private JoystickButton m_driveRBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.RIGHT_BUMPER);
     
     private XboxController m_operatorController = new XboxController(1);
+    private JoystickButton m_operatorStartButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.START_BUTTON);
+    private JoystickButton m_operatorBackButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.BACK_BUTTON);
+
     /* 
     Declares the RB Joystick Bumper For The Operator's Controller
      */
@@ -95,6 +102,9 @@ public class RobotContainer {
         //m_operatorAButton.whenPressed(new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, shooterSpeed));
         m_operatorRBButton.whenPressed(new CmdPickupDeploy(m_pickupSubsystem)); // When RB Button Pressed Activates The Depoly Cmd.
         m_operatorLBButton.whenPressed(new CmdPickupStow(m_pickupSubsystem)); // When LB Button Pressed Activates The Stow Cmd.
+
+        m_operatorStartButton.whenPressed(new CmdClimberMove(m_climberSubsystem, Constants.CLIMBER_SPEED, 0.0));
+        m_operatorBackButton.whenPressed(new CmdClimberMove(m_climberSubsystem, 0.0, Constants.CLIMBER_SPEED));
     }
 
     public Command getAutonomousCommand() {
