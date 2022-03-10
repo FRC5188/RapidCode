@@ -41,9 +41,6 @@ public class RobotContainer {
     private JoystickButton m_driveRBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.RIGHT_BUMPER);
     
     private XboxController m_operatorController = new XboxController(1);
-    private JoystickButton m_operatorStartButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.START_BUTTON);
-    private JoystickButton m_operatorBackButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.BACK_BUTTON);
-
     /* 
     Declares the RB Joystick Bumper For The Operator's Controller
      */
