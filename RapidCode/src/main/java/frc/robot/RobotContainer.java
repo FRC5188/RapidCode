@@ -67,17 +67,17 @@ public class RobotContainer {
         m_driveRBButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
         m_driveRBButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
 
-        //m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem));
-        m_climberSubsystem.setDefaultCommand(new CmdClimberMove(m_climberSubsystem, () -> applyDeadband(m_operatorController.getLeftY(), 0.025)));
+        m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem, m_pickupSubsystem));
+        // m_climberSubsystem.setDefaultCommand(new CmdClimberMove(m_climberSubsystem, () -> applyDeadband(m_operatorController.getLeftY(), 0.025)));
 
         m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
                                                                 () -> applyDeadband(0.6 * -m_driveController.getRightY(), Constants.ARCADE_DRIVE_DEADBAND), 
                                                                 () -> applyDeadband( 0.65 * -m_driveController.getLeftX(), Constants.ARCADE_DRIVE_DEADBAND)));
 
-        m_shooterSubsystem.setDefaultCommand(new CmdShooterManual(m_shooterSubsystem, 
-                                                                  () -> applyDeadband(m_operatorController.getRightX(), 0.025), 
-                                                                  () -> applyDeadband(-m_operatorController.getLeftY(), 0.025), 
-                                                                  shooterSpeed));
+        // m_shooterSubsystem.setDefaultCommand(new CmdShooterManual(m_shooterSubsystem, 
+                                                                //   () -> applyDeadband(m_operatorController.getRightX(), 0.025), 
+                                                                //   () -> applyDeadband(-m_operatorController.getLeftY(), 0.025), 
+                                                                //   shooterSpeed));
         // Adjusts hood angle and flywheel speed on D-Pad presses
         switch(m_operatorController.getPOV()){ 
             case 0:

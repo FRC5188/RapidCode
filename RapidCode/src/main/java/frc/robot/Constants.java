@@ -14,14 +14,14 @@ public final class Constants {
     public static final double ARCADE_DRIVE_DEADBAND = 0.025;
 
     public static final double BALL_PATH_LOADING_SPEED = 0.5;
-    public static final double BALL_PATH_POSITION_SPEED = 0.5;
+    public static final double BALL_PATH_POSITION_SPEED = 0.35;
     public static final double BALL_PATH_SHOOTING_SPEED = 0.5;
 
     public static final double FALCON_MAX_RPM = 6000;
 
     public static final double CAMERA_HEIGHT_INCHES = 24;  //Check this value
     public static final double TARGET_HEIGHT_INCHES = 102.625;
-    public static final double CAMERA_PITCH_DEGREES = 18;
+    public static final double CAMERA_PITCH_DEGREES = 38;
 
 
     public static final double CLIMBER_SPEED = 0.5;
@@ -106,8 +106,8 @@ public final class Constants {
          * sensor is/does and end with port)
          */
         public static final int ENTRANCE_SENSOR_PORT = 8;
-        public static final int MIDDLE_SENSOR_PORT = 7;
-        public static final int SHOOTER_SENSOR_PORT = 9;
+        public static final int MIDDLE_SENSOR_PORT = 9;
+        public static final int SHOOTER_SENSOR_PORT = 7;
     }
 
     public final class PCM {
