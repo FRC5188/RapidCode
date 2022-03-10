@@ -11,6 +11,9 @@ import frc.robot.Constants;
 
 public class Pickup extends SubsystemBase {
 
+    /**
+     * Represents the different possible states of the pickup
+     */
     public enum PickupState {
         Deployed,
         Retracted,
@@ -25,6 +28,9 @@ public class Pickup extends SubsystemBase {
 
     private PickupState m_pickupState;
 
+    /**
+     * Creates a new instance of the Pickup subsystem
+     */
     public Pickup() {
         m_pickupMotor = new CANSparkMax(Constants.CAN.PICKUP_MOTOR_ID, MotorType.kBrushless);
         m_pickupMotor.setIdleMode(IdleMode.kCoast);
@@ -43,14 +49,26 @@ public class Pickup extends SubsystemBase {
 
     }
 
+    /**
+     * Gets the current state of the pickup
+     * @return the current state of the pickup
+     */
     public PickupState getPickupState() {
         return m_pickupState;
     }
 
-    public void setPickupSpeed(double speed) {
+    /**
+     * Sets the speed of the lower index belt
+     * @param speed speed of the lower index belt in percent output notation
+     */
+    public void setLowerIndexSpeed(double speed) {
         m_indexMotorBottom.set(speed);
     }
 
+    /**
+     * Sets the state of the pickup
+     * @param state desired state of the pickup
+     */
     public void setPickupState(PickupState state) {
         m_pickupState = state;
         

@@ -36,7 +36,7 @@ public class CmdBallPathDefault extends CommandBase {
             case MovingToPosition:
                 // Motors running
                 m_ballPathSubsystem.setMotorSpeed(Constants.BALL_PATH_POSITION_SPEED);
-                m_pickupSubsystem.setPickupSpeed(0);
+                m_pickupSubsystem.setLowerIndexSpeed(0);
                 break;
             case Shooting:
                 // Need motors to be running in this state

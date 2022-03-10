@@ -10,6 +10,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class BallPath extends SubsystemBase {
 
+    /**
+     * Represents the different states of the ball path
+     */
     public enum BallPathState {
         Loading,
         MovingToPosition,
@@ -31,6 +34,9 @@ public class BallPath extends SubsystemBase {
     private boolean m_middleWasDetected;
     private boolean m_shooterWasDetected;
 
+    /**
+     * Creates a new instance of the BallPath subsystem
+     */
     public BallPath() {
         m_indexMotorTop = new CANSparkMax(Constants.CAN.INDEX_MOTOR_TOP_ID, MotorType.kBrushless);
         m_indexMotorTop.setInverted(true);
@@ -48,34 +54,63 @@ public class BallPath extends SubsystemBase {
 
     }
 
+    /**
+     * Sets the speed of the top indexing motor
+     * @param speed the speed of the motor in percent output notation
+     */
     public void setMotorSpeed(double speed) {
         m_indexMotorTop.set(speed);
     }
 
+    /**
+     * Gets the current number of balls held by the robot
+     * @return the number of balls
+     */
     public int getBallCount() {
         return m_ballCount;
     }
 
+    /**
+     * Increments the ball count by one
+     */
     public void incrementBallCount() {
         if (m_ballCount < 2) m_ballCount++;
     }
 
+    /**
+     * Decrements the ball count by one
+     */
     public void decrementBallCount() {
         if (m_ballCount > 0) m_ballCount--;
     }
 
+    /**
+     * Gets the current state of the ball path
+     * @return the current state of the ball path
+     */
     public BallPathState getBallPathState() {
         return m_ballPathState;
     }
 
+    /**
+     * Sets the ball path's state
+     * @param state the desired state of the ball path
+     */
     public void setBallPathState(BallPathState state) {
         m_ballPathState = state; 
     }
 
+    /**
+     * Returns true if a ball has entered the ball path
+     * @return true if a ball has entered the ball path
+     */
     public boolean hasEnteredBallPath() { 
         return (m_ballPathState == BallPathState.Loading || m_ballPathState == BallPathState.MovingToPosition);
     }
 
+    /**
+     * Updates the state of the ball path based on light sensor detection
+     */
     public void updateBallPathState() {
         /*
          * A setter method plus some extra logic to decide what to set to.
@@ -94,13 +129,14 @@ public class BallPath extends SubsystemBase {
         } else if (m_middleSensor.get() && m_middleWasDetected) {
             System.out.println("At position");
             m_ballPathState = BallPathState.Stopped;
-        } else if (m_shooterSensor.get() && m_shooterWasDetected) {
-            System.out.println("Ball Exited");
-            decrementBallCount();
         }
+        //  else if (m_shooterSensor.get() && m_shooterWasDetected) {
+        //     System.out.println("Ball Exited");
+        //     decrementBallCount();
+        // }
 
         m_entranceWasDetected = !m_entranceSensor.get();
         m_middleWasDetected = !m_middleSensor.get();
-        m_shooterWasDetected = !m_shooterSensor.get();
+        //m_shooterWasDetected = !m_shooterSensor.get();
     }
 }
