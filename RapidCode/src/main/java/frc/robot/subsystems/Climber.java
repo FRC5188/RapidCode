@@ -11,24 +11,31 @@ public class Climber extends SubsystemBase {
     private WPI_TalonFX m_climberRight;
     private WPI_TalonFX m_climberLeft;
 
+    private boolean m_canMove;
+
     /** Creates a new climberSubsystem. */
     public Climber() {
         m_climberRight = new WPI_TalonFX(Constants.CAN.CLIMBER_MOTOR_ID_RIGHT);
         m_climberLeft = new WPI_TalonFX(Constants.CAN.CLIMBER_MOTOR_ID_LEFT);
+
+        m_canMove = false;
     }
 
     @Override
     public void periodic() {
     }
 
-    public void climberUp() {
-        m_climberRight.set(ControlMode.PercentOutput, -Constants.CLIMBER_SPEED);
-        m_climberLeft.set(ControlMode.PercentOutput, -Constants.CLIMBER_SPEED);
+    public boolean getCanMove() {
+        return m_canMove;
     }
 
-    public void climberDown() {
-        m_climberRight.set(ControlMode.PercentOutput, Constants.CLIMBER_SPEED);
-        m_climberLeft.set(ControlMode.PercentOutput, Constants.CLIMBER_SPEED);
+    public void setClimberSpeed(double speed) {
+        m_climberLeft.set(speed);
+        m_climberRight.set(speed);
+    }
+
+    public void setCanMove(boolean canMove) {
+        m_canMove = canMove;
     }
 
     // checks how much the trigger is pressed down, .2 being 20%, that way we dont
@@ -41,10 +48,5 @@ public class Climber extends SubsystemBase {
             m_climberRight.set(ControlMode.PercentOutput, downSpeed);
             m_climberLeft.set(ControlMode.PercentOutput, downSpeed);
         }
-    }
-
-    public void stop() {
-        m_climberRight.set(ControlMode.PercentOutput, 0);
-        m_climberLeft.set(ControlMode.PercentOutput, 0);
     }
 }
