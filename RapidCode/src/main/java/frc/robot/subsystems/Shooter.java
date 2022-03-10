@@ -107,6 +107,10 @@ public class Shooter extends SubsystemBase {
         return m_hoodPotentiometer.getAverageValue(); //needs to be converted to angle
     }
 
+    public void setHoodSpeed(double speed) {
+        m_hoodMotor.set(speed);
+    }
+
     public double getTurretPotentiometerAngle() {
         return m_turretPotentiometer.getAverageValue(); //needs to be converted to angle
     }    

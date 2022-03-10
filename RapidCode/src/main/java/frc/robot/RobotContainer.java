@@ -9,6 +9,7 @@ import frc.robot.commands.CmdDriveJoystick;
 import frc.robot.commands.CmdDriveSetShifter;
 import frc.robot.commands.CmdPickupDeploy;
 import frc.robot.commands.CmdPickupStow;
+import frc.robot.commands.CmdShooterManual;
 import frc.robot.commands.CmdBallPathDefault;
 import frc.robot.commands.CmdBallPathManual;
 import frc.robot.commands.CmdShooterShoot;
@@ -36,11 +37,11 @@ public class RobotContainer {
     
     private XboxController m_operatorController = new XboxController(1);
     /* 
-    Declares the RB Joystick Bumber For The Operator's Controller
+    Declares the RB Joystick Bumper For The Operator's Controller
      */
     private JoystickButton m_operatorRBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.RIGHT_BUMPER); 
     /*
-    Declares the LB Joystick Bumber For The Operator's Controller
+    Declares the LB Joystick Bumper For The Operator's Controller
     */
     private JoystickButton m_operatorLBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.LEFT_BUMPER);
     private double hoodAngle = 0;
@@ -58,11 +59,15 @@ public class RobotContainer {
         m_driveRBButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
         m_driveRBButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
 
-        //command is broken; defaults to turning on both commands in the indexer
-        m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem));
+        //m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem));
         m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
                                                                 () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
                                                                 () -> applyDeadband( 0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
+
+        m_shooterSubsystem.setDefaultCommand(new CmdShooterManual(m_shooterSubsystem, 
+                                                                  () -> applyDeadband(m_operatorController.getRightX(), 0.025), 
+                                                                  () -> applyDeadband(-m_operatorController.getLeftY(), 0.025), 
+                                                                  shooterSpeed));
         // Adjusts hood angle and flywheel speed on D-Pad presses
         switch(m_operatorController.getPOV()){ 
             case 0:
@@ -87,17 +92,13 @@ public class RobotContainer {
         m_operatorYButton.whenPressed(new CmdBallPathManual(m_ballPathSubsystem, -1));
         m_operatorYButton.whenReleased(new CmdBallPathManual(m_ballPathSubsystem, 0));
 
-        m_operatorAButton.whenPressed(new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, shooterSpeed));
+        //m_operatorAButton.whenPressed(new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, shooterSpeed));
         m_operatorRBButton.whenPressed(new CmdPickupDeploy(m_pickupSubsystem)); // When RB Button Pressed Activates The Depoly Cmd.
         m_operatorLBButton.whenPressed(new CmdPickupStow(m_pickupSubsystem)); // When LB Button Pressed Activates The Stow Cmd.
     }
 
     public Command getAutonomousCommand() {
         return new GrpAutoExample(m_driveSubsystem, m_pickupSubsystem);
-    }
-
-    public void setAutoRampRate(double rampRate) {
-        this.m_driveSubsystem.setAutoRampRate(rampRate);
     }
 
     private double applyDeadband(double raw, double deadband) {
@@ -113,13 +114,5 @@ public class RobotContainer {
             modified = ((raw - 1) / (1 - deadband)) + 1;
 
         return modified;
-    }
-
-    public void resetEncoders() {
-        m_driveSubsystem.resetEncoders();
-    }
-
-    public double getEncoderPosition(){
-        return this.m_driveSubsystem.getEncoderPosition();
     }
 }
