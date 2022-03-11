@@ -37,6 +37,7 @@ public class Pickup extends SubsystemBase {
 
         m_indexMotorBottom = new CANSparkMax(Constants.CAN.INDEX_MOTOR_BOTTOM_ID, MotorType.kBrushless);
         m_indexMotorBottom.setIdleMode(IdleMode.kCoast);
+        m_indexMotorBottom.setInverted(true);
 
         m_pickupLeftSolenoid = new Solenoid(Constants.CAN.REV_PH_ID, PneumaticsModuleType.REVPH, Constants.PCM.PICKUP_LEFT_SOLENOID);
         m_pickupRightSolenoid = new Solenoid(Constants.CAN.REV_PH_ID, PneumaticsModuleType.REVPH, Constants.PCM.PICKUP_RIGHT_SOLENOID);
@@ -83,6 +84,7 @@ public class Pickup extends SubsystemBase {
                 m_pickupLeftSolenoid.set(false);
                 m_pickupRightSolenoid.set(false);
                 m_pickupMotor.set(0);
+                m_indexMotorBottom.set(0);
                 break;
             case None:
             default:
