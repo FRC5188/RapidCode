@@ -25,7 +25,7 @@ public class CmdShooterManual extends CommandBase {
     @Override
     public void execute() {
         m_shooterSubsystem.setTurretSpeed(m_turretSpeed * 0.5);
-        m_shooterSubsystem.setHoodSpeed(m_hoodSpeed * .25);
+        m_shooterSubsystem.setHoodSpeed(m_hoodSpeed * 0.25);
         m_shooterSubsystem.setBottomFlywheelSpeed(m_flywheelSpeed);
     }
 

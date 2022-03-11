@@ -71,27 +71,12 @@ public class RobotContainer {
                                                                 () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
                                                                 () -> applyDeadband(0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
 
-        // m_shooterSubsystem.setDefaultCommand(new CmdShooterManual(m_shooterSubsystem, 
-                                                                //   () -> applyDeadband(m_operatorController.getRightX(), 0.025), 
-                                                                //   () -> applyDeadband(-m_operatorController.getLeftY(), 0.025), 
-                                                                //   shooterSpeed));
+        m_shooterSubsystem.setDefaultCommand(new CmdShooterManual(m_shooterSubsystem, 
+                                                                  () -> applyDeadband(m_operatorController.getRightX(), 0.025), 
+                                                                  () -> applyDeadband(-m_operatorController.getLeftY(), 0.025), 
+                                                                  changeShooterSpeed()));
         // Adjusts hood angle and flywheel speed on D-Pad presses
-        switch(m_operatorController.getPOV()){ 
-            case 0:
-                shooterSpeed += 0.01;
-                break;
-            case 90:
-                hoodAngle += 3;
-                //new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, 0);
-                break;
-            case 180:
-                shooterSpeed -= 0.01;
-                break;
-            case 270:
-                hoodAngle -= 3;
-                //new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, 0);
-                break; 
-        }
+
            
         // Change speed and hood angle after testing
         m_operatorXButton.whenPressed(new CmdBallPathManual(m_ballPathSubsystem, 1));
@@ -126,4 +111,17 @@ public class RobotContainer {
 
         return modified;
     }
+
+    private double changeShooterSpeed() {
+        switch(m_operatorController.getPOV()){ 
+            case 0:
+                shooterSpeed += 0.005;
+                break;
+            case 180:
+                shooterSpeed -= 0.005;
+                break; 
+        }
+        return shooterSpeed;
+    }
+
 }
