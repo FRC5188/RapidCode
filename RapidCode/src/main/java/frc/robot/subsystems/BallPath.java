@@ -84,6 +84,10 @@ public class BallPath extends SubsystemBase {
         if (m_ballCount > 0) m_ballCount--;
     }
 
+    public void resetBallCount() { // Resets ball count to zero.
+        m_ballCount = 0;
+    }
+
     /**
      * Gets the current state of the ball path
      * @return the current state of the ball path
