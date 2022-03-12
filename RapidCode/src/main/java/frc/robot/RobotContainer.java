@@ -16,6 +16,7 @@ import frc.robot.commands.CmdBallPathManual;
 import frc.robot.commands.CmdClimberMove;
 import frc.robot.commands.CmdClimberSetCanMove;
 import frc.robot.commands.CmdShooterShoot;
+import frc.robot.commands.CmdTestUpdateSpeed;
 import frc.robot.commands.GrpAutoExample;
 import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Climber;
@@ -38,6 +39,8 @@ public class RobotContainer {
     private XboxController m_driveController = new XboxController(0);
 
     private JoystickButton m_driveAButton = new JoystickButton(m_driveController, Constants.ButtonMappings.A_BUTTON);
+    private JoystickButton m_driveYButton = new JoystickButton(m_driveController, Constants.ButtonMappings.Y_BUTTON);
+    private JoystickButton m_driveXButton = new JoystickButton(m_driveController, Constants.ButtonMappings.X_BUTTON);
     private JoystickButton m_driveRBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.RIGHT_BUMPER);
     
     private XboxController m_operatorController = new XboxController(1);
@@ -49,7 +52,6 @@ public class RobotContainer {
     Declares the LB Joystick Bumper For The Operator's Controller
     */
     private JoystickButton m_operatorLBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.LEFT_BUMPER);
-    private double hoodAngle = 0;
     private double shooterSpeed = 0;
     private JoystickButton m_operatorBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.B_BUTTON);
     private JoystickButton m_operatorYButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.Y_BUTTON);
@@ -64,25 +66,23 @@ public class RobotContainer {
         m_driveRBButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
         m_driveRBButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
 
+        m_driveAButton.whenPressed(new CmdTestUpdateSpeed(this, 250));
+        m_driveYButton.whenPressed(new CmdTestUpdateSpeed(this, -250));
+        m_driveXButton.whenPressed(new CmdShooterManual(m_shooterSubsystem, 0, m_driveController.getLeftY(), shooterSpeed));
+
         m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem, m_pickupSubsystem));
         // m_climberSubsystem.setDefaultCommand(new CmdClimberMove(m_climberSubsystem, () -> applyDeadband(m_operatorController.getLeftY(), 0.025)));
 
-        m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
-                                                                () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
-                                                                () -> applyDeadband(0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
+        // m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
+        //                                                         () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
+        //                                                         () -> applyDeadband(0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
 
-        m_shooterSubsystem.setDefaultCommand(new CmdShooterManual(m_shooterSubsystem, 
-                                                                  () -> applyDeadband(m_operatorController.getRightX(), 0.025), 
-                                                                  () -> applyDeadband(-m_operatorController.getLeftY(), 0.025), 
-                                                                  changeShooterSpeed()));
-        // Adjusts hood angle and flywheel speed on D-Pad presses
+        // m_shooterSubsystem.setDefaultCommand(new CmdShooterManual(m_shooterSubsystem, 
+        //                                                           () -> applyDeadband(m_operatorController.getRightX(), 0.025), 
+        //                                                           () -> applyDeadband(-m_operatorController.getLeftY(), 0.025), 
+        //                                                           changeShooterSpeed()));
 
-           
-        // Change speed and hood angle after testing
-        m_operatorXButton.whenPressed(new CmdBallPathManual(m_ballPathSubsystem, 1));
-        m_operatorXButton.whenReleased(new CmdBallPathManual(m_ballPathSubsystem, 0));
-        m_operatorYButton.whenPressed(new CmdBallPathManual(m_ballPathSubsystem, -1));
-        m_operatorYButton.whenReleased(new CmdBallPathManual(m_ballPathSubsystem, 0));
+       
         m_operatorBButton.whenPressed(new CmdClimberSetCanMove(m_climberSubsystem, true));
         m_operatorBButton.whenReleased(new CmdClimberSetCanMove(m_climberSubsystem, false));
 
@@ -113,7 +113,7 @@ public class RobotContainer {
     }
 
     private double changeShooterSpeed() {
-        switch(m_operatorController.getPOV()){ 
+        switch(m_driveController.getPOV()){ 
             case 0:
                 shooterSpeed += 0.005;
                 break;
@@ -122,6 +122,10 @@ public class RobotContainer {
                 break; 
         }
         return shooterSpeed;
+    }
+
+    public void addToSpeed(double speed) {
+        shooterSpeed += speed;
     }
 
 }
