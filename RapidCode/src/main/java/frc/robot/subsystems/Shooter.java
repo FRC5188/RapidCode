@@ -19,6 +19,7 @@ public class Shooter extends SubsystemBase {
     // Describe your objects better, aka don't call it hood, I don't know if its a motor or a sensor
     private CANSparkMax m_hoodMotor;
     private CANSparkMax m_turretMotor;
+    private CANSparkMax m_acceleratorMotor; // Takes Balls Into The Shooter
 
     private AnalogInput m_hoodPotentiometer;
     private AnalogInput m_turretPotentiometer;
@@ -43,6 +44,9 @@ public class Shooter extends SubsystemBase {
 
         m_turretMotor = new CANSparkMax(Constants.CAN.TURRET_MOTOR_ID, MotorType.kBrushless);
         m_turretMotor.setIdleMode(IdleMode.kBrake);
+
+        m_acceleratorMotor = new CANSparkMax(Constants.CAN.ACCEL_MOTOR_ID, MotorType.kBrushless);
+        m_acceleratorMotor.setIdleMode(IdleMode.kBrake); //Stops Immeditatly When Done
 
         m_hoodPotentiometer = new AnalogInput(Constants.AIO.HOOD_POTENTIOMETER_PORT);
         m_hoodPotentiometer.setAverageBits(2);
@@ -135,5 +139,8 @@ public class Shooter extends SubsystemBase {
     public boolean atTurretSetpoint() {
         return m_turretPID.atSetpoint();
     }
-
+    
+    public void setAcceleratorSpeed(double speed) { //Sets the Accelerator Speed
+        m_acceleratorMotor.set(speed);
+    }
 }
