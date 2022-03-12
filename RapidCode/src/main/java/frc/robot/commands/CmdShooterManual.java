@@ -11,10 +11,10 @@ public class CmdShooterManual extends CommandBase {
     private double m_hoodSpeed;
     private double m_flywheelSpeed;
 
-    public CmdShooterManual(Shooter shooterSubsystem, DoubleSupplier turretSpeed, DoubleSupplier hoodSpeed, double flywheelSpeed) {
+    public CmdShooterManual(Shooter shooterSubsystem, double turretSpeed, double hoodSpeed, double flywheelSpeed) {
         m_shooterSubsystem = shooterSubsystem;
-        m_turretSpeed = turretSpeed.getAsDouble();
-        m_hoodSpeed = hoodSpeed.getAsDouble();
+        m_turretSpeed = turretSpeed;
+        m_hoodSpeed = hoodSpeed;
         m_flywheelSpeed = flywheelSpeed;
     }
 

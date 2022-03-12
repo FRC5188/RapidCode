@@ -21,7 +21,6 @@ public class Vision extends SubsystemBase {
     double m_verticalRotation;
     boolean m_hasTarget;
 
-    private double m_count;
     /**
      * Get the Network Table from the LimeLight and then get the Horizontial Rotation(tx) the Vertical Rotation(ty) the mode of the LED(ledMode)
      * and then if it has a target(tv).
@@ -33,8 +32,6 @@ public class Vision extends SubsystemBase {
         m_tv = m_networkTable.getEntry("tv");
         m_ledMode = m_networkTable.getEntry("ledMode");
         m_ledMode.setValue(0);
-
-        m_count = 0;
     }
 
     @Override
@@ -42,14 +39,6 @@ public class Vision extends SubsystemBase {
         m_horizontalRotation = m_tx.getDouble(0.0);
         m_verticalRotation = m_ty.getDouble(0.0);
         m_hasTarget = (m_tv.getDouble(0.0) == 1.0);
-
-        //commented out, casing confusion. 
-        // also, this command is running even in disabled. not sure if it should GH
-        // Prints out some limelight information every half second
-        // if (m_count % 25 == 0) {
-            // System.out.printf("Distance: %f Angle: %f Target: %b\n", getDistanceToTarget(), m_verticalRotation, m_hasTarget);
-        // }
-        // m_count++;
     }
     /**
      * Returns the horizontal angle of the robot relative to the target

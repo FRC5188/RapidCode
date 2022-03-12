@@ -81,7 +81,8 @@ public final class Constants {
         public static final int LEFT_FLYWHEEL_ID = 7;
         public static final int RIGHT_FLYWHEEL_ID = 8;
         public static final int HOOD_MOTOR_ID = 9;
-        public static final int TURRET_MOTOR_ID = 10;
+        public static final int ACCEL_MOTOR_ID = 10;
+        public static final int TURRET_MOTOR_ID = 11;
         
         public static final int PICKUP_MOTOR_ID = 11;
 
