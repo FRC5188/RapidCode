@@ -31,13 +31,14 @@ public class Shooter extends SubsystemBase {
     private double m_hoodSetpoint;
     private double m_turretSetpoint;
 
+    private double m_shooterSpeed;
 
     public Shooter() {
         m_flywheelTop = new WPI_TalonFX(Constants.CAN.LEFT_FLYWHEEL_ID);
         m_flywheelBottom = new WPI_TalonFX(Constants.CAN.RIGHT_FLYWHEEL_ID);
         m_flywheelTop.setNeutralMode(NeutralMode.Coast);
         m_flywheelBottom.setNeutralMode(NeutralMode.Coast);
-        m_flywheelBottom.setInverted(InvertType.InvertMotorOutput);
+        m_flywheelTop.setInverted(true);
 
         m_hoodMotor = new CANSparkMax(Constants.CAN.HOOD_MOTOR_ID, MotorType.kBrushless);
         m_hoodMotor.setIdleMode(IdleMode.kBrake);
@@ -47,6 +48,7 @@ public class Shooter extends SubsystemBase {
 
         m_acceleratorMotor = new CANSparkMax(Constants.CAN.ACCEL_MOTOR_ID, MotorType.kBrushless);
         m_acceleratorMotor.setIdleMode(IdleMode.kBrake); //Stops Immeditatly When Done
+        m_acceleratorMotor.setInverted(true);
 
         m_hoodPotentiometer = new AnalogInput(Constants.AIO.HOOD_POTENTIOMETER_PORT);
         m_hoodPotentiometer.setAverageBits(2);
@@ -64,10 +66,13 @@ public class Shooter extends SubsystemBase {
 
         m_hoodSetpoint = 0;
         m_turretSetpoint = 0;
+
+        m_shooterSpeed = 0;
     }
 
     @Override
     public void periodic() {
+        System.out.println(getHoodPotentiometerAngle());
     }
 
     public void setTopFlywheelSpeed(double speed){
@@ -76,6 +81,10 @@ public class Shooter extends SubsystemBase {
 
     public void setBottomFlywheelSpeed(double speed){
         m_flywheelBottom.set(speed);
+    }
+
+    public double getBottomFlywheelSpeed() {
+        return m_flywheelBottom.get();
     }
 
     public double getFlywheelRPM(){
@@ -112,7 +121,11 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setHoodSpeed(double speed) {
-        m_hoodMotor.set(speed);
+        if ((getHoodPotentiometerAngle() >= Constants.HIGH_POT_STOP && speed > 0) || (getHoodPotentiometerAngle() <= Constants.LOW_POT_STOP && speed < 0)) {
+            m_hoodMotor.set(0);
+        } else {
+            m_hoodMotor.set(speed);
+        }
     }
 
     public double getTurretPotentiometerAngle() {
@@ -142,5 +155,13 @@ public class Shooter extends SubsystemBase {
     
     public void setAcceleratorSpeed(double speed) { //Sets the Accelerator Speed
         m_acceleratorMotor.set(speed);
+    }
+
+    public void addToSpeed(double speed) {
+        m_shooterSpeed += speed;
+    }
+
+    public double getShooterSpeed() {
+        return m_shooterSpeed;
     }
 }

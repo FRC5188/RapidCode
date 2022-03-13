@@ -51,7 +51,7 @@ public class BallPath extends SubsystemBase {
 
     @Override
     public void periodic() {
-
+        System.out.println(m_ballCount);
     }
 
     /**

@@ -2,19 +2,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Shooter;
 
 public class CmdTestUpdateSpeed extends CommandBase {
-    private RobotContainer m_rc;
+    private Shooter m_s;
     private double m_add;
 
-    public CmdTestUpdateSpeed(RobotContainer rc, double add) {
-        m_rc = rc;
+    public CmdTestUpdateSpeed(Shooter s, double add) {
+        m_s = s;
         m_add = add;
     }
 
     @Override
     public void initialize() {
-        m_rc.addToSpeed(m_add);
+        m_s.addToSpeed(m_add);
     }
 
     @Override
