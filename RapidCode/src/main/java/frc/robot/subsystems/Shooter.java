@@ -31,13 +31,14 @@ public class Shooter extends SubsystemBase {
     private double m_hoodSetpoint;
     private double m_turretSetpoint;
 
+    private double m_shooterSpeed;
 
     public Shooter() {
         m_flywheelTop = new WPI_TalonFX(Constants.CAN.LEFT_FLYWHEEL_ID);
         m_flywheelBottom = new WPI_TalonFX(Constants.CAN.RIGHT_FLYWHEEL_ID);
         m_flywheelTop.setNeutralMode(NeutralMode.Coast);
         m_flywheelBottom.setNeutralMode(NeutralMode.Coast);
-        m_flywheelBottom.setInverted(InvertType.InvertMotorOutput);
+        m_flywheelTop.setInverted(true);
 
         m_hoodMotor = new CANSparkMax(Constants.CAN.HOOD_MOTOR_ID, MotorType.kBrushless);
         m_hoodMotor.setIdleMode(IdleMode.kBrake);
@@ -47,6 +48,7 @@ public class Shooter extends SubsystemBase {
 
         m_acceleratorMotor = new CANSparkMax(Constants.CAN.ACCEL_MOTOR_ID, MotorType.kBrushless);
         m_acceleratorMotor.setIdleMode(IdleMode.kBrake); //Stops Immeditatly When Done
+        m_acceleratorMotor.setInverted(true);
 
         m_hoodPotentiometer = new AnalogInput(Constants.AIO.HOOD_POTENTIOMETER_PORT);
         m_hoodPotentiometer.setAverageBits(2);
@@ -64,6 +66,8 @@ public class Shooter extends SubsystemBase {
 
         m_hoodSetpoint = 0;
         m_turretSetpoint = 0;
+
+        m_shooterSpeed = 0;
     }
 
     @Override
@@ -78,6 +82,10 @@ public class Shooter extends SubsystemBase {
         m_flywheelBottom.set(speed);
     }
 
+    public double getBottomFlywheelSpeed() {
+        return m_flywheelBottom.get();
+    }
+
     public double getFlywheelRPM(){
         //units per 100ms, 2048 units per rotation
         return m_flywheelBottom.getSelectedSensorVelocity() * 600 * (1/2048.0);
@@ -88,17 +96,22 @@ public class Shooter extends SubsystemBase {
     }
 
     public void hoodPIDExecute() {
-        m_hoodMotor.set(m_hoodPID.calculate(m_hoodPotentiometer.getAverageValue()));
+        setHoodSpeed(m_hoodPID.calculate(m_hoodPotentiometer.getAverageValue()) * Constants.PID.HOOD_MAX_SPEED);
+        System.out.println(m_hoodPID.calculate(m_hoodPotentiometer.getAverageValue(), m_hoodSetpoint) * Constants.PID.HOOD_MAX_SPEED);
     }
 
     public void setHoodSetPoint(double setpoint) {
+        if (setpoint > Constants.HIGH_POT_STOP) {
+            setpoint = Constants.HIGH_POT_STOP;
+        } else if (setpoint < Constants.LOW_POT_STOP) {
+            setpoint = Constants.LOW_POT_STOP;
+        } 
+        
         m_hoodPID.setSetpoint(setpoint);
         m_hoodSetpoint = setpoint;
     }
 
     public double getHoodSetPoint() {
-        // Remember we have a variable to keep track of this rather than calling a method
-        // Calling a method takes much longer than calling a variable, so always opt to use a stored value than to call it for a get
         return m_hoodSetpoint;
     }
 
@@ -112,7 +125,11 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setHoodSpeed(double speed) {
-        m_hoodMotor.set(speed);
+        if ((getHoodPotentiometerAngle() >= Constants.HIGH_POT_STOP && speed > 0) || (getHoodPotentiometerAngle() <= Constants.LOW_POT_STOP && speed < 0)) {
+            m_hoodMotor.set(0);
+        } else {
+            m_hoodMotor.set(speed);
+        }
     }
 
     public double getTurretPotentiometerAngle() {
@@ -142,5 +159,13 @@ public class Shooter extends SubsystemBase {
     
     public void setAcceleratorSpeed(double speed) { //Sets the Accelerator Speed
         m_acceleratorMotor.set(speed);
+    }
+
+    public void addToSpeed(double speed) {
+        m_shooterSpeed += speed;
+    }
+
+    public double getShooterSpeed() {
+        return m_shooterSpeed;
     }
 }

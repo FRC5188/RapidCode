@@ -51,7 +51,6 @@ public class BallPath extends SubsystemBase {
 
     @Override
     public void periodic() {
-
     }
 
     /**

@@ -23,6 +23,9 @@ public final class Constants {
     public static final double TARGET_HEIGHT_INCHES = 102.625;
     public static final double CAMERA_PITCH_DEGREES = 38;
 
+    public static final double LOW_POT_STOP = 2650;
+    public static final double HIGH_POT_STOP = LOW_POT_STOP + 460;
+
     public final class PID {
 
         public static final double DRIVE_PROPORTIONAL_COMPETITION  = 0.0265;
@@ -35,10 +38,11 @@ public final class Constants {
         public static final double ROTATE_DERIVATIVE_COMPETITION   = 0.04;
         public static final double ROTATE_TOLERANCE_COMPETITION    = 1.0;
 
-        public static final double HOOD_PROPORTIONAL = 0.005;
+        public static final double HOOD_PROPORTIONAL = 0.01;
         public static final double HOOD_INTEGRAL = 0.00;
-        public static final double HOOD_DERIVATIVE = 0.001;
-        public static final double HOOD_TOLERANCE = 1.0;
+        public static final double HOOD_DERIVATIVE = 0.00;
+        public static final double HOOD_TOLERANCE = 30;
+        public static final double HOOD_MAX_SPEED = 0.1;
 
         public static final double TURRET_PROPORTIONAL = 0.01;
         public static final double TURRET_INTEGRAL = 0.00;
@@ -80,9 +84,9 @@ public final class Constants {
 
         public static final int LEFT_FLYWHEEL_ID = 7;
         public static final int RIGHT_FLYWHEEL_ID = 8;
-        public static final int HOOD_MOTOR_ID = 9;
-        public static final int ACCEL_MOTOR_ID = 10;
-        public static final int TURRET_MOTOR_ID = 11;
+        public static final int HOOD_MOTOR_ID = 21; //Temp need to change
+        public static final int ACCEL_MOTOR_ID = 22; //Temp need to change
+        public static final int TURRET_MOTOR_ID = 15;
         
         public static final int PICKUP_MOTOR_ID = 11;
 

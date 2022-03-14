@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShooterLookupTable;
-import frc.robot.subsystems.Vision;
 
 public class CmdShooterMoveToPosition extends CommandBase {
     private Shooter m_shooterSubsystem;
@@ -11,7 +10,7 @@ public class CmdShooterMoveToPosition extends CommandBase {
     private double m_hoodAngle;
     private double m_turretAngle;
 
-    public CmdShooterMoveToPosition(Shooter shooterSubsystem, Vision visionSubsystem, ShooterLookupTable lookupTable, int distanceInInches) {
+    public CmdShooterMoveToPosition(Shooter shooterSubsystem, ShooterLookupTable lookupTable, int distanceInInches) {
         m_shooterSubsystem = shooterSubsystem;
         
         m_velocity = lookupTable.getVelocityAtDistance(distanceInInches);
@@ -27,15 +26,18 @@ public class CmdShooterMoveToPosition extends CommandBase {
 
     @Override
     public void execute() {
+        //System.out.println(m_shooterSubsystem.getHoodSetPoint() - m_shooterSubsystem.getHoodPotentiometerAngle());
+        System.out.println(m_shooterSubsystem.getHoodPotentiometerAngle());
         m_shooterSubsystem.hoodPIDExecute();
     }
 
     @Override
     public void end(boolean interrupted) {
+        m_shooterSubsystem.setHoodSpeed(0);
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return m_shooterSubsystem.atHoodSetpoint();
     }
 }

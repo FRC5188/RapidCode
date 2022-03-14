@@ -47,7 +47,6 @@ public class Pickup extends SubsystemBase {
 
     @Override
     public void periodic() {
-
     }
 
     /**

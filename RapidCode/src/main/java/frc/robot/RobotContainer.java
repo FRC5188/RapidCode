@@ -8,9 +8,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CmdDriveJoystick;
 import frc.robot.commands.CmdDriveSetShifter;
+import frc.robot.commands.CmdPickupDefault;
 import frc.robot.commands.CmdPickupDeploy;
 import frc.robot.commands.CmdPickupStow;
 import frc.robot.commands.CmdShooterManual;
+import frc.robot.commands.CmdShooterMoveToPosition;
+import frc.robot.commands.CmdBallPathChangeBallCount;
 import frc.robot.commands.CmdBallPathDefault;
 import frc.robot.commands.CmdBallPathManual;
 import frc.robot.commands.CmdClimberMove;
@@ -41,34 +44,35 @@ public class RobotContainer {
     private JoystickButton m_driveAButton = new JoystickButton(m_driveController, Constants.ButtonMappings.A_BUTTON);
     private JoystickButton m_driveYButton = new JoystickButton(m_driveController, Constants.ButtonMappings.Y_BUTTON);
     private JoystickButton m_driveXButton = new JoystickButton(m_driveController, Constants.ButtonMappings.X_BUTTON);
+    private JoystickButton m_driveBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.B_BUTTON);
     private JoystickButton m_driveRBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.RIGHT_BUMPER);
+    private JoystickButton m_driveLBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.LEFT_BUMPER);
     
     private XboxController m_operatorController = new XboxController(1);
-    /* 
-    Declares the RB Joystick Bumper For The Operator's Controller
-     */
+
     private JoystickButton m_operatorRBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.RIGHT_BUMPER); 
-    /*
-    Declares the LB Joystick Bumper For The Operator's Controller
-    */
     private JoystickButton m_operatorLBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.LEFT_BUMPER);
-    private double shooterSpeed = 0;
+    private JoystickButton m_operatorAButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.A_BUTTON);
     private JoystickButton m_operatorBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.B_BUTTON);
     private JoystickButton m_operatorYButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.Y_BUTTON);
     private JoystickButton m_operatorXButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.X_BUTTON);
-
 
     public RobotContainer() {
         configureButtonBindings();
     }
 
     private void configureButtonBindings() {
+        CmdShooterShoot shootingCommand = new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem);
+
         m_driveRBButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
         m_driveRBButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
 
-        m_driveAButton.whenPressed(new CmdTestUpdateSpeed(this, 250));
-        m_driveYButton.whenPressed(new CmdTestUpdateSpeed(this, -250));
-        m_driveXButton.whenPressed(new CmdShooterManual(m_shooterSubsystem, 0, m_driveController.getLeftY(), shooterSpeed));
+        m_driveLBButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, 120));
+
+        m_driveAButton.whenPressed(new CmdTestUpdateSpeed(m_shooterSubsystem, -0.05));
+        m_driveYButton.whenPressed(new CmdTestUpdateSpeed(m_shooterSubsystem, 0.05));
+        m_driveXButton.whenPressed(shootingCommand);
+        m_driveBButton.cancelWhenPressed(shootingCommand);
 
         m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem, m_pickupSubsystem));
         // m_climberSubsystem.setDefaultCommand(new CmdClimberMove(m_climberSubsystem, () -> applyDeadband(m_operatorController.getLeftY(), 0.025)));
@@ -77,20 +81,22 @@ public class RobotContainer {
         //                                                         () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
         //                                                         () -> applyDeadband(0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
 
-        // m_shooterSubsystem.setDefaultCommand(new CmdShooterManual(m_shooterSubsystem, 
-        //                                                           () -> applyDeadband(m_operatorController.getRightX(), 0.025), 
-        //                                                           () -> applyDeadband(-m_operatorController.getLeftY(), 0.025), 
-        //                                                           changeShooterSpeed()));
+        m_pickupSubsystem.setDefaultCommand(new CmdPickupDefault(m_pickupSubsystem, m_ballPathSubsystem));
+
+        m_shooterSubsystem.setDefaultCommand(new CmdShooterManual(m_shooterSubsystem, 
+                                                                  () -> applyDeadband(m_driveController.getRightX(), 0.025), 
+                                                                  () -> applyDeadband(-m_driveController.getLeftY(), 0.025)));
 
        
         m_operatorBButton.whenPressed(new CmdClimberSetCanMove(m_climberSubsystem, true));
         m_operatorBButton.whenReleased(new CmdClimberSetCanMove(m_climberSubsystem, false));
 
         //m_operatorAButton.whenPressed(new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, shooterSpeed));
-        m_operatorRBButton.whenPressed(new CmdPickupDeploy(m_pickupSubsystem)); // When RB Button Pressed Activates The Depoly Cmd.
-        m_operatorLBButton.whenPressed(new CmdPickupStow(m_pickupSubsystem)); // When LB Button Pressed Activates The Stow Cmd.
+        m_operatorRBButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, true)); // When RB Button Pressed increments ball count.
+        m_operatorLBButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, false)); // When LB Button Pressed decrements ball count
 
-       
+        m_operatorAButton.whenPressed(new CmdPickupDeploy(m_pickupSubsystem, m_ballPathSubsystem));
+        m_operatorYButton.whenPressed(new CmdPickupStow(m_pickupSubsystem));
     }
 
     public Command getAutonomousCommand() {
@@ -110,22 +116,6 @@ public class RobotContainer {
             modified = ((raw - 1) / (1 - deadband)) + 1;
 
         return modified;
-    }
-
-    private double changeShooterSpeed() {
-        switch(m_driveController.getPOV()){ 
-            case 0:
-                shooterSpeed += 0.005;
-                break;
-            case 180:
-                shooterSpeed -= 0.005;
-                break; 
-        }
-        return shooterSpeed;
-    }
-
-    public void addToSpeed(double speed) {
-        shooterSpeed += speed;
     }
 
 }
