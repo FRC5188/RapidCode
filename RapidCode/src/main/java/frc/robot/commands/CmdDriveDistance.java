@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -17,6 +13,7 @@ public class CmdDriveDistance extends CommandBase {
 
     public CmdDriveDistance(Drive driveSubsystem, double distance, double speed, boolean resetEncoders) {
         // Use addRequirements() here to declare subsystem dependencies.
+        // Positive distance is towards the pickup
         m_driveSubsystem = driveSubsystem; // Setting values passed in to there equivelent member level variables. 
         m_distance = distance;
         m_speed = speed;
