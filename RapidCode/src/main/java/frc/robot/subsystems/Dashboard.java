@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.BallPath.BallPathState;
 
 public class Dashboard extends SubsystemBase {
     private SendableChooser<Command> m_autonomousChooser;
@@ -35,6 +36,14 @@ public class Dashboard extends SubsystemBase {
 
     private NetworkTableEntry m_pickupIsDeployedEntry;
     private boolean m_pickupIsDeployed;
+
+    private NetworkTableEntry m_hasTargetEntry;
+    private NetworkTableEntry m_distanceToTargetEntry;
+    private NetworkTableEntry m_readyToShootEntry;
+    private boolean m_hasTarget;
+    private int m_distanceToTarget;
+    private boolean m_readyToShoot;
+    
     
     public Dashboard() {
         ShuffleboardTab dashboard = Shuffleboard.getTab("Dashboard");
@@ -87,6 +96,9 @@ public class Dashboard extends SubsystemBase {
             .withPosition(7, 0)
             .withSize(6, 12)
             .withProperties(Map.of("Label position", "BOTTOM"));
+        shooter.add("Has Target", m_hasTarget).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Red", "Color when false", "Lime")).getEntry();
+        shooter.add("Distance To Target", m_distanceToTarget).withWidget(BuiltInWidgets.kTextView).getEntry();
+        shooter.add("Ready To Shoot", m_readyToShoot).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Red", "Color when false", "Lime")).getEntry();
     }
 
     @Override
@@ -101,6 +113,10 @@ public class Dashboard extends SubsystemBase {
         m_isDriveShiftedEntry.setBoolean(m_isDriveShifted);
 
         m_pickupIsDeployedEntry.setBoolean(m_pickupIsDeployed);
+
+        m_hasTargetEntry.setBoolean(m_hasTarget);
+        m_distanceToTargetEntry.setValue(m_distanceToTarget);
+        m_readyToShootEntry.setBoolean(m_readyToShoot);
     }
 
     public void addAuto(String name, Command command) {
@@ -111,5 +127,43 @@ public class Dashboard extends SubsystemBase {
         Shuffleboard.getTab("Dashboard").add("Camera", cameraFeed).withPosition(13, 2).withSize(12, 10).withWidget(BuiltInWidgets.kCameraStream).withProperties(Map.of("Show crosshair", false, "Show controls", false));
     }
 
-    
+    public void setBallCount(int count) {
+        m_ballCount = count;
+    }
+
+    public void setBallPathstate(BallPathState state) {
+        m_ballPathState = state.toString();
+    }
+
+    public void setEntranceSensorState(boolean state) {
+        m_entranceSensorState = state;
+    }
+
+    public void setMiddleSensorState(boolean state) {
+        m_middleSensorState = state;
+    }
+
+    public void setShooterSensorState(boolean state) {
+        m_shooterSensorState = state;
+    }
+
+    public void setIsDriveShifted(boolean isShifted) {
+        m_isDriveShifted = isShifted;
+    }
+
+    public void setPickupIsDeployed(boolean isDeployed) {
+        m_pickupIsDeployed = isDeployed;
+    }
+
+    public void setHasTarget(boolean hasTarget) {
+        m_hasTarget = hasTarget;
+    }
+
+    public void setDistanceToTarget(int distance) {
+        m_distanceToTarget = distance;
+    }
+
+    public void setReadyToShoot(boolean ready) {
+        m_readyToShoot = ready;
+    }
 }

@@ -12,6 +12,7 @@ import frc.robot.commands.CmdPickupDefault;
 import frc.robot.commands.CmdPickupDeploy;
 import frc.robot.commands.CmdPickupStow;
 import frc.robot.commands.CmdShooterManual;
+import frc.robot.commands.CmdShooterMoveToPosition;
 import frc.robot.commands.CmdBallPathChangeBallCount;
 import frc.robot.commands.CmdBallPathDefault;
 import frc.robot.commands.CmdBallPathManual;
@@ -45,6 +46,7 @@ public class RobotContainer {
     private JoystickButton m_driveXButton = new JoystickButton(m_driveController, Constants.ButtonMappings.X_BUTTON);
     private JoystickButton m_driveBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.B_BUTTON);
     private JoystickButton m_driveRBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.RIGHT_BUMPER);
+    private JoystickButton m_driveLBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.LEFT_BUMPER);
     
     private XboxController m_operatorController = new XboxController(1);
 
@@ -64,6 +66,8 @@ public class RobotContainer {
 
         m_driveRBButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
         m_driveRBButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
+
+        m_driveLBButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, 120));
 
         m_driveAButton.whenPressed(new CmdTestUpdateSpeed(m_shooterSubsystem, -0.05));
         m_driveYButton.whenPressed(new CmdTestUpdateSpeed(m_shooterSubsystem, 0.05));

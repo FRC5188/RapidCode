@@ -14,7 +14,7 @@ public class ShooterLookupTable {
         // Add entries here using this syntax
         // First is distance in feet, second is flywheel speed, last is hood angle
         // Below is an example
-        this.addEntry(10, 3000, 20.1);
+        this.addEntry(10, 3000, 2600);
     }
     /**
      * Returns the velocity for the flywheel for the given distance in inches

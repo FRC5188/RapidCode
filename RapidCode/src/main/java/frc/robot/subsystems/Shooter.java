@@ -72,7 +72,6 @@ public class Shooter extends SubsystemBase {
 
     @Override
     public void periodic() {
-        System.out.println(getHoodPotentiometerAngle());
     }
 
     public void setTopFlywheelSpeed(double speed){
@@ -97,17 +96,22 @@ public class Shooter extends SubsystemBase {
     }
 
     public void hoodPIDExecute() {
-        m_hoodMotor.set(m_hoodPID.calculate(m_hoodPotentiometer.getAverageValue()));
+        setHoodSpeed(m_hoodPID.calculate(m_hoodPotentiometer.getAverageValue()) * Constants.PID.HOOD_MAX_SPEED);
+        System.out.println(m_hoodPID.calculate(m_hoodPotentiometer.getAverageValue(), m_hoodSetpoint) * Constants.PID.HOOD_MAX_SPEED);
     }
 
     public void setHoodSetPoint(double setpoint) {
+        if (setpoint > Constants.HIGH_POT_STOP) {
+            setpoint = Constants.HIGH_POT_STOP;
+        } else if (setpoint < Constants.LOW_POT_STOP) {
+            setpoint = Constants.LOW_POT_STOP;
+        } 
+        
         m_hoodPID.setSetpoint(setpoint);
         m_hoodSetpoint = setpoint;
     }
 
     public double getHoodSetPoint() {
-        // Remember we have a variable to keep track of this rather than calling a method
-        // Calling a method takes much longer than calling a variable, so always opt to use a stored value than to call it for a get
         return m_hoodSetpoint;
     }
 

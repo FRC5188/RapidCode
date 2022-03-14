@@ -23,8 +23,8 @@ public final class Constants {
     public static final double TARGET_HEIGHT_INCHES = 102.625;
     public static final double CAMERA_PITCH_DEGREES = 38;
 
-    public static final double LOW_POT_STOP = 930;
-    public static final double HIGH_POT_STOP = 1700;
+    public static final double LOW_POT_STOP = 2650;
+    public static final double HIGH_POT_STOP = LOW_POT_STOP + 460;
 
     public final class PID {
 
@@ -38,10 +38,11 @@ public final class Constants {
         public static final double ROTATE_DERIVATIVE_COMPETITION   = 0.04;
         public static final double ROTATE_TOLERANCE_COMPETITION    = 1.0;
 
-        public static final double HOOD_PROPORTIONAL = 0.005;
+        public static final double HOOD_PROPORTIONAL = 0.01;
         public static final double HOOD_INTEGRAL = 0.00;
-        public static final double HOOD_DERIVATIVE = 0.001;
-        public static final double HOOD_TOLERANCE = 1.0;
+        public static final double HOOD_DERIVATIVE = 0.00;
+        public static final double HOOD_TOLERANCE = 30;
+        public static final double HOOD_MAX_SPEED = 0.1;
 
         public static final double TURRET_PROPORTIONAL = 0.01;
         public static final double TURRET_INTEGRAL = 0.00;
