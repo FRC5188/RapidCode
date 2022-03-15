@@ -16,12 +16,14 @@ public class ShooterLookupTable {
         // Add entries here using this syntax
         // First is distance in feet, second is flywheel speed, last is hood angle
         // Below is an example
-        this.addEntry(10, 3000, 3200);
+        // !!EVERY ANGLE FOR THE HOOD MUST BE RELATIVE TO THE LOW POT STOP!!
+        // This is done so that if the sensor has to be realigned, all of this data can still be accurate
+        this.addEntry(10, 3000, Constants.LOW_POT_STOP + 200);
     }
     /**
      * Returns the velocity for the flywheel for the given distance in inches
      * @param distanceInInches distance in inches that the robot is from the target
-     * @return the velocity for the flywheel
+     * @return the velocity for the flywheel. Will return 0 if the distance has no data in the table.
      */
     public double getVelocityAtDistance(int distanceInInches) {
         if (m_lookupTable.get(roundDistance(distanceInInches)) == null) return 0;
@@ -30,10 +32,10 @@ public class ShooterLookupTable {
     /**
      * Returns the hood angle for the given distance in inches
      * @param distanceInInches distance in inches that the robot is from the target 
-     * @return the hood angle
+     * @return the hood angle. Will return the low pot stop constant + 50 if the distance has no data in the table.
      */
     public double getAngleAtDistance(int distanceInInches) {
-        if (m_lookupTable.get(roundDistance(distanceInInches)) == null) return Constants.LOW_POT_STOP;
+        if (m_lookupTable.get(roundDistance(distanceInInches)) == null) return Constants.LOW_POT_STOP + 50;
         else return m_lookupTable.get(roundDistance(distanceInInches))[1];
     }
     /**

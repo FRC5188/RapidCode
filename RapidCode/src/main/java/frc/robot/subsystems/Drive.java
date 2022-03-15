@@ -9,7 +9,6 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -39,13 +38,6 @@ public class Drive extends SubsystemBase {
     private Solenoid m_leftShifter;
     private Solenoid m_rightShifter; 
 
-    private double wheelNonLinearity = .6;
-    private double negInertia, oldWheel;
-    private double sensitivity;
-    private double angularPower;
-    private double linearPower;
-
-
     private PIDController m_drivePID;
     private PIDController m_rotatePID;
     private double m_drivePIDMaxSpeed;
@@ -53,15 +45,11 @@ public class Drive extends SubsystemBase {
 
     private ShifterState m_shifterState;
 
+    /**
+     * Creates a new instance of the Drive subsystem
+     * @param dashboard
+     */
     public Drive(Dashboard dashboard) { 
-        /*
-        Initialize all objects and variables
-        Objects are things like motor controllers, solenoids, and sensors
-        Variables are things like important numbers/constants to keep track of
-
-        To initialize an object, use general format: ObjectType objectName = new ObjectType(initParameters)
-        If you're giving a port number in the object parameters, reference the Constants class: Constants.PortType.STATIC_VALUE
-        */
         m_dashboard = dashboard;
 
         m_leftPrimary = new WPI_TalonFX(Constants.CAN.LEFT_PRIMARY_DRIVE_ID);
@@ -104,101 +92,89 @@ public class Drive extends SubsystemBase {
         m_dashboard.setIsDriveShifted(m_shifterState == ShifterState.Shifted);
     }
 
+    /**
+     * Resets the encoders on the drive motors to 0
+     */
     public void resetEncoders() {
         m_rightPrimary.setSelectedSensorPosition(0);
         m_leftPrimary.setSelectedSensorPosition(0);
     }
 
+    /**
+     * resets the gyro angle to 0
+     */
     public void resetGyro() {
         m_gyro.reset();
     }
 
-    public void drivePIDInit (double distance, boolean resetEncoders){
-        drivePIDInit(distance, resetEncoders, 1);
-    }
-
+    /**
+     * Initializes the PID controller for driving forwards or backwards
+     * @param distance distance, in inches, to drive
+     * @param resetEncoders true to reset encoders, false if no
+     * @param speed the max speed to drive, in percent output
+     */
     public void drivePIDInit(double distance, boolean resetEncoders, double speed) {
-        //distance driving, how much need to rotate, if at all, if reset encoders, reset gyro
-        if (resetEncoders) {
-            resetEncoders();
-        }
+        if (resetEncoders) resetEncoders();
+
         m_drivePID.setSetpoint(distance);
         m_drivePIDMaxSpeed = speed;
     }
 
+    /**
+     * Initializes the PID controller for rotating the drivebase
+     * @param heading the desired angle to rotate to, in degrees. Clockwise is positive, counterclockwise is negative
+     * @param speed the max speed to rotate, in percent output
+     * @param resetGyro true to reset gyro, false if no
+     */
     public void rotatePIDInit(double heading, double speed, boolean resetGyro) {
-        if (resetGyro) {
-            resetGyro();
-        }
+        if (resetGyro) resetGyro();
+
         m_rotatePID.setSetpoint(heading);
         m_rotatePIDMaxSpeed = speed;
     }
 
+    /**
+     * Executes the driving PID controller
+     */
     public void drivePIDExec() {
         double position = getEncoderPosition(EncoderType.Average);
         double power = m_drivePID.calculate(position) * m_drivePIDMaxSpeed;
-        if (power > m_drivePIDMaxSpeed) {
-            power = m_drivePIDMaxSpeed;
-        }
-        if (power < -m_drivePIDMaxSpeed) {
-            power = -m_drivePIDMaxSpeed;
-        }
-        System.out.println("POSITION:" + position); 
-        System.out.println("POWER: " + power);
-        
-        //Because we're using driveRaw, we have to manually invert the motors
+
         driveRaw(power, power);
     }
 
-    public void rotatePIDExec() 
-    {
+    /**
+     * Executes the rotating PID controller
+     */
+    public void rotatePIDExec() {
         double angle = getGyroPosition();
         double power = m_rotatePID.calculate(angle) * m_rotatePIDMaxSpeed;
-        if (power > m_rotatePIDMaxSpeed) {
-            power = m_rotatePIDMaxSpeed;
-        }
-        if (power < -m_rotatePIDMaxSpeed) {
-            power = -m_rotatePIDMaxSpeed;
-        }
-        System.out.printf("Angle: %f PID: %f\n", angle, power); 
+
         driveRaw(power, -power);
     }
 
+    /**
+     * Checks if the driving PID is at its setpoint
+     * @return true if at setpoint, false otherwise
+     */
     public boolean atDrivePIDSetpoint() {
        return m_drivePID.atSetpoint();
 
     }
 
+    /**
+     * Checks if the rotating PID is at its setpoint
+     * @return true if at setpoint, false otherwise
+     */
     public boolean atRotatePIDSetpoint() {
         return m_rotatePID.atSetpoint();
     }
 
-    public void cheesyDrive(double throttle, double wheel, double quickTurn, boolean shifted) {
-        /*
-        This code belongs to the poofs
-        Please don't touch this code, but feel free to read and ask questions
-        */
-
-        negInertia = wheel - oldWheel;
-        oldWheel = wheel;
-
-        wheelNonLinearity = (shifted) ? 0.6 : 0.5;
-
-        /*Apply a sine function that's scaled to make it feel better.*/
-        wheel = Math.sin(Math.PI / 2.0 * wheelNonLinearity * wheel) / Math.sin(Math.PI / 2.0 * wheelNonLinearity);
-
-        sensitivity = (shifted) ? 0.5 : 1.0;
-
-        wheel += negInertia;
-        linearPower = throttle;
-
-        angularPower = (quickTurn > 0.5) ? wheel : Math.abs(throttle) * wheel;
-
-        double left = -((linearPower + angularPower) * sensitivity);
-        double right = (linearPower - angularPower) * sensitivity;
-        driveRaw(left, right);
-    }
-
+    /**
+     * Applies a split arcade drive to the drive base
+     * @param throttle the speed to go forward or back, in percent output
+     * @param turn the speed to rotate, in percent output
+     */
     public void arcadeDrive(double throttle, double turn) {
         /*Please don't touch this code, but feel free to read and ask questions*/
 
@@ -223,34 +199,22 @@ public class Drive extends SubsystemBase {
 		driveRaw(lDrive, rDrive);
 	}
 
-
-    // Example of a method that is overloaded. meaning we have one method but can take different 
-    // amounts / types of arguments.
+    /**
+     * Gets the current average position of the left and right encoders
+     * @return 
+     * Gets the current average position of the left and right encoders
+     */
     public double getEncoderPosition(){
         return getEncoderPosition(EncoderType.Average);
     }
 
+    /**
+     * Gets the current position of the encoders, depending on what type of measuring is inputted
+     * @param measureType the type of measuring to be done. Left will return the left encoder only, 
+     * Right will return the right encoder only, and Average will return the average of both
+     * @return the current position of the encoders, depending on what type of measuring is inputted
+     */
     public double getEncoderPosition(EncoderType measureType) {
-        /*
-        This method is used to get the position of the robot's encoders
-        Since there are times where we might want to look at both left and right encoders as well as only one side, 
-        there is an enumeration named EncoderType that is sent in as a parameter named measureType
-        Use a switch-case to assign values to return (go through cases with every possible enumeration value for EncoderType)
-        Also, make sure to subtract the respective encoder pos variables from the returned value, as that is what allows us to reset the encoders
-        Syntax: switch(measureType) {
-            case OneState:
-                encoderPos = m_leftPrimary.getSelectedSensorPosition();
-                break;
-            case AnotherState:
-                encoderPos = m_rightPrimary.getSelectedSensorPosition();
-                break;
-            default:
-                break;
-        }
-        At the end, however, we have a bit of extra math to do, since there is gearing between the encoder and the wheels
-        On top of that, since there is a high and low gear mode, the gearing for each is different
-        So, the amount that we divide by will change based on m_shifterState
-        */
         double encoderPos = 0;
 
         switch(measureType) {
@@ -267,78 +231,44 @@ public class Drive extends SubsystemBase {
                 break;
         }
 
-
-        // 2048 ticks per rev, according to ctre docs
-        // 5.6 is high gear, 5.6:1 reduction. 
-        // 16.36:1 is low gear
         double encoderRevs = encoderPos / 2048;
         return encoderRevs / 5.6 * Math.PI*4;
-
-        //was the logic below, i dont think this is going to work GH
-        //what happens if we shift, and then go back to high? we dont keep a running total of encoderpos
-        // return (m_shifterState == ShifterState.Normal) ? encoderPos / 5.6 : encoderPos / 16.36;
     }
 
+    /**
+     * Gets the current angle of the gyro, in degrees
+     * @return the current angle of the gyro, in degrees
+     */
     public double getGyroPosition() {
         return m_gyro.getAngle();
     }
 
+    /**
+     * Sets the speed of the drive motors
+     * @param left the speed for the left side
+     * @param right the speed for the right side
+     */
     public void driveRaw(double left, double right) {
-	    /*
-	    This method is used to supply values to the drive motors
-        Variables left and right will be between -1 and 1
-        Call the .set(left) for the primary drive motor on the left
-        Call the .set(right) for the primary drive motor on the right
-	    */
         m_leftPrimary.set(left);
         m_rightPrimary.set(right);
 	}
 
+    /**
+     * Gets the current state of the gearbox shifter
+     * @return the current state of the gearbox shifter
+     */
     public ShifterState getShifterState() {
-        /*
-        This method is used to get the state of the shifter solenoid
-        */
         return m_shifterState;
     }
 
     /**
-     * SetAutoRampRate configures motor ramping for the falcons.
-     * A ramp time will limit how fast the motor can go from zero to full thottle.
-     * 
-     * Only use this for auto to help with traction and control. Be sure to disable this before teleop.
-     * 
-     * A ramp time of 0 will disable the ramp. 
-     * 
-     * @param rampTime
-     * Time in seconds that the motor can go from zero to full thottle. 
+     * Sets the state of the gearbox shifter
+     * @param state the desired state of the gearbox shifter
      */
-    public void setAutoRampRate(double rampTime){
-        //note: we only do the primary. the secondary will follow
-        m_rightPrimary.configOpenloopRamp(rampTime);
-        m_leftPrimary.configOpenloopRamp(rampTime);
-    }
-
     public void setShifterState(ShifterState state) {
-        /*
-        This method changes the state of the solenoid and the value of the member-level variable of type ShifterState 
-        to the parameter state
-        This method should only be a couple lines!
-        */    
         m_shifterState = state;
-        // When you add solenoids, make sure to add a line to set them also equal to the shifterState.
 
-        //shifting is inverted. so we invert the set command GH
-        if(this.m_shifterState == ShifterState.Normal){
-            m_leftShifter.set(false);
-            m_rightShifter.set(false);
-        }
-        else{
-            m_leftShifter.set(true);
-            m_rightShifter.set(true);
-        }
-
-        // old logic that was inverted GH
-        // m_leftShifter.set(m_shifterState == ShifterState.Normal);
-        // m_rightShifter.set(m_shifterState == ShifterState.Normal);
+        m_leftShifter.set(m_shifterState == ShifterState.Shifted);
+        m_rightShifter.set(m_shifterState == ShifterState.Shifted);
     }
 }
