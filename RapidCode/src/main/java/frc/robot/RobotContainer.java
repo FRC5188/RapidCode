@@ -23,6 +23,7 @@ import frc.robot.commands.CmdTestUpdateSpeed;
 import frc.robot.commands.GrpAutoExample;
 import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Pickup;
 import frc.robot.subsystems.Drive.ShifterState;
@@ -31,12 +32,14 @@ import frc.robot.subsystems.ShooterLookupTable;
 import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
-    private BallPath m_ballPathSubsystem = new BallPath();
-    private Drive m_driveSubsystem = new Drive();
-    private Shooter m_shooterSubsystem = new Shooter();
-    private Vision m_visionSubsystem = new Vision();
+    private Dashboard m_dashboard = new Dashboard();
+
+    private BallPath m_ballPathSubsystem = new BallPath(m_dashboard);
+    private Drive m_driveSubsystem = new Drive(m_dashboard);
+    private Shooter m_shooterSubsystem = new Shooter(m_dashboard);
+    private Vision m_visionSubsystem = new Vision(m_dashboard);
     private ShooterLookupTable m_shooterLookupTable = new ShooterLookupTable();
-    private Pickup m_pickupSubsystem = new Pickup();
+    private Pickup m_pickupSubsystem = new Pickup(m_dashboard);
     private Climber m_climberSubsystem = new Climber();
 
     private XboxController m_driveController = new XboxController(0);

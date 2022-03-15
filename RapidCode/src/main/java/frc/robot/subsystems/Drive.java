@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Drive extends SubsystemBase {
+    private Dashboard m_dashboard;
+
     public enum EncoderType {
         Left,
         Right,
@@ -51,7 +53,7 @@ public class Drive extends SubsystemBase {
 
     private ShifterState m_shifterState;
 
-    public Drive() { 
+    public Drive(Dashboard dashboard) { 
         /*
         Initialize all objects and variables
         Objects are things like motor controllers, solenoids, and sensors
@@ -60,7 +62,7 @@ public class Drive extends SubsystemBase {
         To initialize an object, use general format: ObjectType objectName = new ObjectType(initParameters)
         If you're giving a port number in the object parameters, reference the Constants class: Constants.PortType.STATIC_VALUE
         */
-        
+        m_dashboard = dashboard;
 
         m_leftPrimary = new WPI_TalonFX(Constants.CAN.LEFT_PRIMARY_DRIVE_ID);
         m_leftSecondary = new WPI_TalonFX(Constants.CAN.LEFT_SECONDARY_DRIVE_ID);
@@ -99,12 +101,7 @@ public class Drive extends SubsystemBase {
 
     @Override
     public void periodic() {
-        /*
-        A method that loops every 20ms
-        Use this to update important values
-        Try and avoid using this method; rather, use a command
-        Ask mentors before putting things in here!
-        */
+        m_dashboard.setIsDriveShifted(m_shifterState == ShifterState.Shifted);
     }
 
     public void resetEncoders() {

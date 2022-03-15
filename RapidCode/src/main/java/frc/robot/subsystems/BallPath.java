@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class BallPath extends SubsystemBase {
+    private Dashboard m_dashboard;
 
     /**
      * Represents the different states of the ball path
@@ -37,7 +38,9 @@ public class BallPath extends SubsystemBase {
     /**
      * Creates a new instance of the BallPath subsystem
      */
-    public BallPath() {
+    public BallPath(Dashboard dashboard) {
+        m_dashboard = dashboard;
+
         m_indexMotorTop = new CANSparkMax(Constants.CAN.INDEX_MOTOR_TOP_ID, MotorType.kBrushless);
         m_indexMotorTop.setInverted(true);
         m_indexMotorTop.setIdleMode(IdleMode.kBrake);
@@ -47,10 +50,15 @@ public class BallPath extends SubsystemBase {
         m_shooterSensor = new DigitalInput(Constants.DIO.SHOOTER_SENSOR_PORT);
 
         m_ballPathState = BallPathState.None;
+        m_ballCount = 1;
     }
 
     @Override
     public void periodic() {
+        m_dashboard.setBallCount(m_ballCount);
+        m_dashboard.setBallPathState(m_ballPathState);
+        m_dashboard.setEntranceSensorState(!m_entranceSensor.get());
+        m_dashboard.setMiddleSensorState(!m_middleSensor.get());
     }
 
     /**

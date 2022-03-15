@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Pickup extends SubsystemBase {
+    private Dashboard m_dashboard;
 
     /**
      * Represents the different possible states of the pickup
@@ -31,7 +32,9 @@ public class Pickup extends SubsystemBase {
     /**
      * Creates a new instance of the Pickup subsystem
      */
-    public Pickup() {
+    public Pickup(Dashboard dashboard) {
+        m_dashboard = dashboard;
+
         m_pickupMotor = new CANSparkMax(Constants.CAN.PICKUP_MOTOR_ID, MotorType.kBrushless);
         m_pickupMotor.setIdleMode(IdleMode.kCoast);
 
@@ -47,6 +50,7 @@ public class Pickup extends SubsystemBase {
 
     @Override
     public void periodic() {
+        m_dashboard.setPickupIsDeployed(m_pickupState == PickupState.Deployed);
     }
 
     /**

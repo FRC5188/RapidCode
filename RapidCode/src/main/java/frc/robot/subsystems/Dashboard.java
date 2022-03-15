@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.VideoSource;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -51,61 +52,70 @@ public class Dashboard extends SubsystemBase {
         m_autonomousChooser = new SendableChooser<Command>();
 
         dashboard.add("Autonomous Selector", m_autonomousChooser)
-                 .withPosition(13, 0)
-                 .withSize(12, 2)
+                 .withPosition(10, 0)
+                 .withSize(10, 2)
                  .withWidget(BuiltInWidgets.kComboBoxChooser);
 
         m_ballCount = 1;
         m_ballCountEntry = dashboard.add("Ball Count", m_ballCount)
-                                    .withPosition(25, 0)
-                                    .withSize(8, 8)
+                                    .withPosition(20, 0)
+                                    .withSize(6, 6)
                                     .withWidget(BuiltInWidgets.kDial)
                                     .withProperties(Map.of("Min", 0, "Max", 2, "Show value", true))
                                     .getEntry();
-         
-        ShuffleboardLayout ballPath = dashboard.getLayout("Ball Path Subsystem", BuiltInLayouts.kList)
-            .withPosition(33, 0)
-            .withSize(6, 9)
+        m_ballPathState = BallPathState.None.toString();
+        m_entranceSensorState = false;
+        m_middleSensorState = false;
+        m_shooterSensorState = false;
+        ShuffleboardLayout ballPath = Shuffleboard.getTab("Dashboard").getLayout("Ball Path Subsystem", BuiltInLayouts.kList)
+            .withPosition(26, 0)
+            .withSize(5, 7)
             .withProperties(Map.of("Label position", "BOTTOM"));
-        ballPath.add("Ball Path State", m_ballPathState).withWidget(BuiltInWidgets.kTextView).getEntry();
-        ballPath.add("Entrance Sensor", m_entranceSensorState).withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
-        ballPath.add("Middle Sensor", m_middleSensorState).withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
-        ballPath.add("Shooter Sensor", m_shooterSensorState).withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
+        m_ballPathStateEntry = ballPath.add("Ball Path State", m_ballPathState).withWidget(BuiltInWidgets.kTextView).getEntry();
+        m_entranceSensorStateEntry = ballPath.add("Entrance Sensor", m_entranceSensorState).withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
+        m_middleSensorStateEntry = ballPath.add("Middle Sensor", m_middleSensorState).withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
+        m_shooterSensorStateEntry = ballPath.add("Shooter Sensor", m_shooterSensorState).withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
 
         ShuffleboardLayout climber = dashboard.getLayout("Climber Subsystem", BuiltInLayouts.kList)
-            .withPosition(33, 10)
-            .withSize(6, 7)
+            .withPosition(26, 7)
+            .withSize(5, 7)
             .withProperties(Map.of("Label position", "BOTTOM"));
 
+        m_isDriveShifted = false;
         ShuffleboardLayout drivebase = dashboard.getLayout("Drivebase Subsystem", BuiltInLayouts.kList)
             .withPosition(0, 0)
-            .withSize(6, 10)
+            .withSize(5, 10)
             .withProperties(Map.of("Label position", "BOTTOM"));
 
         drivebase.add("Gyro", new AHRS());
-        drivebase.add("Shifter is Active", m_isDriveShifted).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Red", "Color when false", "Lime")).getEntry();
+        m_isDriveShiftedEntry = drivebase.add("Shifter is Active", m_isDriveShifted).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Lime", "Color when false", "Red")).getEntry();
 
+        m_pickupIsDeployed = false;
         ShuffleboardLayout pickup = dashboard.getLayout("Pickup Subsystem", BuiltInLayouts.kList)
-            .withPosition(0, 11)
-            .withSize(6, 4)
+            .withPosition(0, 10)
+            .withSize(5, 4)
             .withProperties(Map.of("Label position", "BOTTOM"));
 
-        pickup.add("Pickup is Deployed", m_pickupIsDeployed).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Red", "Color when false", "Lime")).getEntry();
+        m_pickupIsDeployedEntry = pickup.add("Pickup is Deployed", m_pickupIsDeployed).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Lime", "Color when false", "Red")).getEntry();
 
+        m_hasTarget = false;
+        m_distanceToTarget = 0;
+        m_readyToShoot = false;
         ShuffleboardLayout shooter = dashboard.getLayout("Shooter Subsystem", BuiltInLayouts.kList)
-            .withPosition(7, 0)
-            .withSize(6, 12)
+            .withPosition(5, 0)
+            .withSize(5, 10)
             .withProperties(Map.of("Label position", "BOTTOM"));
-        shooter.add("Has Target", m_hasTarget).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Red", "Color when false", "Lime")).getEntry();
-        shooter.add("Distance To Target", m_distanceToTarget).withWidget(BuiltInWidgets.kTextView).getEntry();
-        shooter.add("Ready To Shoot", m_readyToShoot).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Red", "Color when false", "Lime")).getEntry();
+        m_hasTargetEntry = shooter.add("Has Target", m_hasTarget).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Lime", "Color when false", "Red")).getEntry();
+        m_distanceToTargetEntry = shooter.add("Distance To Target", m_distanceToTarget).withWidget(BuiltInWidgets.kTextView).getEntry();
+        m_readyToShootEntry = shooter.add("Ready To Shoot", m_readyToShoot).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Lime", "Color when false", "Red")).getEntry();
+
+        //setCameraFeed(CameraServer.getVideo().getSource());
     }
 
     @Override
     public void periodic() {
         m_ballCountEntry.setValue(m_ballCount);
-
-        m_ballPathStateEntry.setString(m_ballPathState.toString());
+        m_ballPathStateEntry.setString(m_ballPathState);
         m_entranceSensorStateEntry.setBoolean(m_entranceSensorState);
         m_middleSensorStateEntry.setBoolean(m_middleSensorState);
         m_shooterSensorStateEntry.setBoolean(m_shooterSensorState);
@@ -131,7 +141,7 @@ public class Dashboard extends SubsystemBase {
         m_ballCount = count;
     }
 
-    public void setBallPathstate(BallPathState state) {
+    public void setBallPathState(BallPathState state) {
         m_ballPathState = state.toString();
     }
 

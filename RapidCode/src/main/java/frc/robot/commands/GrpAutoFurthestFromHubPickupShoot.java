@@ -11,14 +11,14 @@ import frc.robot.subsystems.BallPath;
 public class GrpAutoFurthestFromHubPickupShoot extends SequentialCommandGroup {
     // put any subsystems used in the auto routine in the parameters
     // you don't need any member level variables
-    public GrpAutoFurthestFromHubPickupShoot(Drive driveSubsystem, BallPath ballPathSubsystem, Pickup pickupSubsystem, Shooter shooterSubsystem, Vision visionSubsystem, ShooterLookupTable lookupTable) {
-        addCommands(
-            new CmdPickupDeploy(pickupSubsystem), 
-            new CmdDriveDistance(driveSubsystem, 40.44, .5, true), // Positive is towards the pickup side
-            new CmdDriveRotate(driveSubsystem, 180 + 4.3, 0.5, true), // 180 degrees + the angle between the perpendicular and the angle to the target, assuming clockwise is positive
-            new CmdShooterMoveToPosition(shooterSubsystem, visionSubsystem, lookupTable, 153),
-            new CmdShooterShoot(shooterSubsystem, ballPathSubsystem, lookupTable.getVelocityAtDistance(153)),
-            new CmdPickupStow(pickupSubsystem)
-        );
-    }
+    // public GrpAutoFurthestFromHubPickupShoot(Drive driveSubsystem, BallPath ballPathSubsystem, Pickup pickupSubsystem, Shooter shooterSubsystem, Vision visionSubsystem, ShooterLookupTable lookupTable) {
+    //     addCommands(
+    //         new CmdPickupDeploy(pickupSubsystem), 
+    //         new CmdDriveDistance(driveSubsystem, 40.44, .5, true), // Positive is towards the pickup side
+    //         new CmdDriveRotate(driveSubsystem, 180 + 4.3, 0.5, true), // 180 degrees + the angle between the perpendicular and the angle to the target, assuming clockwise is positive
+    //         new CmdShooterMoveToPosition(shooterSubsystem, visionSubsystem, lookupTable, 153),
+    //         new CmdShooterShoot(shooterSubsystem, ballPathSubsystem, lookupTable.getVelocityAtDistance(153)),
+    //         new CmdPickupStow(pickupSubsystem)
+    //     );
+    // }
 }

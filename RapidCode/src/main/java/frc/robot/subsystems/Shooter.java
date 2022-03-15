@@ -14,6 +14,8 @@ import frc.robot.Constants;
 
 
 public class Shooter extends SubsystemBase {
+    private Dashboard m_dashboard;
+
     private WPI_TalonFX m_flywheelTop;
     private WPI_TalonFX m_flywheelBottom;
     // Describe your objects better, aka don't call it hood, I don't know if its a motor or a sensor
@@ -33,7 +35,11 @@ public class Shooter extends SubsystemBase {
 
     private double m_shooterSpeed;
 
-    public Shooter() {
+    private boolean m_readyToShoot;
+
+    public Shooter(Dashboard dashboard) {
+        m_dashboard = dashboard;
+
         m_flywheelTop = new WPI_TalonFX(Constants.CAN.LEFT_FLYWHEEL_ID);
         m_flywheelBottom = new WPI_TalonFX(Constants.CAN.RIGHT_FLYWHEEL_ID);
         m_flywheelTop.setNeutralMode(NeutralMode.Coast);
@@ -68,10 +74,13 @@ public class Shooter extends SubsystemBase {
         m_turretSetpoint = 0;
 
         m_shooterSpeed = 0;
+
+        m_readyToShoot = false;
     }
 
     @Override
     public void periodic() {
+        m_dashboard.setReadyToShoot(m_readyToShoot);
     }
 
     public void setTopFlywheelSpeed(double speed){
@@ -167,5 +176,9 @@ public class Shooter extends SubsystemBase {
 
     public double getShooterSpeed() {
         return m_shooterSpeed;
+    }
+
+    public void setReadyToShoot(boolean ready) {
+        m_readyToShoot = ready;
     }
 }
