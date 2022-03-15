@@ -38,8 +38,9 @@ public class RobotContainer {
 
     private BallPath m_ballPathSubsystem = new BallPath(m_dashboard);
     private Drive m_driveSubsystem = new Drive(m_dashboard);
-    private Shooter m_shooterSubsystem = new Shooter(m_dashboard);
+    
     private Vision m_visionSubsystem = new Vision(m_dashboard);
+    private Shooter m_shooterSubsystem = new Shooter(m_dashboard, m_visionSubsystem);
     private ShooterLookupTable m_shooterLookupTable = new ShooterLookupTable();
     private Pickup m_pickupSubsystem = new Pickup(m_dashboard);
     private Climber m_climberSubsystem = new Climber();

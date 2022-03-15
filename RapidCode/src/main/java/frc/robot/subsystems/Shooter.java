@@ -37,11 +37,15 @@ public class Shooter extends SubsystemBase {
 
     private boolean m_readyToShoot;
 
+    private double m_count;
+
+    private Vision m_v;
+
     /**
      * Creates a new Shooter subsystem
      * @param dashboard the dashboard instance for the robot
      */
-    public Shooter(Dashboard dashboard) {
+    public Shooter(Dashboard dashboard, Vision v) {
         m_dashboard = dashboard;
 
         m_flywheelTop = new WPI_TalonFX(Constants.CAN.LEFT_FLYWHEEL_ID);
@@ -56,6 +60,7 @@ public class Shooter extends SubsystemBase {
 
         m_turretMotor = new CANSparkMax(Constants.CAN.TURRET_MOTOR_ID, MotorType.kBrushless);
         m_turretMotor.setIdleMode(IdleMode.kBrake);
+        m_turretMotor.set(0);
 
         m_acceleratorMotor = new CANSparkMax(Constants.CAN.ACCEL_MOTOR_ID, MotorType.kBrushless);
         m_acceleratorMotor.setIdleMode(IdleMode.kBrake); 
@@ -81,11 +86,20 @@ public class Shooter extends SubsystemBase {
         m_shooterSpeed = 0;
 
         m_readyToShoot = false;
+
+        m_count = 0;
+
+        m_v = v;
     }
 
     @Override
     public void periodic() {
         m_dashboard.setReadyToShoot(m_readyToShoot);
+
+        if (m_count % 25 == 0) {
+            System.out.println("Distance: " + m_v.getDistanceToTarget() + " Velocity: " + m_flywheelBottom.get() + " Hood Angle: " + getHoodPotentiometerAngle());
+
+        }
     }
     
     /**
