@@ -5,10 +5,10 @@ import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Pickup;
 import frc.robot.subsystems.Vision; // We'll use this later ;)
 
-public class GrpAutoExample extends SequentialCommandGroup {
+public class GrpDriveForward extends SequentialCommandGroup {
     // put any subsystems used in the auto routine in the parameters
     // you don't need any member level variables
-    public GrpAutoExample(Drive driveSubsystem, Pickup pickupSubsystem) {
+    public GrpDriveForward(Drive driveSubsystem, Pickup pickupSubsystem) {
         /**
          * Autonomous Mode Procedure Version 1
          * Purpose: It will drive from the tarmac, pick up one ball, and shoot two balls into the high goal.

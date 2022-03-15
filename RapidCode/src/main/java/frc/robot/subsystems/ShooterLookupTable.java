@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import java.util.HashMap;
 
+import frc.robot.Constants;
+
 public class ShooterLookupTable {
     private HashMap<Integer, double[]> m_lookupTable;
 
@@ -14,7 +16,7 @@ public class ShooterLookupTable {
         // Add entries here using this syntax
         // First is distance in feet, second is flywheel speed, last is hood angle
         // Below is an example
-        this.addEntry(10, 3000, 2600);
+        this.addEntry(10, 3000, 3200);
     }
     /**
      * Returns the velocity for the flywheel for the given distance in inches
@@ -22,7 +24,8 @@ public class ShooterLookupTable {
      * @return the velocity for the flywheel
      */
     public double getVelocityAtDistance(int distanceInInches) {
-        return m_lookupTable.get(roundDistance(distanceInInches))[0];
+        if (m_lookupTable.get(roundDistance(distanceInInches)) == null) return 0;
+        else return m_lookupTable.get(roundDistance(distanceInInches))[0];
     }
     /**
      * Returns the hood angle for the given distance in inches
@@ -30,7 +33,8 @@ public class ShooterLookupTable {
      * @return the hood angle
      */
     public double getAngleAtDistance(int distanceInInches) {
-        return m_lookupTable.get(roundDistance(distanceInInches))[1];
+        if (m_lookupTable.get(roundDistance(distanceInInches)) == null) return Constants.LOW_POT_STOP;
+        else return m_lookupTable.get(roundDistance(distanceInInches))[1];
     }
     /**
      * Rounds a distance in inches to feet, which is then used to get velocity and hood angle

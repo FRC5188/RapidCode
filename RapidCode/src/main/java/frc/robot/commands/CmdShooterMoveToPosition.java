@@ -34,10 +34,11 @@ public class CmdShooterMoveToPosition extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_shooterSubsystem.setHoodSpeed(0);
+        if (!interrupted && m_velocity != 0) m_shooterSubsystem.setReadyToShoot(true);
     }
 
     @Override
     public boolean isFinished() {
-        return m_shooterSubsystem.atHoodSetpoint();
+        return m_shooterSubsystem.atHoodSetpoint(); //&& m_shooterSubsystem.flywheelsAtSpeed();//Add in after testing
     }
 }

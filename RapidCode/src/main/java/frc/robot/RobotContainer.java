@@ -20,7 +20,9 @@ import frc.robot.commands.CmdClimberMove;
 import frc.robot.commands.CmdClimberSetCanMove;
 import frc.robot.commands.CmdShooterShoot;
 import frc.robot.commands.CmdTestUpdateSpeed;
-import frc.robot.commands.GrpAutoExample;
+import frc.robot.commands.GrpAutoClosestToHubPickupShoot;
+import frc.robot.commands.GrpDriveForward;
+import frc.robot.commands.GrpAutoFurthestFromHubPickupShoot;
 import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Dashboard;
@@ -61,6 +63,10 @@ public class RobotContainer {
     private JoystickButton m_operatorXButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.X_BUTTON);
 
     public RobotContainer() {
+        m_dashboard.setDefaultAuto("Drive Forward", new GrpDriveForward(m_driveSubsystem, m_pickupSubsystem));
+        m_dashboard.addAuto("2 Ball: Closest To Hub", new GrpAutoClosestToHubPickupShoot(m_driveSubsystem, m_ballPathSubsystem, m_pickupSubsystem, m_shooterSubsystem, m_visionSubsystem, m_shooterLookupTable));
+        m_dashboard.addAuto("2 Ball: Farthest From Hub", new GrpAutoFurthestFromHubPickupShoot(m_driveSubsystem, m_ballPathSubsystem, m_pickupSubsystem, m_shooterSubsystem, m_visionSubsystem, m_shooterLookupTable));
+
         configureButtonBindings();
     }
 
@@ -103,7 +109,8 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return new GrpAutoExample(m_driveSubsystem, m_pickupSubsystem);
+        return new GrpDriveForward(m_driveSubsystem, m_pickupSubsystem);
+        //return m_dashboard.getSelectedAutonomousCommand();
     }
 
     private double applyDeadband(double raw, double deadband) {

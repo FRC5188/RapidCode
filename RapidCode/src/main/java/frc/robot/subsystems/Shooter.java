@@ -35,6 +35,9 @@ public class Shooter extends SubsystemBase {
 
     private double m_shooterSpeed;
 
+    private double m_bottomFlywheelSpeedSetpoint;
+    private double m_topFlywheelSpeedSetpoint;
+
     private boolean m_readyToShoot;
 
     public Shooter(Dashboard dashboard) {
@@ -44,6 +47,7 @@ public class Shooter extends SubsystemBase {
         m_flywheelBottom = new WPI_TalonFX(Constants.CAN.RIGHT_FLYWHEEL_ID);
         m_flywheelTop.setNeutralMode(NeutralMode.Coast);
         m_flywheelBottom.setNeutralMode(NeutralMode.Coast);
+        m_flywheelBottom.setInverted(true);
         m_flywheelTop.setInverted(true);
 
         m_hoodMotor = new CANSparkMax(Constants.CAN.HOOD_MOTOR_ID, MotorType.kBrushless);
@@ -53,7 +57,7 @@ public class Shooter extends SubsystemBase {
         m_turretMotor.setIdleMode(IdleMode.kBrake);
 
         m_acceleratorMotor = new CANSparkMax(Constants.CAN.ACCEL_MOTOR_ID, MotorType.kBrushless);
-        m_acceleratorMotor.setIdleMode(IdleMode.kBrake); //Stops Immeditatly When Done
+        m_acceleratorMotor.setIdleMode(IdleMode.kBrake); 
         m_acceleratorMotor.setInverted(true);
 
         m_hoodPotentiometer = new AnalogInput(Constants.AIO.HOOD_POTENTIOMETER_PORT);
@@ -85,23 +89,38 @@ public class Shooter extends SubsystemBase {
 
     public void setTopFlywheelSpeed(double speed){
         m_flywheelTop.set(speed);
+        m_topFlywheelSpeedSetpoint = speed * 6000;
     }
 
     public void setBottomFlywheelSpeed(double speed){
         m_flywheelBottom.set(speed);
+        m_bottomFlywheelSpeedSetpoint = speed * 6000;
     }
 
     public double getBottomFlywheelSpeed() {
         return m_flywheelBottom.get();
     }
 
-    public double getFlywheelRPM(){
+    public double getTopFlywheelRPM(){
+        //units per 100ms, 2048 units per rotation
+        return m_flywheelTop.getSelectedSensorVelocity() * 600 * (1/2048.0);
+    } 
+
+    public double getBottomFlywheelRPM(){
         //units per 100ms, 2048 units per rotation
         return m_flywheelBottom.getSelectedSensorVelocity() * 600 * (1/2048.0);
     }   
 
-    public double getFlywheelSpeedSetpoint() {
-        return m_flywheelBottom.get() * 6000/*max RPM*/;
+    public double getTopFlywheelSpeedSetpoint() {
+        return m_topFlywheelSpeedSetpoint;
+    }
+
+    public double getBottomFlywheelSpeedSetpoint() {
+        return m_bottomFlywheelSpeedSetpoint;
+    }
+
+    public boolean flywheelsAtSpeed() {
+        return (getBottomFlywheelRPM() >= m_bottomFlywheelSpeedSetpoint - Constants.FLYWHEEL_SPEED_TOLERANCE) && (getTopFlywheelRPM() >= m_flywheelBottom.get() * 6000);
     }
 
     public void hoodPIDExecute() {

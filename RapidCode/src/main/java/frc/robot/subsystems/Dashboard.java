@@ -41,10 +41,11 @@ public class Dashboard extends SubsystemBase {
     private NetworkTableEntry m_hasTargetEntry;
     private NetworkTableEntry m_distanceToTargetEntry;
     private NetworkTableEntry m_readyToShootEntry;
+    private NetworkTableEntry m_moveSomewhereElseEntry;
     private boolean m_hasTarget;
     private int m_distanceToTarget;
     private boolean m_readyToShoot;
-    
+    private boolean m_moveSomewhereElse;
     
     public Dashboard() {
         ShuffleboardTab dashboard = Shuffleboard.getTab("Dashboard");
@@ -69,17 +70,17 @@ public class Dashboard extends SubsystemBase {
         m_shooterSensorState = false;
         ShuffleboardLayout ballPath = Shuffleboard.getTab("Dashboard").getLayout("Ball Path Subsystem", BuiltInLayouts.kList)
             .withPosition(26, 0)
-            .withSize(5, 7)
+            .withSize(5, 6)
             .withProperties(Map.of("Label position", "BOTTOM"));
         m_ballPathStateEntry = ballPath.add("Ball Path State", m_ballPathState).withWidget(BuiltInWidgets.kTextView).getEntry();
         m_entranceSensorStateEntry = ballPath.add("Entrance Sensor", m_entranceSensorState).withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
         m_middleSensorStateEntry = ballPath.add("Middle Sensor", m_middleSensorState).withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
-        m_shooterSensorStateEntry = ballPath.add("Shooter Sensor", m_shooterSensorState).withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
+        //m_shooterSensorStateEntry = ballPath.add("Shooter Sensor", m_shooterSensorState).withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
 
-        ShuffleboardLayout climber = dashboard.getLayout("Climber Subsystem", BuiltInLayouts.kList)
-            .withPosition(26, 7)
-            .withSize(5, 7)
-            .withProperties(Map.of("Label position", "BOTTOM"));
+        // ShuffleboardLayout climber = dashboard.getLayout("Climber Subsystem", BuiltInLayouts.kList)
+        //     .withPosition(26, 7)
+        //     .withSize(5, 7)
+        //     .withProperties(Map.of("Label position", "BOTTOM"));
 
         m_isDriveShifted = false;
         ShuffleboardLayout drivebase = dashboard.getLayout("Drivebase Subsystem", BuiltInLayouts.kList)
@@ -92,7 +93,7 @@ public class Dashboard extends SubsystemBase {
 
         m_pickupIsDeployed = false;
         ShuffleboardLayout pickup = dashboard.getLayout("Pickup Subsystem", BuiltInLayouts.kList)
-            .withPosition(0, 10)
+            .withPosition(26, 6)
             .withSize(5, 4)
             .withProperties(Map.of("Label position", "BOTTOM"));
 
@@ -106,8 +107,9 @@ public class Dashboard extends SubsystemBase {
             .withSize(5, 10)
             .withProperties(Map.of("Label position", "BOTTOM"));
         m_hasTargetEntry = shooter.add("Has Target", m_hasTarget).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Lime", "Color when false", "Red")).getEntry();
-        m_distanceToTargetEntry = shooter.add("Distance To Target", m_distanceToTarget).withWidget(BuiltInWidgets.kTextView).getEntry();
+        m_moveSomewhereElseEntry = shooter.add("Move Somewhere Else", m_moveSomewhereElse).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Purple", "Color when false", "Black")).getEntry();
         m_readyToShootEntry = shooter.add("Ready To Shoot", m_readyToShoot).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Lime", "Color when false", "Red")).getEntry();
+        m_distanceToTargetEntry = shooter.add("Distance To Target", m_distanceToTarget).withWidget(BuiltInWidgets.kTextView).getEntry();
 
         //setCameraFeed(CameraServer.getVideo().getSource());
     }
@@ -118,7 +120,7 @@ public class Dashboard extends SubsystemBase {
         m_ballPathStateEntry.setString(m_ballPathState);
         m_entranceSensorStateEntry.setBoolean(m_entranceSensorState);
         m_middleSensorStateEntry.setBoolean(m_middleSensorState);
-        m_shooterSensorStateEntry.setBoolean(m_shooterSensorState);
+        //m_shooterSensorStateEntry.setBoolean(m_shooterSensorState);
 
         m_isDriveShiftedEntry.setBoolean(m_isDriveShifted);
 
@@ -131,6 +133,14 @@ public class Dashboard extends SubsystemBase {
 
     public void addAuto(String name, Command command) {
         m_autonomousChooser.addOption(name, command);
+    }
+
+    public Command getSelectedAutonomousCommand() {
+        return m_autonomousChooser.getSelected();
+    }
+
+    public void setDefaultAuto(String name, Command command) {
+        m_autonomousChooser.setDefaultOption(name, command);
     }
 
     public void setCameraFeed(VideoSource cameraFeed) {
@@ -175,5 +185,9 @@ public class Dashboard extends SubsystemBase {
 
     public void setReadyToShoot(boolean ready) {
         m_readyToShoot = ready;
+    }
+
+    public void setMoveSomewhereElse(boolean move) {
+        m_moveSomewhereElse = move;
     }
 }
