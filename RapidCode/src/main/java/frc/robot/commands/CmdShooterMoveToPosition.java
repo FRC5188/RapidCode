@@ -20,14 +20,13 @@ public class CmdShooterMoveToPosition extends CommandBase {
     @Override
     public void initialize() {
         m_shooterSubsystem.setHoodSetPoint(m_hoodAngle);
-        m_shooterSubsystem.setTopFlywheelSpeed(m_velocity);
-        m_shooterSubsystem.setBottomFlywheelSpeed(m_velocity);
     }
 
     @Override
     public void execute() {
         //System.out.println(m_shooterSubsystem.getHoodSetPoint() - m_shooterSubsystem.getHoodPotentiometerAngle());
-        System.out.println(m_shooterSubsystem.getHoodPotentiometerAngle());
+        m_shooterSubsystem.setTopFlywheelSpeed(m_velocity);
+        m_shooterSubsystem.setBottomFlywheelSpeed(m_velocity);
         m_shooterSubsystem.hoodPIDExecute();
     }
 

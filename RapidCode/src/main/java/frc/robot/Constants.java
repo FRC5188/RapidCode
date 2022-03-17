@@ -18,14 +18,18 @@ public final class Constants {
     public static final double BALL_PATH_SHOOTING_SPEED = 0.5;
 
     public static final int FALCON_MAX_RPM = 6000;
-    public static final int FLYWHEEL_SPEED_TOLERANCE = 100;
+    public static final int FLYWHEEL_SPEED_TOLERANCE = 450;
 
     public static final double CAMERA_HEIGHT_INCHES = 38.375;  //Check this value
     public static final double TARGET_HEIGHT_INCHES = 102.625;
     public static final double CAMERA_PITCH_DEGREES = 38;
 
-    public static final int LOW_POT_STOP = 2980;
+    public static final int LOW_POT_STOP = 2200;
+    
     public static final int HIGH_POT_STOP = LOW_POT_STOP + 600;
+
+    public static final int BACK_OF_FENDER_DISTANCE = 5;
+    public static final int FRONT_OF_FENDER_DISTANCE = 0;
 
     public final class PID {
 
@@ -34,10 +38,10 @@ public final class Constants {
         public static final double DRIVE_DERIVATIVE_COMPETITION    = 0.005;
         public static final double DRIVE_TOLERANCE_COMPETITION     = 1.0;
 
-        public static final double ROTATE_PROPORTIONAL_COMPETITION = 0.01;
-        public static final double ROTATE_INTEGRAL_COMPETITION     = 0.005;
-        public static final double ROTATE_DERIVATIVE_COMPETITION   = 0.04;
-        public static final double ROTATE_TOLERANCE_COMPETITION    = 1.0;
+        public static final double ROTATE_PROPORTIONAL_COMPETITION = 0.014;
+        public static final double ROTATE_INTEGRAL_COMPETITION     = 0.0001;
+        public static final double ROTATE_DERIVATIVE_COMPETITION   = 0.004;
+        public static final double ROTATE_TOLERANCE_COMPETITION    = 2.0;
 
         public static final double HOOD_PROPORTIONAL = 0.003;
         public static final double HOOD_INTEGRAL = 0.0005;

@@ -16,7 +16,7 @@ public class GrpAutoFurthestFromHubPickupShoot extends SequentialCommandGroup {
             new CmdPickupDeploy(pickupSubsystem, ballPathSubsystem), 
             new CmdDriveDistance(driveSubsystem, 40.44, 0.5, true), // Positive is towards the pickup side
             new CmdDriveRotate(driveSubsystem, 189.45, 0.5, true), // 180 degrees + the angle between the perpendicular and the angle to the target, assuming clockwise is positive
-            new GrpShoot(shooterSubsystem, visionSubsystem, ballPathSubsystem, lookupTable),
+            new GrpShootWithVision(shooterSubsystem, visionSubsystem, ballPathSubsystem, lookupTable),
             new CmdPickupStow(pickupSubsystem)
         );
     }

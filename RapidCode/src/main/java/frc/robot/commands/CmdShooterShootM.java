@@ -6,35 +6,27 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShooterLookupTable;
 import frc.robot.subsystems.BallPath.BallPathState;
 
-public class CmdShooterShoot extends CommandBase {
+public class CmdShooterShootM extends CommandBase {
     Shooter m_shooterSubsystem;
     BallPath m_ballPathSubsystem;
-    ShooterLookupTable m_lookupTable;
-    private double m_velocity;
-    private double m_angle;
 
-    public CmdShooterShoot(Shooter shooterSubsystem, BallPath ballPathSubsystem, ShooterLookupTable lookupTable, int distanceInInches) {
+    public CmdShooterShootM(Shooter shooterSubsystem, BallPath ballPathSubsystem) {
         m_shooterSubsystem = shooterSubsystem;
         m_ballPathSubsystem = ballPathSubsystem;
-        m_lookupTable = lookupTable;
-
-        m_velocity = lookupTable.getVelocityAtDistance(distanceInInches);
-        m_angle = lookupTable.getAngleAtDistance(distanceInInches);
     }
 
     @Override
     public void initialize() {
         m_ballPathSubsystem.setBallPathState(BallPathState.Shooting);
-        m_shooterSubsystem.setHoodSetPoint(m_angle);
+        m_shooterSubsystem.setHoodSetPoint(m_shooterSubsystem.getHoodPotentiometerAngle());
     }
 
     @Override
     public void execute() {
-        m_shooterSubsystem.hoodPIDExecute();
         m_shooterSubsystem.setAcceleratorSpeed(0.4);
-        m_shooterSubsystem.setTopFlywheelSpeed(m_velocity);
-        m_shooterSubsystem.setBottomFlywheelSpeed(m_velocity);
-        System.out.println(m_shooterSubsystem.getTopFlywheelSpeedSetpoint() / 6000);
+        m_shooterSubsystem.hoodPIDExecute();
+        m_shooterSubsystem.setTopFlywheelSpeed(m_shooterSubsystem.getShooterSpeed());
+        m_shooterSubsystem.setBottomFlywheelSpeed(m_shooterSubsystem.getShooterSpeed());
     }
 
     @Override

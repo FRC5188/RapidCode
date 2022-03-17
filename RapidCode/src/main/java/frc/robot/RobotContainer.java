@@ -19,9 +19,11 @@ import frc.robot.commands.CmdBallPathManual;
 import frc.robot.commands.CmdClimberMove;
 import frc.robot.commands.CmdClimberSetCanMove;
 import frc.robot.commands.CmdShooterShoot;
+import frc.robot.commands.CmdShooterShootM;
 import frc.robot.commands.CmdTestUpdateSpeed;
 import frc.robot.commands.GrpAutoClosestToHubPickupShoot;
 import frc.robot.commands.GrpDriveForward;
+import frc.robot.commands.GrpShootWithoutVision;
 import frc.robot.commands.GrpAutoFurthestFromHubPickupShoot;
 import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Climber;
@@ -72,30 +74,28 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        CmdShooterShoot shootingCommand = new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem);
+        CmdShooterShootM shootingCommand = new CmdShooterShootM(m_shooterSubsystem, m_ballPathSubsystem);
 
         m_driveRBButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
         m_driveRBButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
 
-        m_driveLBButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, 120));
-
-        m_driveAButton.whenPressed(new CmdTestUpdateSpeed(m_shooterSubsystem, -0.05));
-        m_driveYButton.whenPressed(new CmdTestUpdateSpeed(m_shooterSubsystem, 0.05));
+        m_driveAButton.whenPressed(new GrpShootWithoutVision(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, Constants.FRONT_OF_FENDER_DISTANCE));
+        m_driveYButton.whenPressed(new GrpShootWithoutVision(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, Constants.BACK_OF_FENDER_DISTANCE));
         m_driveXButton.whenPressed(shootingCommand);
         m_driveBButton.cancelWhenPressed(shootingCommand);
 
         m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem, m_pickupSubsystem));
-        // m_climberSubsystem.setDefaultCommand(new CmdClimberMove(m_climberSubsystem, () -> applyDeadband(m_operatorController.getLeftY(), 0.025)));
+        m_climberSubsystem.setDefaultCommand(new CmdClimberMove(m_climberSubsystem, () -> applyDeadband(m_operatorController.getLeftY(), 0.025)));
 
-        // m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
-        //                                                         () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
-        //                                                         () -> applyDeadband(0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
+        m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
+                                                                () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
+                                                                () -> applyDeadband(0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
 
         m_pickupSubsystem.setDefaultCommand(new CmdPickupDefault(m_pickupSubsystem, m_ballPathSubsystem));
 
-        m_shooterSubsystem.setDefaultCommand(new CmdShooterManual(m_shooterSubsystem, 
-                                                                  () -> applyDeadband(m_driveController.getRightX(), 0.025), 
-                                                                  () -> applyDeadband(-m_driveController.getLeftY(), 0.025)));
+        // m_shooterSubsystem.setDefaultCommand(new CmdShooterManual(m_shooterSubsystem, 
+        //                                                           () -> applyDeadband(m_driveController.getRightX(), 0.025), 
+        //                                                           () -> applyDeadband(-m_driveController.getLeftY(), 0.025)));
 
        
         m_operatorBButton.whenPressed(new CmdClimberSetCanMove(m_climberSubsystem, true));

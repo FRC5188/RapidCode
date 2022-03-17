@@ -23,8 +23,9 @@ public class GrpDriveForward extends SequentialCommandGroup {
             picked up. 
             */
             // new CmdPickupDeploy(pickupSubsystem), // Engages the grabber at the front of the robot. 
-            new CmdDriveDistance(driveSubsystem, 45, .5, true) /* Drives 99 Inches torward the ball, we plan on adding code which will check if a ball
-            has been passed in. */
+            // new CmdDriveDistance(driveSubsystem, 45, .5, true) /* Drives 99 Inches torward the ball, we plan on adding code which will check if a ball
+            // has been passed in. */
+            new CmdDriveRotate(driveSubsystem, 180, 0.4, true)
             // new CmdDriveRotate(driveSubsystem, 180, true), // Turns the robot 180 degrees. 
             // new CmdPickupStow(pickupSubsystem) // Stop the grabby grabby thing
         );

@@ -52,8 +52,8 @@ public class Shooter extends SubsystemBase {
         m_flywheelBottom = new WPI_TalonFX(Constants.CAN.RIGHT_FLYWHEEL_ID);
         m_flywheelTop.setNeutralMode(NeutralMode.Coast);
         m_flywheelBottom.setNeutralMode(NeutralMode.Coast);
-        m_flywheelBottom.setInverted(true);
-        m_flywheelTop.setInverted(true);
+        // m_flywheelBottom.setInverted(true);
+        // m_flywheelTop.setInverted(true);
 
         m_hoodMotor = new CANSparkMax(Constants.CAN.HOOD_MOTOR_ID, MotorType.kBrushless);
         m_hoodMotor.setIdleMode(IdleMode.kBrake);
@@ -95,9 +95,10 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic() {
         m_dashboard.setReadyToShoot(m_readyToShoot);
+        //System.out.println("Real: " + getBottomFlywheelRPM() + " Setpoint: " + (m_bottomFlywheelSpeedSetpoint - Constants.FLYWHEEL_SPEED_TOLERANCE));
 
         if (m_count % 25 == 0) {
-            System.out.println("Distance: " + m_v.getDistanceToTarget() + " Velocity: " + m_flywheelBottom.get() + " Hood Angle: " + getHoodPotentiometerAngle());
+            //System.out.println("Distance: " + m_v.getDistanceToTarget() + " Velocity: " + m_flywheelBottom.get() + " Hood Angle: " + getHoodPotentiometerAngle());
 
         }
     }
@@ -167,7 +168,7 @@ public class Shooter extends SubsystemBase {
      * @return true if the flywheels are at speed. False if not
      */
     public boolean flywheelsAtSpeed() {
-        return (getBottomFlywheelRPM() >= m_bottomFlywheelSpeedSetpoint - Constants.FLYWHEEL_SPEED_TOLERANCE) && (getTopFlywheelRPM() >= m_flywheelBottom.get() * 6000);
+        return (getBottomFlywheelRPM() >= m_bottomFlywheelSpeedSetpoint - Constants.FLYWHEEL_SPEED_TOLERANCE) && (getTopFlywheelRPM() >= m_topFlywheelSpeedSetpoint - Constants.FLYWHEEL_SPEED_TOLERANCE);
     }
 
     /**
@@ -175,7 +176,6 @@ public class Shooter extends SubsystemBase {
      */
     public void hoodPIDExecute() {
         setHoodSpeed(m_hoodPID.calculate(m_hoodPotentiometer.getAverageValue()) * Constants.PID.HOOD_MAX_SPEED);
-        System.out.println(m_hoodPID.calculate(m_hoodPotentiometer.getAverageValue(), m_hoodSetpoint) * Constants.PID.HOOD_MAX_SPEED);
     }
 
     /**

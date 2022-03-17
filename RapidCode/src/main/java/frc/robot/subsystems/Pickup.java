@@ -80,8 +80,8 @@ public class Pickup extends SubsystemBase {
             case Deployed:
                 m_pickupLeftSolenoid.set(true);
                 m_pickupRightSolenoid.set(true);
-                m_pickupMotor.set(0.5);
-                m_indexMotorBottom.set(0.5);
+                m_pickupMotor.set(0.6);
+                m_indexMotorBottom.set(0.6);
                 break;
             case Retracted:
                 m_pickupLeftSolenoid.set(false);

@@ -17,12 +17,14 @@ public class Climber extends SubsystemBase {
     public Climber() {
         m_climberRight = new WPI_TalonFX(Constants.CAN.CLIMBER_MOTOR_ID_RIGHT);
         m_climberLeft = new WPI_TalonFX(Constants.CAN.CLIMBER_MOTOR_ID_LEFT);
-
+        m_climberRight.setInverted(true);
+        m_climberLeft.setInverted(true);
         m_canMove = false;
     }
 
     @Override
     public void periodic() {
+        //System.out.println("Can Move: " + m_canMove + " Speed: " + m_climberLeft.get());
     }
 
     public boolean getCanMove() {
@@ -31,7 +33,7 @@ public class Climber extends SubsystemBase {
 
     public void setClimberSpeed(double speed) {
         m_climberLeft.set(speed);
-        m_climberRight.set(speed);
+        //m_climberRight.set(speed);
     }
 
     public void setCanMove(boolean canMove) {
