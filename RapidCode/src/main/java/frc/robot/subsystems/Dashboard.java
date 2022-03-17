@@ -189,5 +189,6 @@ public class Dashboard extends SubsystemBase {
 
     public void setMoveSomewhereElse(boolean move) {
         m_moveSomewhereElse = move;
+        
     }
 }
