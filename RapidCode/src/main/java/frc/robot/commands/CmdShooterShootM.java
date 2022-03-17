@@ -31,12 +31,12 @@ public class CmdShooterShootM extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        m_shooterSubsystem.setTopFlywheelSpeed(0);
-        m_shooterSubsystem.setBottomFlywheelSpeed(0);
-        m_shooterSubsystem.setAcceleratorSpeed(0);
-        m_ballPathSubsystem.setBallPathState(BallPathState.Stopped);
-        m_ballPathSubsystem.resetBallCount();
-        m_shooterSubsystem.setReadyToShoot(false);
+      m_shooterSubsystem.setTopFlywheelSpeed(0);
+      m_shooterSubsystem.setBottomFlywheelSpeed(0);
+      m_shooterSubsystem.setAcceleratorSpeed(0);
+      m_ballPathSubsystem.setBallPathState(BallPathState.Stopped);
+      m_ballPathSubsystem.resetBallCount();
+      m_shooterSubsystem.setReadyToShoot(false);
     }
 
     @Override

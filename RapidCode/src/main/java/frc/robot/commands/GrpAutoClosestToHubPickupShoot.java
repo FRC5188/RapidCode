@@ -9,8 +9,6 @@ import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.BallPath;
 
 public class GrpAutoClosestToHubPickupShoot extends SequentialCommandGroup {
-    // put any subsystems used in the auto routine in the parameters
-    // you don't need any member level variables
     public GrpAutoClosestToHubPickupShoot(Drive driveSubsystem, BallPath ballPathSubsystem, Pickup pickupSubsystem, Shooter shooterSubsystem, Vision visionSubsystem, ShooterLookupTable lookupTable) {
         addCommands(
             new CmdPickupDeploy(pickupSubsystem, ballPathSubsystem), 

@@ -1,8 +1,5 @@
 package frc.robot;
 
-import com.revrobotics.EncoderType;
-
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -11,16 +8,11 @@ import frc.robot.commands.CmdDriveSetShifter;
 import frc.robot.commands.CmdPickupDefault;
 import frc.robot.commands.CmdPickupDeploy;
 import frc.robot.commands.CmdPickupStow;
-import frc.robot.commands.CmdShooterManual;
-import frc.robot.commands.CmdShooterMoveToPosition;
 import frc.robot.commands.CmdBallPathChangeBallCount;
 import frc.robot.commands.CmdBallPathDefault;
-import frc.robot.commands.CmdBallPathManual;
 import frc.robot.commands.CmdClimberMove;
 import frc.robot.commands.CmdClimberSetCanMove;
-import frc.robot.commands.CmdShooterShoot;
-import frc.robot.commands.CmdShooterShootM;
-import frc.robot.commands.CmdTestUpdateSpeed;
+import frc.robot.commands.CmdShooterStopShooting;
 import frc.robot.commands.GrpAutoClosestToHubPickupShoot;
 import frc.robot.commands.GrpDriveForward;
 import frc.robot.commands.GrpShootWithoutVision;
@@ -74,16 +66,6 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        CmdShooterShootM shootingCommand = new CmdShooterShootM(m_shooterSubsystem, m_ballPathSubsystem);
-
-        m_driveRBButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
-        m_driveRBButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
-
-        m_driveAButton.whenPressed(new GrpShootWithoutVision(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, Constants.FRONT_OF_FENDER_DISTANCE));
-        m_driveYButton.whenPressed(new GrpShootWithoutVision(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, Constants.BACK_OF_FENDER_DISTANCE));
-        m_driveXButton.whenPressed(shootingCommand);
-        m_driveBButton.cancelWhenPressed(shootingCommand);
-
         m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem, m_pickupSubsystem));
         m_climberSubsystem.setDefaultCommand(new CmdClimberMove(m_climberSubsystem, () -> applyDeadband(m_operatorController.getLeftY(), 0.025)));
 
@@ -97,21 +79,27 @@ public class RobotContainer {
         //                                                           () -> applyDeadband(m_driveController.getRightX(), 0.025), 
         //                                                           () -> applyDeadband(-m_driveController.getLeftY(), 0.025)));
 
-       
+        // Driver Controls
+        m_driveAButton.whenPressed(new GrpShootWithoutVision(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, Constants.FRONT_OF_FENDER_DISTANCE));
+        m_driveAButton.whenReleased(new CmdShooterStopShooting(m_shooterSubsystem, m_ballPathSubsystem));
+        m_driveYButton.whenPressed(new GrpShootWithoutVision(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, Constants.BACK_OF_FENDER_DISTANCE));
+        m_driveYButton.whenReleased(new CmdShooterStopShooting(m_shooterSubsystem, m_ballPathSubsystem));
+        m_driveRBButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
+        m_driveRBButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
+        // m_driveXButton.whenPressed(shootingCommand);
+        // m_driveBButton.cancelWhenPressed(shootingCommand);
+
+        // Operator Controls
         m_operatorBButton.whenPressed(new CmdClimberSetCanMove(m_climberSubsystem, true));
         m_operatorBButton.whenReleased(new CmdClimberSetCanMove(m_climberSubsystem, false));
-
-        //m_operatorAButton.whenPressed(new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, hoodAngle, shooterSpeed));
-        m_operatorRBButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, true)); // When RB Button Pressed increments ball count.
-        m_operatorLBButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, false)); // When LB Button Pressed decrements ball count
-
         m_operatorAButton.whenPressed(new CmdPickupDeploy(m_pickupSubsystem, m_ballPathSubsystem));
         m_operatorYButton.whenPressed(new CmdPickupStow(m_pickupSubsystem));
+        m_operatorRBButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, true)); // When RB Button Pressed increments ball count.
+        m_operatorLBButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, false)); // When LB Button Pressed decrements ball count
     }
 
     public Command getAutonomousCommand() {
-        return new GrpDriveForward(m_driveSubsystem, m_pickupSubsystem);
-        //return m_dashboard.getSelectedAutonomousCommand();
+        return m_dashboard.getSelectedAutonomousCommand();
     }
 
     private double applyDeadband(double raw, double deadband) {
