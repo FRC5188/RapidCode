@@ -15,7 +15,7 @@ public final class Constants {
 
     public static final double BALL_PATH_LOADING_SPEED = 0.5;
     public static final double BALL_PATH_POSITION_SPEED = 0.35;
-    public static final double BALL_PATH_SHOOTING_SPEED = 0.5;
+    public static final double BALL_PATH_SHOOTING_SPEED = 0.3;
 
     public static final int FALCON_MAX_RPM = 6000;
     public static final int FLYWHEEL_SPEED_TOLERANCE = 450;
@@ -30,6 +30,8 @@ public final class Constants {
 
     public static final int BACK_OF_FENDER_DISTANCE = 5;
     public static final int FRONT_OF_FENDER_DISTANCE = 0;
+
+    public static final double CLIMBER_ENCODER_MAX = 100;
 
     public final class PID {
 
@@ -90,7 +92,7 @@ public final class Constants {
         public static final int LEFT_FLYWHEEL_ID = 7;
         public static final int RIGHT_FLYWHEEL_ID = 8;
         public static final int HOOD_MOTOR_ID = 21; //Temp need to change
-        public static final int ACCEL_MOTOR_ID = 22; //Temp need to change
+        public static final int ACCEL_MOTOR_ID = 10; //Temp need to change
         public static final int TURRET_MOTOR_ID = 15;
         
         public static final int PICKUP_MOTOR_ID = 11;
@@ -125,10 +127,10 @@ public final class Constants {
          * Name example: public static final int PICKUP_SOLENOID = 0 (name what solenoid
          * does and end with solenoid)
          */
-        public static final int DRIVE_LEFT_SOLENOID = 9;
-        public static final int DRIVE_RIGHT_SOLENOID = 8;
-        public static final int PICKUP_LEFT_SOLENOID = 10;
-        public static final int PICKUP_RIGHT_SOLENOID = 11;
+        public static final int DRIVE_LEFT_SOLENOID = 1;
+        public static final int DRIVE_RIGHT_SOLENOID = 0;
+        public static final int PICKUP_LEFT_SOLENOID = 2;
+        public static final int PICKUP_RIGHT_SOLENOID = 3;
     }
 
     public final class ButtonMappings {

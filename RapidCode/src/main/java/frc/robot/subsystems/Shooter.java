@@ -96,7 +96,6 @@ public class Shooter extends SubsystemBase {
     public void periodic() {
         m_dashboard.setReadyToShoot(m_readyToShoot);
         //System.out.println("Real: " + getBottomFlywheelRPM() + " Setpoint: " + (m_bottomFlywheelSpeedSetpoint - Constants.FLYWHEEL_SPEED_TOLERANCE));
-
         if (m_count % 25 == 0) {
             //System.out.println("Distance: " + m_v.getDistanceToTarget() + " Velocity: " + m_flywheelBottom.get() + " Hood Angle: " + getHoodPotentiometerAngle());
 

@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShooterLookupTable;
@@ -20,21 +21,23 @@ public class CmdShooterShoot extends CommandBase {
 
         m_velocity = lookupTable.getVelocityAtDistance(distanceInInches);
         m_angle = lookupTable.getAngleAtDistance(distanceInInches);
+
+        addRequirements(ballPathSubsystem);
     }
 
     @Override
     public void initialize() {
         m_ballPathSubsystem.setBallPathState(BallPathState.Shooting);
-        m_shooterSubsystem.setHoodSetPoint(m_angle);
+        // m_shooterSubsystem.setHoodSetPoint(m_angle);
     }
 
     @Override
     public void execute() {
-        m_shooterSubsystem.hoodPIDExecute();
+        //m_shooterSubsystem.hoodPIDExecute();
+        m_ballPathSubsystem.setMotorSpeed(Constants.BALL_PATH_SHOOTING_SPEED);
         m_shooterSubsystem.setAcceleratorSpeed(0.4);
         m_shooterSubsystem.setTopFlywheelSpeed(m_velocity);
         m_shooterSubsystem.setBottomFlywheelSpeed(m_velocity);
-        System.out.println(m_shooterSubsystem.getTopFlywheelSpeedSetpoint() / 6000);
     }
 
     @Override
@@ -45,6 +48,7 @@ public class CmdShooterShoot extends CommandBase {
         m_ballPathSubsystem.setBallPathState(BallPathState.Stopped);
         m_ballPathSubsystem.resetBallCount();
         m_shooterSubsystem.setReadyToShoot(false);
+        System.out.println("DONE SHOOTING");
     }
 
     @Override

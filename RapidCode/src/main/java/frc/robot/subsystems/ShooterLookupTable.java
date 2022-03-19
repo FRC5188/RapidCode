@@ -18,12 +18,12 @@ public class ShooterLookupTable {
         // Below is an example
         // !!EVERY ANGLE FOR THE HOOD MUST BE RELATIVE TO THE LOW POT STOP!!
         // This is done so that if the sensor has to be realigned, all of this data can still be accurate
-        this.addEntry(Constants.FRONT_OF_FENDER_DISTANCE, 0.42, Constants.LOW_POT_STOP + 57);
+        this.addEntry(Constants.FRONT_OF_FENDER_DISTANCE, 0.40, Constants.LOW_POT_STOP + 57);
         this.addEntry(1, 0.42, Constants.LOW_POT_STOP + 57);
         this.addEntry(2, 0.42, Constants.LOW_POT_STOP + 57);
         this.addEntry(3, 0.42, Constants.LOW_POT_STOP + 57);
         this.addEntry(4, 0.47, Constants.LOW_POT_STOP + 200);
-        this.addEntry(Constants.BACK_OF_FENDER_DISTANCE, 0.47, Constants.LOW_POT_STOP + 160);
+        this.addEntry(Constants.BACK_OF_FENDER_DISTANCE, 0.40, Constants.LOW_POT_STOP + 160);
         this.addEntry(6, 0.44, Constants.LOW_POT_STOP + 260);
         this.addEntry(7, 0.45, Constants.LOW_POT_STOP + 200);
         this.addEntry(8, 0.46, Constants.LOW_POT_STOP + 230);

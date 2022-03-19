@@ -46,6 +46,8 @@ public class CmdBallPathDefault extends CommandBase {
                 m_ballPathSubsystem.setMotorSpeed(0);
                 break;
             case None:
+                // Need motors to not be running in this state
+                m_ballPathSubsystem.setMotorSpeed(0);
             default:
                 break;
         }

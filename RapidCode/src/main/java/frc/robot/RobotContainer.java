@@ -16,7 +16,7 @@ import frc.robot.commands.CmdShooterStopShooting;
 import frc.robot.commands.GrpAutoClosestToHubPickupShoot;
 import frc.robot.commands.GrpDriveForward;
 import frc.robot.commands.GrpShootWithoutVision;
-import frc.robot.commands.GrpAutoFurthestFromHubPickupShoot;
+import frc.robot.commands.GrpAutoFenderAndTaxi;
 import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Dashboard;
@@ -59,15 +59,18 @@ public class RobotContainer {
 
     public RobotContainer() {
         m_dashboard.setDefaultAuto("Drive Forward", new GrpDriveForward(m_driveSubsystem, m_pickupSubsystem));
-        m_dashboard.addAuto("2 Ball: Closest To Hub", new GrpAutoClosestToHubPickupShoot(m_driveSubsystem, m_ballPathSubsystem, m_pickupSubsystem, m_shooterSubsystem, m_visionSubsystem, m_shooterLookupTable));
-        m_dashboard.addAuto("2 Ball: Farthest From Hub", new GrpAutoFurthestFromHubPickupShoot(m_driveSubsystem, m_ballPathSubsystem, m_pickupSubsystem, m_shooterSubsystem, m_visionSubsystem, m_shooterLookupTable));
+        //m_dashboard.addAuto("2 Ball: Closest To Hub", new GrpAutoClosestToHubPickupShoot(m_driveSubsystem, m_ballPathSubsystem, m_pickupSubsystem, m_shooterSubsystem, m_visionSubsystem, m_shooterLookupTable));
+        m_dashboard.addAuto("1 Ball: On Fender", new GrpAutoFenderAndTaxi(m_driveSubsystem, m_ballPathSubsystem, m_pickupSubsystem, m_shooterSubsystem, m_visionSubsystem, m_shooterLookupTable));
 
         configureButtonBindings();
     }
 
     private void configureButtonBindings() {
+        GrpShootWithoutVision closeShot = new GrpShootWithoutVision(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, Constants.FRONT_OF_FENDER_DISTANCE);
+        GrpShootWithoutVision farShot = new GrpShootWithoutVision(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, Constants.BACK_OF_FENDER_DISTANCE);
+
         m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem, m_pickupSubsystem));
-        m_climberSubsystem.setDefaultCommand(new CmdClimberMove(m_climberSubsystem, () -> applyDeadband(m_operatorController.getLeftY(), 0.025)));
+        m_climberSubsystem.setDefaultCommand(new CmdClimberMove(m_climberSubsystem, () -> applyDeadband(m_operatorController.getLeftY(), 0.025), () -> applyDeadband(m_operatorController.getRightY(), 0.025)));
 
         m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
                                                                 () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
@@ -80,22 +83,22 @@ public class RobotContainer {
         //                                                           () -> applyDeadband(-m_driveController.getLeftY(), 0.025)));
 
         // Driver Controls
-        m_driveAButton.whenPressed(new GrpShootWithoutVision(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, Constants.FRONT_OF_FENDER_DISTANCE));
-        m_driveAButton.whenReleased(new CmdShooterStopShooting(m_shooterSubsystem, m_ballPathSubsystem));
-        m_driveYButton.whenPressed(new GrpShootWithoutVision(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, Constants.BACK_OF_FENDER_DISTANCE));
-        m_driveYButton.whenReleased(new CmdShooterStopShooting(m_shooterSubsystem, m_ballPathSubsystem));
+        m_driveAButton.whenPressed(closeShot);
+        m_driveAButton.whenReleased(new CmdShooterStopShooting(m_shooterSubsystem, m_ballPathSubsystem, closeShot));
+        // m_driveYButton.whenPressed(farShot);
+        // m_driveYButton.whenReleased(new CmdShooterStopShooting(m_shooterSubsystem, m_ballPathSubsystem, farShot));
         m_driveRBButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
         m_driveRBButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
         // m_driveXButton.whenPressed(shootingCommand);
         // m_driveBButton.cancelWhenPressed(shootingCommand);
 
         // Operator Controls
-        m_operatorBButton.whenPressed(new CmdClimberSetCanMove(m_climberSubsystem, true));
-        m_operatorBButton.whenReleased(new CmdClimberSetCanMove(m_climberSubsystem, false));
+        m_operatorBButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, true));
+        m_operatorXButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, false));
         m_operatorAButton.whenPressed(new CmdPickupDeploy(m_pickupSubsystem, m_ballPathSubsystem));
         m_operatorYButton.whenPressed(new CmdPickupStow(m_pickupSubsystem));
-        m_operatorRBButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, true)); // When RB Button Pressed increments ball count.
-        m_operatorLBButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, false)); // When LB Button Pressed decrements ball count
+        m_operatorRBButton.whenPressed(new CmdClimberSetCanMove(m_climberSubsystem, true));
+        m_operatorRBButton.whenReleased(new CmdClimberSetCanMove(m_climberSubsystem, false));
     }
 
     public Command getAutonomousCommand() {

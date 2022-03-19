@@ -8,14 +8,17 @@ import frc.robot.subsystems.BallPath.BallPathState;
 public class CmdShooterStopShooting extends CommandBase {
     Shooter m_shooterSubsystem;
     BallPath m_ballPathSubsystem;
+    GrpShootWithoutVision m_shoot;
 
-    public CmdShooterStopShooting(Shooter shooterSubsystem, BallPath ballPathSubsystem) {
+    public CmdShooterStopShooting(Shooter shooterSubsystem, BallPath ballPathSubsystem, GrpShootWithoutVision shootingCommand) {
         m_shooterSubsystem = shooterSubsystem;
         m_ballPathSubsystem = ballPathSubsystem;
+        m_shoot = shootingCommand;
     }
 
     @Override
     public void initialize() {
+        m_shoot.cancel();
         m_shooterSubsystem.setTopFlywheelSpeed(0);
         m_shooterSubsystem.setBottomFlywheelSpeed(0);
         m_shooterSubsystem.setAcceleratorSpeed(0);
@@ -30,6 +33,12 @@ public class CmdShooterStopShooting extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        m_shooterSubsystem.setTopFlywheelSpeed(0);
+        m_shooterSubsystem.setBottomFlywheelSpeed(0);
+        m_shooterSubsystem.setAcceleratorSpeed(0);
+        m_ballPathSubsystem.setBallPathState(BallPathState.Stopped);
+        m_ballPathSubsystem.resetBallCount();
+        m_shooterSubsystem.setReadyToShoot(false);
     }
 
     @Override

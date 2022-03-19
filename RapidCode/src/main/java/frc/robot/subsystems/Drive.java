@@ -64,14 +64,14 @@ public class Drive extends SubsystemBase {
 
         m_gyro = new AHRS();
 
-        m_leftShifter = new Solenoid(Constants.CAN.REV_PH_ID, PneumaticsModuleType.REVPH, Constants.PCM.DRIVE_LEFT_SOLENOID);
-        m_rightShifter = new Solenoid(Constants.CAN.REV_PH_ID,PneumaticsModuleType.REVPH, Constants.PCM.DRIVE_RIGHT_SOLENOID);
+        m_leftShifter = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.PCM.DRIVE_LEFT_SOLENOID);
+        m_rightShifter = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.PCM.DRIVE_RIGHT_SOLENOID);
 
         m_leftSecondary.follow(m_leftPrimary);
         m_rightSecondary.follow(m_rightPrimary);
 
-        m_rightPrimary.setInverted(InvertType.InvertMotorOutput);
-        m_rightSecondary.setInverted(InvertType.InvertMotorOutput);
+        m_rightPrimary.setInverted(true);
+        m_rightSecondary.setInverted(true);
 
         m_leftPrimary.setNeutralMode(NeutralMode.Brake);
         m_leftSecondary.setNeutralMode(NeutralMode.Brake);
