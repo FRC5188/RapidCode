@@ -3,10 +3,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShooterLookupTable;
+import frc.robot.subsystems.Shooter.HoodPosition;
 
 public class CmdShooterMoveToPosition extends CommandBase {
     private Shooter m_shooterSubsystem;
     private double m_velocity;
+    private HoodPosition hoodPosition;
     private int m_count;
 
     public CmdShooterMoveToPosition(Shooter shooterSubsystem, ShooterLookupTable lookupTable, int distanceInInches) {

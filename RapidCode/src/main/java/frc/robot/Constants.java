@@ -35,7 +35,6 @@ public final class Constants {
     public static final double CLIMBER_ENCODER_MAX = 100;
 
     public final class PID {
-
         public static final double DRIVE_PROPORTIONAL_COMPETITION  = 0.0265;
         public static final double DRIVE_INTEGRAL_COMPETITION      = 0.000;
         public static final double DRIVE_DERIVATIVE_COMPETITION    = 0.005;
@@ -45,12 +44,6 @@ public final class Constants {
         public static final double ROTATE_INTEGRAL_COMPETITION     = 0.0001;
         public static final double ROTATE_DERIVATIVE_COMPETITION   = 0.004;
         public static final double ROTATE_TOLERANCE_COMPETITION    = 2.0;
-
-        public static final double HOOD_PROPORTIONAL = 0.003;
-        public static final double HOOD_INTEGRAL = 0.0005;
-        public static final double HOOD_DERIVATIVE = 0.00;
-        public static final double HOOD_TOLERANCE = 20;
-        public static final double HOOD_MAX_SPEED = 0.1;
 
         public static final double TURRET_PROPORTIONAL = 0.01;
         public static final double TURRET_INTEGRAL = 0.00;
@@ -132,6 +125,7 @@ public final class Constants {
         public static final int DRIVE_RIGHT_SOLENOID = 0;
         public static final int PICKUP_LEFT_SOLENOID = 2;
         public static final int PICKUP_RIGHT_SOLENOID = 3;
+        public static final int HOOD_SOLENOID = 4;
     }
 
     public final class ButtonMappings {

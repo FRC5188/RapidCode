@@ -8,17 +8,27 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 
 public class Shooter extends SubsystemBase {
+    public enum HoodPosition {
+        Fender,
+        Far
+    }
+
     private Dashboard m_dashboard;
 
     private WPI_TalonFX m_flywheelTop;
     private WPI_TalonFX m_flywheelBottom;
     private CANSparkMax m_turretMotor;
     private CANSparkMax m_acceleratorMotor;
+
+    private Solenoid m_hoodSolenoid;
+    private HoodPosition m_hoodPosition;
 
     private AnalogInput m_turretPotentiometer;
 
@@ -41,6 +51,8 @@ public class Shooter extends SubsystemBase {
         m_flywheelBottom = new WPI_TalonFX(Constants.CAN.RIGHT_FLYWHEEL_ID);
         m_flywheelTop.setNeutralMode(NeutralMode.Coast);
         m_flywheelBottom.setNeutralMode(NeutralMode.Coast);
+
+        m_hoodSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.PCM.HOOD_SOLENOID);
 
         m_turretMotor = new CANSparkMax(Constants.CAN.TURRET_MOTOR_ID, MotorType.kBrushless);
         m_turretMotor.setIdleMode(IdleMode.kBrake);
@@ -134,32 +146,14 @@ public class Shooter extends SubsystemBase {
         return (getBottomFlywheelRPM() >= m_bottomFlywheelSpeedSetpoint - Constants.FLYWHEEL_SPEED_TOLERANCE) && (getTopFlywheelRPM() >= m_topFlywheelSpeedSetpoint - Constants.FLYWHEEL_SPEED_TOLERANCE);
     }
 
-    /**
-     * Executes the PID controller for the hood motor
-     */
-    // public void hoodPIDExecute() {
-    //     setHoodSpeed(m_hoodPID.calculate(m_hoodPotentiometer.getAverageValue()) * Constants.PID.HOOD_MAX_SPEED);
-    // }
+    public HoodPosition getHoodPosition() {
+        return m_hoodPosition;
+    }
 
-    /**
-     * Gets the current angle of the hood, in raw potentiometer values
-     * @return the current angle of the hood, in raw potentiometer values
-     */
-    // public double getHoodPotentiometerAngle() {
-    //     return m_hoodPotentiometer.getAverageValue(); 
-    // }
-
-    /**
-     * Sets the speed of the hood motor
-     * @param speed the desired speed of the motor
-     */
-    // public void setHoodSpeed(double speed) {
-    //     // if ((getHoodPotentiometerAngle() >= Constants.HIGH_POT_STOP && speed > 0) || (getHoodPotentiometerAngle() <= Constants.LOW_POT_STOP && speed < 0)) {
-    //     //     m_hoodMotor.set(0);
-    //     // } else {
-    //     //     m_hoodMotor.set(speed);
-    //     // }
-    // }
+    public void setHoodPosition(HoodPosition position) {
+        m_hoodPosition = position;
+        m_hoodSolenoid.set(m_hoodPosition == HoodPosition.Far);
+    }
 
     /**
      * Gets the current position of the turret, in raw potentiometer values
