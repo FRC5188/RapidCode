@@ -40,14 +40,12 @@ public class CmdDriveRotate extends CommandBase {
     @Override
     public void execute() {
         m_driveSubsystem.rotatePIDExec();
-        System.out.println(m_driveSubsystem.getGyroPosition());
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
         m_driveSubsystem.driveRaw(0, 0);
-        System.out.println("DONE");
     }
 
     // Returns true when the command should end.

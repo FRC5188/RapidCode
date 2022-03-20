@@ -16,12 +16,10 @@ public class CmdWait extends CommandBase {
     @Override
     public void execute() {
         m_time--;
-        System.out.println(m_time);
     }
 
     @Override
     public void end(boolean interrupted) {
-        System.out.println("TIMER DONE");
     }
 
     @Override

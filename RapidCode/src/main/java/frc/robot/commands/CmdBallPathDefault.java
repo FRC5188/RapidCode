@@ -3,17 +3,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.BallPath;
-import frc.robot.subsystems.Pickup;
 import frc.robot.subsystems.BallPath.BallPathState;
 
 public class CmdBallPathDefault extends CommandBase {
     private BallPath m_ballPathSubsystem;
-    private Pickup m_pickupSubsystem;
     private BallPathState m_ballPathState;
 
-    public CmdBallPathDefault(BallPath ballPathSubsystem, Pickup pickupSubsystem) {
+    public CmdBallPathDefault(BallPath ballPathSubsystem) {
         m_ballPathSubsystem = ballPathSubsystem;
-        m_pickupSubsystem = pickupSubsystem;
         m_ballPathState = BallPathState.None;
 
         addRequirements(m_ballPathSubsystem);

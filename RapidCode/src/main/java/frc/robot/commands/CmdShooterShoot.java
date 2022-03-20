@@ -12,7 +12,6 @@ public class CmdShooterShoot extends CommandBase {
     BallPath m_ballPathSubsystem;
     ShooterLookupTable m_lookupTable;
     private double m_velocity;
-    private double m_angle;
     private int m_timer;
     private boolean m_useTimer;
 
@@ -22,7 +21,6 @@ public class CmdShooterShoot extends CommandBase {
         m_lookupTable = lookupTable;
 
         m_velocity = lookupTable.getVelocityAtDistance(distanceInInches);
-        m_angle = lookupTable.getAngleAtDistance(distanceInInches);
 
         m_timer = (int) (timer * 50);
         m_useTimer = false;
@@ -33,7 +31,6 @@ public class CmdShooterShoot extends CommandBase {
     @Override
     public void initialize() {
         m_ballPathSubsystem.setBallPathState(BallPathState.Shooting);
-        // m_shooterSubsystem.setHoodSetPoint(m_angle);
 
         if (m_timer > 0) {
             m_useTimer = true;
@@ -43,7 +40,6 @@ public class CmdShooterShoot extends CommandBase {
     @Override
     public void execute() {
         m_timer--;
-        //m_shooterSubsystem.hoodPIDExecute();
         m_ballPathSubsystem.setMotorSpeed(Constants.BALL_PATH_SHOOTING_SPEED);
         m_shooterSubsystem.setAcceleratorSpeed(0.4);
         m_shooterSubsystem.setTopFlywheelSpeed(m_velocity);
@@ -58,12 +54,10 @@ public class CmdShooterShoot extends CommandBase {
         m_ballPathSubsystem.setBallPathState(BallPathState.Stopped);
         m_ballPathSubsystem.resetBallCount();
         m_shooterSubsystem.setReadyToShoot(false);
-        System.out.println("DONE SHOOTING");
     }
 
     @Override
     public boolean isFinished() {
-        // change after merge to finish when ball count is 0
         return (m_useTimer) && (m_timer <= 0);
     }
 

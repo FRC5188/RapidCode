@@ -9,11 +9,9 @@ import frc.robot.commands.CmdPickupDefault;
 import frc.robot.commands.CmdPickupDeploy;
 import frc.robot.commands.CmdPickupStow;
 import frc.robot.commands.CmdBallPathChangeBallCount;
-import frc.robot.commands.CmdBallPathDefault;
 import frc.robot.commands.CmdClimberMove;
 import frc.robot.commands.CmdClimberSetCanMove;
 import frc.robot.commands.CmdShooterStopShooting;
-import frc.robot.commands.GrpAutoClosestToHubPickupShoot;
 import frc.robot.commands.GrpDriveForward;
 import frc.robot.commands.GrpShootWithoutVision;
 import frc.robot.commands.GrpAutoFenderAndTaxi;
@@ -34,7 +32,7 @@ public class RobotContainer {
     private Drive m_driveSubsystem = new Drive(m_dashboard);
     
     private Vision m_visionSubsystem = new Vision(m_dashboard);
-    private Shooter m_shooterSubsystem = new Shooter(m_dashboard, m_visionSubsystem);
+    private Shooter m_shooterSubsystem = new Shooter(m_dashboard);
     private ShooterLookupTable m_shooterLookupTable = new ShooterLookupTable();
     private Pickup m_pickupSubsystem = new Pickup(m_dashboard);
     private Climber m_climberSubsystem = new Climber();
@@ -42,34 +40,27 @@ public class RobotContainer {
     private XboxController m_driveController = new XboxController(0);
 
     private JoystickButton m_driveAButton = new JoystickButton(m_driveController, Constants.ButtonMappings.A_BUTTON);
-    private JoystickButton m_driveYButton = new JoystickButton(m_driveController, Constants.ButtonMappings.Y_BUTTON);
-    private JoystickButton m_driveXButton = new JoystickButton(m_driveController, Constants.ButtonMappings.X_BUTTON);
-    private JoystickButton m_driveBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.B_BUTTON);
     private JoystickButton m_driveRBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.RIGHT_BUMPER);
-    private JoystickButton m_driveLBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.LEFT_BUMPER);
     
     private XboxController m_operatorController = new XboxController(1);
 
     private JoystickButton m_operatorRBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.RIGHT_BUMPER); 
-    private JoystickButton m_operatorLBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.LEFT_BUMPER);
     private JoystickButton m_operatorAButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.A_BUTTON);
     private JoystickButton m_operatorBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.B_BUTTON);
     private JoystickButton m_operatorYButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.Y_BUTTON);
     private JoystickButton m_operatorXButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.X_BUTTON);
 
     public RobotContainer() {
-        m_dashboard.setDefaultAuto("Drive Forward", new GrpDriveForward(m_driveSubsystem, m_pickupSubsystem));
+        m_dashboard.addAuto("Drive Forward", new GrpDriveForward(m_driveSubsystem, m_pickupSubsystem));
         //m_dashboard.addAuto("2 Ball: Closest To Hub", new GrpAutoClosestToHubPickupShoot(m_driveSubsystem, m_ballPathSubsystem, m_pickupSubsystem, m_shooterSubsystem, m_visionSubsystem, m_shooterLookupTable));
-        m_dashboard.addAuto("1 Ball: On Fender", new GrpAutoFenderAndTaxi(m_driveSubsystem, m_ballPathSubsystem, m_pickupSubsystem, m_shooterSubsystem, m_visionSubsystem, m_shooterLookupTable, 2));
+        m_dashboard.setDefaultAuto("1 Ball: On Fender", new GrpAutoFenderAndTaxi(m_driveSubsystem, m_ballPathSubsystem, m_pickupSubsystem, m_shooterSubsystem, m_visionSubsystem, m_shooterLookupTable, 2));
 
         configureButtonBindings();
     }
 
     private void configureButtonBindings() {
         GrpShootWithoutVision closeShot = new GrpShootWithoutVision(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, Constants.FRONT_OF_FENDER_DISTANCE, 0);
-        GrpShootWithoutVision farShot = new GrpShootWithoutVision(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, Constants.BACK_OF_FENDER_DISTANCE, 0);
 
-        m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem, m_pickupSubsystem));
         m_climberSubsystem.setDefaultCommand(new CmdClimberMove(m_climberSubsystem, () -> applyDeadband(m_operatorController.getLeftY(), 0.025), () -> applyDeadband(m_operatorController.getRightY(), 0.025)));
 
         m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
@@ -78,19 +69,11 @@ public class RobotContainer {
 
         m_pickupSubsystem.setDefaultCommand(new CmdPickupDefault(m_pickupSubsystem, m_ballPathSubsystem));
 
-        // m_shooterSubsystem.setDefaultCommand(new CmdShooterManual(m_shooterSubsystem, 
-        //                                                           () -> applyDeadband(m_driveController.getRightX(), 0.025), 
-        //                                                           () -> applyDeadband(-m_driveController.getLeftY(), 0.025)));
-
         // Driver Controls
         m_driveAButton.whenPressed(closeShot);
         m_driveAButton.whenReleased(new CmdShooterStopShooting(m_shooterSubsystem, m_ballPathSubsystem, closeShot));
-        // m_driveYButton.whenPressed(farShot);
-        // m_driveYButton.whenReleased(new CmdShooterStopShooting(m_shooterSubsystem, m_ballPathSubsystem, farShot));
         m_driveRBButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
         m_driveRBButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
-        // m_driveXButton.whenPressed(shootingCommand);
-        // m_driveBButton.cancelWhenPressed(shootingCommand);
 
         // Operator Controls
         m_operatorBButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, true));

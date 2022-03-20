@@ -38,7 +38,6 @@ public class CmdDriveDistance extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_driveSubsystem.arcadeDrive(0, 0);
-        System.out.println("COMMAND FINISHED!");
     }
 
     // Returns true when the command should end.
