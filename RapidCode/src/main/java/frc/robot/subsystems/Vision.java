@@ -35,7 +35,7 @@ public class Vision extends SubsystemBase {
         m_tv = m_networkTable.getEntry("tv");
         m_ledMode = m_networkTable.getEntry("ledMode");
         NetworkTableEntry camMode = m_networkTable.getEntry("camMode");
-        camMode.setValue(0);
+        camMode.setValue(1);
         m_ledMode.setValue(1);
     }
 

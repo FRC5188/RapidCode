@@ -22,7 +22,7 @@ public class Shooter extends SubsystemBase {
     private CANSparkMax m_turretMotor;
     private CANSparkMax m_acceleratorMotor;
 
-    private AnalogInput m_hoodPotentiometer;
+    // private AnalogInput m_hoodPotentiometer;
     private AnalogInput m_turretPotentiometer;
 
     private PIDController m_hoodPID;
@@ -66,9 +66,9 @@ public class Shooter extends SubsystemBase {
         m_acceleratorMotor.setIdleMode(IdleMode.kBrake); 
         m_acceleratorMotor.setInverted(true);
 
-        m_hoodPotentiometer = new AnalogInput(Constants.AIO.HOOD_POTENTIOMETER_PORT);
-        m_hoodPotentiometer.setAverageBits(2);
-        m_hoodPotentiometer.setOversampleBits(0);
+        // m_hoodPotentiometer = new AnalogInput(Constants.AIO.HOOD_POTENTIOMETER_PORT);
+        // m_hoodPotentiometer.setAverageBits(2);
+        // m_hoodPotentiometer.setOversampleBits(0);
 
         m_turretPotentiometer = new AnalogInput(Constants.AIO.TURRET_POTENTIOMETER_PORT);
         m_turretPotentiometer.setAverageBits(2);
@@ -173,9 +173,9 @@ public class Shooter extends SubsystemBase {
     /**
      * Executes the PID controller for the hood motor
      */
-    public void hoodPIDExecute() {
-        setHoodSpeed(m_hoodPID.calculate(m_hoodPotentiometer.getAverageValue()) * Constants.PID.HOOD_MAX_SPEED);
-    }
+    // public void hoodPIDExecute() {
+    //     setHoodSpeed(m_hoodPID.calculate(m_hoodPotentiometer.getAverageValue()) * Constants.PID.HOOD_MAX_SPEED);
+    // }
 
     /**
      * Sets the setpoint for the hood motor's PID controller
@@ -213,21 +213,21 @@ public class Shooter extends SubsystemBase {
      * Gets the current angle of the hood, in raw potentiometer values
      * @return the current angle of the hood, in raw potentiometer values
      */
-    public double getHoodPotentiometerAngle() {
-        return m_hoodPotentiometer.getAverageValue(); 
-    }
+    // public double getHoodPotentiometerAngle() {
+    //     return m_hoodPotentiometer.getAverageValue(); 
+    // }
 
     /**
      * Sets the speed of the hood motor
      * @param speed the desired speed of the motor
      */
-    public void setHoodSpeed(double speed) {
-        if ((getHoodPotentiometerAngle() >= Constants.HIGH_POT_STOP && speed > 0) || (getHoodPotentiometerAngle() <= Constants.LOW_POT_STOP && speed < 0)) {
-            m_hoodMotor.set(0);
-        } else {
-            m_hoodMotor.set(speed);
-        }
-    }
+    // public void setHoodSpeed(double speed) {
+    //     // if ((getHoodPotentiometerAngle() >= Constants.HIGH_POT_STOP && speed > 0) || (getHoodPotentiometerAngle() <= Constants.LOW_POT_STOP && speed < 0)) {
+    //     //     m_hoodMotor.set(0);
+    //     // } else {
+    //     //     m_hoodMotor.set(speed);
+    //     // }
+    // }
 
     /**
      * Gets the current position of the turret, in raw potentiometer values

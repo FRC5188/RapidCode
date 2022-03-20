@@ -30,6 +30,7 @@ public final class Constants {
 
     public static final int BACK_OF_FENDER_DISTANCE = 5;
     public static final int FRONT_OF_FENDER_DISTANCE = 0;
+    public static final int FRONT_OF_FENDER_AUTO = -1;
 
     public static final double CLIMBER_ENCODER_MAX = 100;
 

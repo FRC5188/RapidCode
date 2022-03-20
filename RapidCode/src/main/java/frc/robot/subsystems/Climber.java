@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,6 +22,8 @@ public class Climber extends SubsystemBase {
         m_climberLeft = new WPI_TalonFX(Constants.CAN.CLIMBER_MOTOR_ID_LEFT);
         m_climberRight.setInverted(true);
         m_climberLeft.setInverted(true);
+        m_climberRight.setNeutralMode(NeutralMode.Brake);
+        m_climberLeft.setNeutralMode(NeutralMode.Brake);
         m_canMove = false;
 
         m_leftEncoderPos = 0;

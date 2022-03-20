@@ -60,21 +60,21 @@ public class RobotContainer {
     public RobotContainer() {
         m_dashboard.setDefaultAuto("Drive Forward", new GrpDriveForward(m_driveSubsystem, m_pickupSubsystem));
         //m_dashboard.addAuto("2 Ball: Closest To Hub", new GrpAutoClosestToHubPickupShoot(m_driveSubsystem, m_ballPathSubsystem, m_pickupSubsystem, m_shooterSubsystem, m_visionSubsystem, m_shooterLookupTable));
-        m_dashboard.addAuto("1 Ball: On Fender", new GrpAutoFenderAndTaxi(m_driveSubsystem, m_ballPathSubsystem, m_pickupSubsystem, m_shooterSubsystem, m_visionSubsystem, m_shooterLookupTable));
+        m_dashboard.addAuto("1 Ball: On Fender", new GrpAutoFenderAndTaxi(m_driveSubsystem, m_ballPathSubsystem, m_pickupSubsystem, m_shooterSubsystem, m_visionSubsystem, m_shooterLookupTable, 2));
 
         configureButtonBindings();
     }
 
     private void configureButtonBindings() {
-        GrpShootWithoutVision closeShot = new GrpShootWithoutVision(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, Constants.FRONT_OF_FENDER_DISTANCE);
-        GrpShootWithoutVision farShot = new GrpShootWithoutVision(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, Constants.BACK_OF_FENDER_DISTANCE);
+        GrpShootWithoutVision closeShot = new GrpShootWithoutVision(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, Constants.FRONT_OF_FENDER_DISTANCE, 0);
+        GrpShootWithoutVision farShot = new GrpShootWithoutVision(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, Constants.BACK_OF_FENDER_DISTANCE, 0);
 
         m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem, m_pickupSubsystem));
         m_climberSubsystem.setDefaultCommand(new CmdClimberMove(m_climberSubsystem, () -> applyDeadband(m_operatorController.getLeftY(), 0.025), () -> applyDeadband(m_operatorController.getRightY(), 0.025)));
 
         m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
-                                                                () -> applyDeadband(0.6 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
-                                                                () -> applyDeadband(0.65 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
+                                                                () -> applyDeadband(0.65 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
+                                                                () -> applyDeadband(0.7 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
 
         m_pickupSubsystem.setDefaultCommand(new CmdPickupDefault(m_pickupSubsystem, m_ballPathSubsystem));
 

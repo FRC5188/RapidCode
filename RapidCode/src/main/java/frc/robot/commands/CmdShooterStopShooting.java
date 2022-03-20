@@ -23,6 +23,7 @@ public class CmdShooterStopShooting extends CommandBase {
         m_shooterSubsystem.setBottomFlywheelSpeed(0);
         m_shooterSubsystem.setAcceleratorSpeed(0);
         m_ballPathSubsystem.setBallPathState(BallPathState.Stopped);
+        m_ballPathSubsystem.setMotorSpeed(0);
         m_ballPathSubsystem.resetBallCount();
         m_shooterSubsystem.setReadyToShoot(false);
     }

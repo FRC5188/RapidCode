@@ -26,7 +26,7 @@ public class CmdShooterManual extends CommandBase {
     @Override
     public void execute() {
         m_shooterSubsystem.setTurretSpeed(m_turretSpeed.getAsDouble() * 0.5);
-        m_shooterSubsystem.setHoodSpeed(m_hoodSpeed.getAsDouble() * 0.125);
+        //m_shooterSubsystem.setHoodSpeed(m_hoodSpeed.getAsDouble() * 0.125);
         m_shooterSubsystem.setBottomFlywheelSpeed(m_shooterSubsystem.getShooterSpeed());
         m_shooterSubsystem.setTopFlywheelSpeed(m_shooterSubsystem.getShooterSpeed());
     }
@@ -34,7 +34,7 @@ public class CmdShooterManual extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         m_shooterSubsystem.setTurretSpeed(0);
-        m_shooterSubsystem.setHoodSpeed(0);
+        //m_shooterSubsystem.setHoodSpeed(0);
         m_shooterSubsystem.setBottomFlywheelSpeed(0);
     }
 

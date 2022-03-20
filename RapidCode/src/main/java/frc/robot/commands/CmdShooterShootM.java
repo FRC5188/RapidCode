@@ -18,13 +18,13 @@ public class CmdShooterShootM extends CommandBase {
     @Override
     public void initialize() {
         m_ballPathSubsystem.setBallPathState(BallPathState.Shooting);
-        m_shooterSubsystem.setHoodSetPoint(m_shooterSubsystem.getHoodPotentiometerAngle());
+        //m_shooterSubsystem.setHoodSetPoint(m_shooterSubsystem.getHoodPotentiometerAngle());
     }
 
     @Override
     public void execute() {
         m_shooterSubsystem.setAcceleratorSpeed(0.4);
-        m_shooterSubsystem.hoodPIDExecute();
+        //m_shooterSubsystem.hoodPIDExecute();
         m_shooterSubsystem.setTopFlywheelSpeed(m_shooterSubsystem.getShooterSpeed());
         m_shooterSubsystem.setBottomFlywheelSpeed(m_shooterSubsystem.getShooterSpeed());
     }

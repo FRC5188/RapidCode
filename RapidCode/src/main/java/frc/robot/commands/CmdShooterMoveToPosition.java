@@ -28,13 +28,13 @@ public class CmdShooterMoveToPosition extends CommandBase {
     public void execute() {
         m_shooterSubsystem.setTopFlywheelSpeed(m_velocity);
         m_shooterSubsystem.setBottomFlywheelSpeed(m_velocity);
-        m_shooterSubsystem.hoodPIDExecute();
+        //m_shooterSubsystem.hoodPIDExecute();
         m_count++;
     }
 
     @Override
     public void end(boolean interrupted) {
-        m_shooterSubsystem.setHoodSpeed(0);
+        //m_shooterSubsystem.setHoodSpeed(0);
         if (!interrupted && m_velocity != 0) m_shooterSubsystem.setReadyToShoot(true);
         System.out.println("DONE MOVING");
         m_count = 0;

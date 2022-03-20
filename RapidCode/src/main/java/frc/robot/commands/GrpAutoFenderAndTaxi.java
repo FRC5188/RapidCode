@@ -11,14 +11,13 @@ import frc.robot.subsystems.BallPath;
 
 public class GrpAutoFenderAndTaxi extends SequentialCommandGroup {
 
-    public GrpAutoFenderAndTaxi(Drive driveSubsystem, BallPath ballPathSubsystem, Pickup pickupSubsystem, Shooter shooterSubsystem, Vision visionSubsystem, ShooterLookupTable lookupTable) {
-        GrpShootWithoutVision shoot = new GrpShootWithoutVision(shooterSubsystem, ballPathSubsystem, lookupTable, Constants.FRONT_OF_FENDER_DISTANCE);
+    public GrpAutoFenderAndTaxi(Drive driveSubsystem, BallPath ballPathSubsystem, Pickup pickupSubsystem, Shooter shooterSubsystem, Vision visionSubsystem, ShooterLookupTable lookupTable, double timer) {
+        GrpShootWithoutVision shoot = new GrpShootWithoutVision(shooterSubsystem, ballPathSubsystem, lookupTable, Constants.FRONT_OF_FENDER_AUTO, timer);
 
         addCommands(
             shoot,
-            new CmdWait(100),
             new CmdShooterStopShooting(shooterSubsystem, ballPathSubsystem, shoot),
-            new CmdDriveDistance(driveSubsystem, -100, 0.5, true)
+            new CmdDriveDistance(driveSubsystem, -85, 0.6, true)
         );
     }
 }

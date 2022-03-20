@@ -6,11 +6,11 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShooterLookupTable;
 
 public class GrpShootWithoutVision extends SequentialCommandGroup {
-    public GrpShootWithoutVision(Shooter shooterSubsystem, BallPath ballPathSubsystem, ShooterLookupTable lookupTable, int distanceInInches) {
+    public GrpShootWithoutVision(Shooter shooterSubsystem, BallPath ballPathSubsystem, ShooterLookupTable lookupTable, int distanceInInches, double timer) {
 
         addCommands(
             new CmdShooterMoveToPosition(shooterSubsystem, lookupTable, distanceInInches),
-            new CmdShooterShoot(shooterSubsystem, ballPathSubsystem, lookupTable, distanceInInches)
+            new CmdShooterShoot(shooterSubsystem, ballPathSubsystem, lookupTable, distanceInInches, timer)
         );
     }
 }

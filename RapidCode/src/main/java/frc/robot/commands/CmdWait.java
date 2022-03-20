@@ -16,6 +16,7 @@ public class CmdWait extends CommandBase {
     @Override
     public void execute() {
         m_time--;
+        System.out.println(m_time);
     }
 
     @Override
