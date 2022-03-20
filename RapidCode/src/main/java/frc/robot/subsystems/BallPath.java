@@ -47,7 +47,7 @@ public class BallPath extends SubsystemBase {
 
         m_entranceSensor = new DigitalInput(Constants.DIO.ENTRANCE_SENSOR_PORT);
         m_middleSensor = new DigitalInput(Constants.DIO.MIDDLE_SENSOR_PORT);
-        //m_shooterSensor = new DigitalInput(Constants.DIO.SHOOTER_SENSOR_PORT);
+        m_shooterSensor = new DigitalInput(Constants.DIO.SHOOTER_SENSOR_PORT);
 
         m_ballPathState = BallPathState.None;
         m_ballCount = 1;
@@ -59,6 +59,8 @@ public class BallPath extends SubsystemBase {
         m_dashboard.setBallPathState(m_ballPathState);
         m_dashboard.setEntranceSensorState(!m_entranceSensor.get());
         m_dashboard.setMiddleSensorState(!m_middleSensor.get());
+
+        System.out.println(!m_shooterSensor.get());
     }
 
     /**
