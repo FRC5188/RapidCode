@@ -41,6 +41,7 @@ public class RobotContainer {
     private XboxController m_driveController = new XboxController(0);
 
     private JoystickButton m_driveAButton = new JoystickButton(m_driveController, Constants.ButtonMappings.A_BUTTON);
+    private JoystickButton m_driveYButton = new JoystickButton(m_driveController, Constants.ButtonMappings.Y_BUTTON);
     private JoystickButton m_driveRBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.RIGHT_BUMPER);
     
     private XboxController m_operatorController = new XboxController(1);
@@ -48,8 +49,8 @@ public class RobotContainer {
     private JoystickButton m_operatorRBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.RIGHT_BUMPER); 
     private JoystickButton m_operatorAButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.A_BUTTON);
     private JoystickButton m_operatorBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.B_BUTTON);
-    private JoystickButton m_operatorYButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.Y_BUTTON);
     private JoystickButton m_operatorXButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.X_BUTTON);
+    private JoystickButton m_operatorYButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.Y_BUTTON);
 
     public RobotContainer() {
         m_dashboard.setDefaultAuto("Drive Forward", new GrpDriveForward(m_driveSubsystem, m_pickupSubsystem));
@@ -72,16 +73,17 @@ public class RobotContainer {
         m_pickupSubsystem.setDefaultCommand(new CmdPickupDefault(m_pickupSubsystem, m_ballPathSubsystem));
 
         // Driver Controls
-        m_driveAButton.whenPressed(closeShot);
-        m_driveAButton.whenReleased(new CmdShooterStopShooting(m_shooterSubsystem, m_ballPathSubsystem, closeShot));
+       
+        m_driveAButton.whenPressed(new CmdPickupDeploy(m_pickupSubsystem, m_ballPathSubsystem));
+        m_driveYButton.whenPressed(new CmdPickupStow(m_pickupSubsystem));
         m_driveRBButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
         m_driveRBButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
 
         // Operator Controls
         m_operatorBButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, true));
         m_operatorXButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, false));
-        m_operatorAButton.whenPressed(new CmdPickupDeploy(m_pickupSubsystem, m_ballPathSubsystem));
-        m_operatorYButton.whenPressed(new CmdPickupStow(m_pickupSubsystem));
+        m_operatorAButton.whenPressed(closeShot);
+        m_operatorAButton.whenReleased(new CmdShooterStopShooting(m_shooterSubsystem, m_ballPathSubsystem, closeShot));
         m_operatorRBButton.whenPressed(new CmdClimberSetCanMove(m_climberSubsystem, true));
         m_operatorRBButton.whenReleased(new CmdClimberSetCanMove(m_climberSubsystem, false));
     }
