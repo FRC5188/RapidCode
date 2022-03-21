@@ -59,8 +59,6 @@ public class BallPath extends SubsystemBase {
         m_dashboard.setBallPathState(m_ballPathState);
         m_dashboard.setEntranceSensorState(!m_entranceSensor.get());
         m_dashboard.setMiddleSensorState(!m_middleSensor.get());
-
-        System.out.println(!m_shooterSensor.get());
     }
 
     /**
@@ -125,31 +123,19 @@ public class BallPath extends SubsystemBase {
      * Updates the state of the ball path based on light sensor detection
      */
     public void updateBallPathState() {
-        /*
-         * A setter method plus some extra logic to decide what to set to.
-         * This takes some of the logic out of the default command by letting the
-         * subsystem do some of the thinking (which means fewer getters across files)
-         * We will not set any motors here; that will be done in the default command
-         * We will be setting the ball path state here, however
-         */
         if (!m_entranceSensor.get()) {
-            System.out.println("Ball Entering");
             m_ballPathState = BallPathState.Loading;
         } else if (m_entranceSensor.get() && m_entranceWasDetected) {
-            System.out.println("Added to count");
             incrementBallCount();
             m_ballPathState = BallPathState.MovingToPosition;
         } else if (m_middleSensor.get() && m_middleWasDetected) {
-            System.out.println("At position");
             m_ballPathState = BallPathState.Stopped;
+        } else if (m_shooterSensor.get() && m_shooterWasDetected) {
+            decrementBallCount();
         }
-        //  else if (m_shooterSensor.get() && m_shooterWasDetected) {
-        //     System.out.println("Ball Exited");
-        //     decrementBallCount();
-        // }
 
         m_entranceWasDetected = !m_entranceSensor.get();
         m_middleWasDetected = !m_middleSensor.get();
-        //m_shooterWasDetected = !m_shooterSensor.get();
+        m_shooterWasDetected = !m_shooterSensor.get();
     }
 }

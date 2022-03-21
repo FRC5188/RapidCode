@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.revrobotics.CANSparkMax;
@@ -27,30 +26,21 @@ public class Shooter extends SubsystemBase {
     private CANSparkMax m_turretMotor;
     private CANSparkMax m_acceleratorMotor;
 
-    // private AnalogInput m_hoodPotentiometer;
     private AnalogInput m_turretPotentiometer;
 
-    private PIDController m_hoodPID;
     private PIDController m_turretPID;
-    private double m_hoodSetpoint;
     private double m_turretSetpoint;
-
-    private double m_shooterSpeed;
 
     private double m_bottomFlywheelSpeedSetpoint;
     private double m_topFlywheelSpeedSetpoint;
 
     private boolean m_readyToShoot;
 
-    private double m_count;
-
-    private Vision m_v;
-
     /**
      * Creates a new Shooter subsystem
      * @param dashboard the dashboard instance for the robot
      */
-    public Shooter(Dashboard dashboard, Vision v) {
+    public Shooter(Dashboard dashboard) {
 
 
         m_dashboard = dashboard;
@@ -81,32 +71,17 @@ public class Shooter extends SubsystemBase {
         m_turretPotentiometer.setAverageBits(2);
         m_turretPotentiometer.setOversampleBits(0);
 
-        m_hoodPID = new PIDController(Constants.PID.HOOD_PROPORTIONAL, Constants.PID.HOOD_INTEGRAL, Constants.PID.HOOD_DERIVATIVE); 
-        m_hoodPID.setTolerance(Constants.PID.HOOD_TOLERANCE);
-
         m_turretPID = new PIDController(Constants.PID.TURRET_PROPORTIONAL, Constants.PID.TURRET_INTEGRAL, Constants.PID.TURRET_DERIVATIVE);
         m_turretPID.setTolerance(Constants.PID.TURRET_TOLERANCE);
 
-        m_hoodSetpoint = 0;
         m_turretSetpoint = 0;
 
-        m_shooterSpeed = 0;
-
         m_readyToShoot = false;
-
-        m_count = 0;
-
-        m_v = v;
     }
 
     @Override
     public void periodic() {
         m_dashboard.setReadyToShoot(m_readyToShoot);
-        //System.out.println("Real: " + getBottomFlywheelRPM() + " Setpoint: " + (m_bottomFlywheelSpeedSetpoint - Constants.FLYWHEEL_SPEED_TOLERANCE));
-        if (m_count % 25 == 0) {
-            //System.out.println("Distance: " + m_v.getDistanceToTarget() + " Velocity: " + m_flywheelBottom.get() + " Hood Angle: " + getHoodPotentiometerAngle());
-
-        }
     }
     
     /**
@@ -178,65 +153,6 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * Executes the PID controller for the hood motor
-     */
-    // public void hoodPIDExecute() {
-    //     setHoodSpeed(m_hoodPID.calculate(m_hoodPotentiometer.getAverageValue()) * Constants.PID.HOOD_MAX_SPEED);
-    // }
-
-    /**
-     * Sets the setpoint for the hood motor's PID controller
-     * @param setpoint the desired setpoint, in raw potentiometer values, for the hood
-     */
-    public void setHoodSetPoint(double setpoint) {
-        if (setpoint > Constants.HIGH_POT_STOP) {
-            setpoint = Constants.HIGH_POT_STOP;
-        } else if (setpoint < Constants.LOW_POT_STOP) {
-            setpoint = Constants.LOW_POT_STOP;
-        } 
-        
-        m_hoodPID.setSetpoint(setpoint);
-        m_hoodSetpoint = setpoint;
-    }
-
-    /**
-     * Gets the setpoint of the hood motor's PID controller
-     * @return the setpoint of the hood motor's PID controller
-     */
-    public double getHoodSetPoint() {
-        return m_hoodSetpoint;
-    }
-
-    /**
-     * Checks if the hood motor has reached its setpoint
-     * @return true if the hood motor is at its setpoint. False otherwise
-     */
-    public boolean atHoodSetpoint() {
-        // Sets target angle for the hood
-        return m_hoodPID.atSetpoint();
-    }
-
-    /**
-     * Gets the current angle of the hood, in raw potentiometer values
-     * @return the current angle of the hood, in raw potentiometer values
-     */
-    // public double getHoodPotentiometerAngle() {
-    //     return m_hoodPotentiometer.getAverageValue(); 
-    // }
-
-    /**
-     * Sets the speed of the hood motor
-     * @param speed the desired speed of the motor
-     */
-    // public void setHoodSpeed(double speed) {
-    //     // if ((getHoodPotentiometerAngle() >= Constants.HIGH_POT_STOP && speed > 0) || (getHoodPotentiometerAngle() <= Constants.LOW_POT_STOP && speed < 0)) {
-    //     //     m_hoodMotor.set(0);
-    //     // } else {
-    //     //     m_hoodMotor.set(speed);
-    //     // }
-    // }
-
-    /**
      * Gets the current position of the turret, in raw potentiometer values
      * @return the current position of the turret, in raw potentiometer values
      */
@@ -290,16 +206,6 @@ public class Shooter extends SubsystemBase {
      */
     public void setAcceleratorSpeed(double speed) { 
         m_acceleratorMotor.set(speed);
-    }
-
-    //TO BE REMOVED AFTER TESTING
-    public void addToSpeed(double speed) {
-        m_shooterSpeed += speed;
-    }
-
-    //TO BE REMOVED AFTER TESTING
-    public double getShooterSpeed() {
-        return m_shooterSpeed;
     }
 
     /**

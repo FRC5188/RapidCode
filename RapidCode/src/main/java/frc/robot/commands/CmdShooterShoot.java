@@ -33,7 +33,6 @@ public class CmdShooterShoot extends CommandBase {
     @Override
     public void initialize() {
         m_ballPathSubsystem.setBallPathState(BallPathState.Shooting);
-        // m_shooterSubsystem.setHoodSetPoint(m_angle);
 
         if (m_timer > 0) {
             m_useTimer = true;
@@ -43,7 +42,6 @@ public class CmdShooterShoot extends CommandBase {
     @Override
     public void execute() {
         m_timer--;
-        //m_shooterSubsystem.hoodPIDExecute();
         m_ballPathSubsystem.setMotorSpeed(Constants.BALL_PATH_SHOOTING_SPEED);
         m_shooterSubsystem.setAcceleratorSpeed(0.4);
         m_shooterSubsystem.setTopFlywheelSpeed(m_velocity);
@@ -58,7 +56,6 @@ public class CmdShooterShoot extends CommandBase {
         m_ballPathSubsystem.setBallPathState(BallPathState.Stopped);
         m_ballPathSubsystem.resetBallCount();
         m_shooterSubsystem.setReadyToShoot(false);
-        System.out.println("DONE SHOOTING");
     }
 
     @Override
