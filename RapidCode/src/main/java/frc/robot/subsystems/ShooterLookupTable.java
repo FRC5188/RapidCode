@@ -6,13 +6,13 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Shooter.HoodPosition;
 
 public class ShooterLookupTable {
-    private HashMap<Integer, double[]> m_lookupTable;
+    private HashMap<Integer, Object[]> m_lookupTable;
 
     /**
      * Creates a new instance of the shooter's lookup table
      */
     public ShooterLookupTable() {
-        m_lookupTable = new HashMap<Integer, double[]>();
+        m_lookupTable = new HashMap<Integer, Object[]>();
 
         // Add entries here using this syntax
         // First is distance in feet, second is flywheel speed, last is hood angle
@@ -27,9 +27,9 @@ public class ShooterLookupTable {
      * @param distanceInInches distance in inches that the robot is from the target
      * @return the velocity for the flywheel. Will return 0 if the distance has no data in the table.
      */
-    public double getVelocityAtDistance(int distanceInInches) {
-        if (m_lookupTable.get(roundDistance(distanceInInches)) == null) return 0;
-        else return m_lookupTable.get(roundDistance(distanceInInches))[0];
+    public Double getVelocityAtDistance(int distanceInInches) {
+        if (m_lookupTable.get(roundDistance(distanceInInches)) == null) return (double) 0;
+        else return (Double) m_lookupTable.get(roundDistance(distanceInInches))[0];
     }
     /**
      * Returns the hood angle for the given distance in inches
@@ -38,10 +38,8 @@ public class ShooterLookupTable {
      */
     public HoodPosition getHoodPositionAtDistance(int distanceInInches) {
         if (m_lookupTable.get(roundDistance(distanceInInches)) == null) return HoodPosition.Fender;
-        else {
-            HoodPosition pos = (m_lookupTable.get(roundDistance(distanceInInches))[1] == 0) ? HoodPosition.Fender : HoodPosition.Far;
-            return pos;
-        }
+        else return (HoodPosition) m_lookupTable.get(roundDistance(distanceInInches))[1];
+        
     }
     /**
      * Rounds a distance in inches to feet, which is then used to get velocity and hood angle
@@ -58,9 +56,8 @@ public class ShooterLookupTable {
      * @param flywheelSpeed speed of flywheel at distance
      * @param hoodPosition hood position at distance
      */
-    private void addEntry(int distanceInFeet, double flywheelSpeed, HoodPosition hoodPosition) {
-        int hoodPos = (hoodPosition == HoodPosition.Fender) ? 0 : 1;
-        double[] e = {flywheelSpeed, hoodPos};
+    private void addEntry(int distanceInFeet, Double flywheelSpeed, HoodPosition hoodPosition) {
+        Object[] e = {flywheelSpeed, hoodPosition};
         m_lookupTable.put(distanceInFeet, e);
     }
 }
