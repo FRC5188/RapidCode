@@ -14,6 +14,11 @@ import frc.robot.Constants;
 
 
 public class Shooter extends SubsystemBase {
+    public enum HoodPosition {
+        Fender,
+        Far
+    }
+
     private Dashboard m_dashboard;
 
     private WPI_TalonFX m_flywheelTop;
@@ -46,6 +51,8 @@ public class Shooter extends SubsystemBase {
      * @param dashboard the dashboard instance for the robot
      */
     public Shooter(Dashboard dashboard, Vision v) {
+
+
         m_dashboard = dashboard;
 
         m_flywheelTop = new WPI_TalonFX(Constants.CAN.LEFT_FLYWHEEL_ID);

@@ -14,8 +14,8 @@ public class CmdShooterMoveToPosition extends CommandBase {
     public CmdShooterMoveToPosition(Shooter shooterSubsystem, ShooterLookupTable lookupTable, int distanceInInches) {
         m_shooterSubsystem = shooterSubsystem;
         
-        m_velocity = lookupTable.getVelocityAtDistance(distanceInInches);
-        m_hoodAngle = lookupTable.getAngleAtDistance(distanceInInches);
+        // m_velocity = lookupTable.getVelocityAtDistance(distanceInInches);
+        // m_hoodAngle = lookupTable.getAngleAtDistance(distanceInInches);
         m_count = 0;
     }
 

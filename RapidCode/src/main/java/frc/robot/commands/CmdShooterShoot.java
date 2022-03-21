@@ -21,8 +21,8 @@ public class CmdShooterShoot extends CommandBase {
         m_ballPathSubsystem = ballPathSubsystem;
         m_lookupTable = lookupTable;
 
-        m_velocity = lookupTable.getVelocityAtDistance(distanceInInches);
-        m_angle = lookupTable.getAngleAtDistance(distanceInInches);
+        // m_velocity = lookupTable.getVelocityAtDistance(distanceInInches);
+        // m_angle = lookupTable.getAngleAtDistance(distanceInInches);
 
         m_timer = (int) (timer * 50);
         m_useTimer = false;
