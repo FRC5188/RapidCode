@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import java.util.HashMap;
 
 import frc.robot.Constants;
+import frc.robot.subsystems.Shooter.HoodPosition;
 
 public class ShooterLookupTable {
     private HashMap<Integer, double[]> m_lookupTable;
@@ -18,18 +19,8 @@ public class ShooterLookupTable {
         // Below is an example
         // !!EVERY ANGLE FOR THE HOOD MUST BE RELATIVE TO THE LOW POT STOP!!
         // This is done so that if the sensor has to be realigned, all of this data can still be accurate
-        this.addEntry(-1, 0.45, Constants.LOW_POT_STOP + 57);
-        this.addEntry(Constants.FRONT_OF_FENDER_DISTANCE, 0.45, Constants.LOW_POT_STOP + 57);
-        this.addEntry(1, 0.42, Constants.LOW_POT_STOP + 57);
-        this.addEntry(2, 0.42, Constants.LOW_POT_STOP + 57);
-        this.addEntry(3, 0.42, Constants.LOW_POT_STOP + 57);
-        this.addEntry(4, 0.47, Constants.LOW_POT_STOP + 200);
-        this.addEntry(Constants.BACK_OF_FENDER_DISTANCE, 0.40, Constants.LOW_POT_STOP + 160);
-        this.addEntry(6, 0.44, Constants.LOW_POT_STOP + 260);
-        this.addEntry(7, 0.45, Constants.LOW_POT_STOP + 200);
-        this.addEntry(8, 0.46, Constants.LOW_POT_STOP + 230);
-        this.addEntry(9, 0.47, Constants.LOW_POT_STOP + 260);
-        this.addEntry(10, 0.47, Constants.LOW_POT_STOP + 270);
+        this.addEntry(Constants.FRONT_OF_FENDER_DISTANCE, 0.45, HoodPosition.Fender);
+        this.addEntry(Constants.BACK_OF_FENDER_DISTANCE, 0.55, HoodPosition.Far);
     }
     /**
      * Returns the velocity for the flywheel for the given distance in inches
@@ -43,11 +34,14 @@ public class ShooterLookupTable {
     /**
      * Returns the hood angle for the given distance in inches
      * @param distanceInInches distance in inches that the robot is from the target 
-     * @return the hood angle. Will return the low pot stop constant + 50 if the distance has no data in the table.
+     * @return the hood position. Will return the fender state if the distance has no data in the table.
      */
-    public double getAngleAtDistance(int distanceInInches) {
-        if (m_lookupTable.get(roundDistance(distanceInInches)) == null) return Constants.LOW_POT_STOP + 50;
-        else return m_lookupTable.get(roundDistance(distanceInInches))[1];
+    public HoodPosition getHoodPositionAtDistance(int distanceInInches) {
+        if (m_lookupTable.get(roundDistance(distanceInInches)) == null) return HoodPosition.Fender;
+        else {
+            HoodPosition pos = (m_lookupTable.get(roundDistance(distanceInInches))[1] == 0) ? HoodPosition.Fender : HoodPosition.Far;
+            return pos;
+        }
     }
     /**
      * Rounds a distance in inches to feet, which is then used to get velocity and hood angle
@@ -62,10 +56,11 @@ public class ShooterLookupTable {
      * Adds an entry to the lookup table
      * @param distanceInFeet distance in feet from target
      * @param flywheelSpeed speed of flywheel at distance
-     * @param hoodAngle hood angle at distance
+     * @param hoodPosition hood position at distance
      */
-    private void addEntry(int distanceInFeet, double flywheelSpeed, double hoodAngle) {
-        double[] e = {flywheelSpeed, hoodAngle};
+    private void addEntry(int distanceInFeet, double flywheelSpeed, HoodPosition hoodPosition) {
+        int hoodPos = (hoodPosition == HoodPosition.Fender) ? 0 : 1;
+        double[] e = {flywheelSpeed, hoodPos};
         m_lookupTable.put(distanceInFeet, e);
     }
 }

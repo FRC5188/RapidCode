@@ -8,19 +8,20 @@ import frc.robot.subsystems.Shooter.HoodPosition;
 public class CmdShooterMoveToPosition extends CommandBase {
     private Shooter m_shooterSubsystem;
     private double m_velocity;
-    private HoodPosition hoodPosition;
+    private HoodPosition m_hoodPosition;
     private int m_count;
 
     public CmdShooterMoveToPosition(Shooter shooterSubsystem, ShooterLookupTable lookupTable, int distanceInInches) {
         m_shooterSubsystem = shooterSubsystem;
         
         m_velocity = lookupTable.getVelocityAtDistance(distanceInInches);
+        m_hoodPosition = lookupTable.getHoodPositionAtDistance(distanceInInches);
         m_count = 0;
     }
 
     @Override
     public void initialize() {
-        
+        m_shooterSubsystem.setHoodPosition(m_hoodPosition);
     }
 
     @Override
