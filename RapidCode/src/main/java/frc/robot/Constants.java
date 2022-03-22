@@ -35,6 +35,7 @@ public final class Constants {
     public static final double CLIMBER_ENCODER_MAX = 100;
 
     public final class PID {
+
         public static final double DRIVE_PROPORTIONAL_COMPETITION  = 0.0265;
         public static final double DRIVE_INTEGRAL_COMPETITION      = 0.000;
         public static final double DRIVE_DERIVATIVE_COMPETITION    = 0.005;
@@ -44,6 +45,12 @@ public final class Constants {
         public static final double ROTATE_INTEGRAL_COMPETITION     = 0.0001;
         public static final double ROTATE_DERIVATIVE_COMPETITION   = 0.004;
         public static final double ROTATE_TOLERANCE_COMPETITION    = 2.0;
+
+        public static final double HOOD_PROPORTIONAL = 0.003;
+        public static final double HOOD_INTEGRAL = 0.0005;
+        public static final double HOOD_DERIVATIVE = 0.00;
+        public static final double HOOD_TOLERANCE = 20;
+        public static final double HOOD_MAX_SPEED = 0.1;
 
         public static final double TURRET_PROPORTIONAL = 0.01;
         public static final double TURRET_INTEGRAL = 0.00;
@@ -74,7 +81,6 @@ public final class Constants {
          * motor does and end with id)
          */
 
-        
         public static final int LEFT_PRIMARY_DRIVE_ID = 1;
         public static final int LEFT_SECONDARY_DRIVE_ID = 2;
         public static final int RIGHT_PRIMARY_DRIVE_ID = 3;
@@ -85,8 +91,7 @@ public final class Constants {
 
         public static final int LEFT_FLYWHEEL_ID = 7;
         public static final int RIGHT_FLYWHEEL_ID = 8;
-        public static final int HOOD_MOTOR_ID = 21; //Temp need to change
-        public static final int ACCEL_MOTOR_ID = 10; //Temp need to change
+        public static final int ACCEL_MOTOR_ID = 9;
         public static final int TURRET_MOTOR_ID = 15;
         
         public static final int PICKUP_MOTOR_ID = 11;
