@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -17,7 +18,6 @@ public class Shooter extends SubsystemBase {
         Fender,
         Far
     }
-
     private Dashboard m_dashboard;
 
     private WPI_TalonFX m_flywheelTop;
@@ -35,6 +35,14 @@ public class Shooter extends SubsystemBase {
     private double m_topFlywheelSpeedSetpoint;
 
     private boolean m_readyToShoot;
+
+    private HoodPosition m_hoodPosition;
+    private HoodPosition m_hoodPositionFender;
+    private HoodPosition m_hoodPositionFar;
+
+    private Solenoid m_hoodSolenoid;
+
+    
 
     /**
      * Creates a new Shooter subsystem
@@ -150,6 +158,22 @@ public class Shooter extends SubsystemBase {
      */
     public boolean flywheelsAtSpeed() {
         return (getBottomFlywheelRPM() >= m_bottomFlywheelSpeedSetpoint - Constants.FLYWHEEL_SPEED_TOLERANCE) && (getTopFlywheelRPM() >= m_topFlywheelSpeedSetpoint - Constants.FLYWHEEL_SPEED_TOLERANCE);
+    }
+    /**
+     * Gets the current position of the Hood.
+     */
+    public HoodPosition getHoodPosition() {
+        return m_hoodPosition;
+    }
+    
+    /**
+     * Set the Position of the Hood
+     * @param state the Position of the Solenoid 
+     */
+    public void setHoodPosition(HoodPosition state) {
+        m_hoodPosition = state;
+
+        m_hoodSolenoid.set(m_hoodPosition == HoodPosition.Fender);
     }
 
     /**
