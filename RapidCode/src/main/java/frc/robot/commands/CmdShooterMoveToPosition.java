@@ -14,11 +14,14 @@ public class CmdShooterMoveToPosition extends CommandBase {
     public CmdShooterMoveToPosition(Shooter shooterSubsystem, ShooterLookupTable lookupTable, int distanceInInches) {
         m_shooterSubsystem = shooterSubsystem;
 
+        m_velocity = lookupTable.getVelocityAtDistance(distanceInInches);
+        m_hoodPosition = lookupTable.getHoodPositionAtDistance(distanceInInches);
         m_count = 0;
     }
 
     @Override
     public void initialize() {
+        m_shooterSubsystem.setHoodPosition(m_hoodPosition);
     }
 
     @Override
