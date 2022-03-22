@@ -41,6 +41,11 @@ public class ShooterLookupTable {
         else return (HoodPosition) m_lookupTable.get(roundDistance(distanceInInches))[1];
         
     }
+
+    public void editVelocityEntry(int distanceInInches, double addTo) {
+        Object[] o = {((double) m_lookupTable.get(roundDistance(distanceInInches))[0]) + addTo, m_lookupTable.get(roundDistance(distanceInInches))[1]};
+        m_lookupTable.put(roundDistance(distanceInInches), o);
+    }
     /**
      * Rounds a distance in inches to feet, which is then used to get velocity and hood angle
      * @param distanceInInches distance in inches
@@ -56,7 +61,7 @@ public class ShooterLookupTable {
      * @param flywheelSpeed speed of flywheel at distance
      * @param hoodPosition hood position at distance
      */
-    private void addEntry(int distanceInFeet, Double flywheelSpeed, HoodPosition hoodPosition) {
+    private void addEntry(int distanceInFeet, double flywheelSpeed, HoodPosition hoodPosition) {
         Object[] e = {flywheelSpeed, hoodPosition};
         m_lookupTable.put(distanceInFeet, e);
     }
