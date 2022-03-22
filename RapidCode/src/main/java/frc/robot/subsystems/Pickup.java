@@ -69,6 +69,10 @@ public class Pickup extends SubsystemBase {
         m_indexMotorBottom.set(speed);
     }
 
+    public void setPickupSpeed(double speed) {
+        m_pickupMotor.set(speed);
+    }
+
     /**
      * Sets the state of the pickup
      * @param state desired state of the pickup
@@ -86,8 +90,6 @@ public class Pickup extends SubsystemBase {
             case Retracted:
                 m_pickupLeftSolenoid.set(false);
                 m_pickupRightSolenoid.set(false);
-                m_pickupMotor.set(0);
-                m_indexMotorBottom.set(0);
                 break;
             case None:
             default:

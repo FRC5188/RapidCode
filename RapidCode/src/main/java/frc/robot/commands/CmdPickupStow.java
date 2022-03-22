@@ -6,9 +6,11 @@ import frc.robot.subsystems.Pickup.PickupState;
 
 public class CmdPickupStow extends CommandBase {
     private Pickup m_pickupSubsystem;
+    private int m_count;
      
     public CmdPickupStow(Pickup pickupSubsystem) {
         m_pickupSubsystem = pickupSubsystem;
+        m_count = 13;
     }
 
     @Override
@@ -17,7 +19,20 @@ public class CmdPickupStow extends CommandBase {
     }
 
     @Override
+    public void execute() {
+        m_pickupSubsystem.setLowerIndexSpeed(0.5);
+        m_pickupSubsystem.setPickupSpeed(0.5);
+        m_count--;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        m_pickupSubsystem.setLowerIndexSpeed(0);
+        m_pickupSubsystem.setPickupSpeed(0);
+    }
+
+    @Override
     public boolean isFinished() {
-        return true;
+        return m_count <= 0;
     }
 }

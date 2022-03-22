@@ -118,6 +118,13 @@ public class BallPath extends SubsystemBase {
     public boolean hasEnteredBallPath() { 
         return (m_ballPathState == BallPathState.Loading || m_ballPathState == BallPathState.MovingToPosition);
     }
+    /**
+     * Returns true if a ball has left the ball path
+     * @return true if a ball has left the ball path
+     */
+    public boolean hasLeftBallPath() {
+        return (m_shooterSensor.get() && m_shooterWasDetected);
+    }
 
     /**
      * Updates the state of the ball path based on light sensor detection

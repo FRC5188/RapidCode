@@ -41,9 +41,13 @@ public class CmdShooterShoot extends CommandBase {
 
     @Override
     public void execute() {
-        m_timer--;
-        m_ballPathSubsystem.setMotorSpeed(Constants.BALL_PATH_SHOOTING_SPEED);
-        m_shooterSubsystem.setAcceleratorSpeed(0.4);
+        if (m_ballPathSubsystem.hasLeftBallPath() && m_ballPathSubsystem.getBallCount() > 1) m_useTimer = true;
+        if (m_useTimer) m_timer--;
+        else {
+            m_ballPathSubsystem.setMotorSpeed(Constants.BALL_PATH_SHOOTING_SPEED);
+            m_shooterSubsystem.setAcceleratorSpeed(0.4);
+        }
+        if (m_timer <= 0) m_useTimer = false;
         m_shooterSubsystem.setTopFlywheelSpeed(m_velocity);
         m_shooterSubsystem.setBottomFlywheelSpeed(m_velocity);
     }
