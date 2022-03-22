@@ -2,10 +2,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.ShooterLookupTable;
 
 public class CmdShooterAdjustSpeed extends CommandBase {
-
-    public CmdShooterAdjustSpeed(double speedAdjustment) {
+    private ShooterLookupTable m_lookupTable;
+    private double m_speedAdjustment;
+    public CmdShooterAdjustSpeed(ShooterLookupTable lookupTable, double speedAdjustment) {
 
     }
 

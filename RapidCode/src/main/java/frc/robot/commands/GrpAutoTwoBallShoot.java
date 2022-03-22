@@ -18,7 +18,7 @@ public class GrpAutoTwoBallShoot extends SequentialCommandGroup {
   public GrpAutoTwoBallShoot(Drive driveSubsystem, Pickup pickupSubsystem, Shooter shooterSubsystem,
       ShooterLookupTable lookupTable, Vision visionSubsystem, BallPath ballPathSubsystem, double timer) {
     GrpShootWithoutVision shoot = new GrpShootWithoutVision(shooterSubsystem, ballPathSubsystem, lookupTable,
-        Constants.FRONT_OF_FENDER_AUTO, timer);
+        Constants.BACK_OF_FENDER_DISTANCE, timer);
 
     addCommands(
         new CmdPickupDeploy(pickupSubsystem, ballPathSubsystem),
