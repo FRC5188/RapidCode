@@ -7,12 +7,17 @@ import frc.robot.subsystems.ShooterLookupTable;
 public class CmdShooterAdjustSpeed extends CommandBase {
     private ShooterLookupTable m_lookupTable;
     private double m_speedAdjustment;
-    public CmdShooterAdjustSpeed(ShooterLookupTable lookupTable, double speedAdjustment) {
+    private int m_distanceInInches;
 
+    public CmdShooterAdjustSpeed(ShooterLookupTable lookupTable, double speedAdjustment, int distanceInInches) {
+        m_lookupTable = lookupTable;
+        m_speedAdjustment = speedAdjustment;
+        m_distanceInInches = distanceInInches;
     }
 
     @Override
     public void initialize() {
+        m_lookupTable.editVelocityEntry(m_distanceInInches, m_speedAdjustment);
     }
 
     @Override
@@ -25,6 +30,6 @@ public class CmdShooterAdjustSpeed extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 }
