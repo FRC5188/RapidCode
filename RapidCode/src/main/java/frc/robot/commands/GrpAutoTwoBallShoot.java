@@ -14,16 +14,18 @@ import frc.robot.Constants;
 import frc.robot.subsystems.BallPath;
 
 public class GrpAutoTwoBallShoot extends SequentialCommandGroup {
-  
-  public GrpAutoTwoBallShoot(Drive driveSubsystem, Pickup pickupSubsystem, Shooter shooterSubsystem, ShooterLookupTable lookupTable, Vision visionSubsystem, BallPath ballPathSubsystem,double timer) {
-    GrpShootWithoutVision shoot = new GrpShootWithoutVision(shooterSubsystem, ballPathSubsystem, lookupTable, Constants.FRONT_OF_FENDER_AUTO, timer);
+
+  public GrpAutoTwoBallShoot(Drive driveSubsystem, Pickup pickupSubsystem, Shooter shooterSubsystem,
+      ShooterLookupTable lookupTable, Vision visionSubsystem, BallPath ballPathSubsystem, double timer) {
+    GrpShootWithoutVision shoot = new GrpShootWithoutVision(shooterSubsystem, ballPathSubsystem, lookupTable,
+        Constants.BACK_OF_FENDER_DISTANCE, timer);
 
     addCommands(
-    new CmdPickupDeploy(pickupSubsystem, ballPathSubsystem), 
-    new CmdDriveDistance(driveSubsystem, 41, 0.5, true),
-    new CmdPickupStow(pickupSubsystem),
-    new CmdDriveDistance(driveSubsystem, -126, 0.5, true),
-    shoot
-    );
+        new CmdPickupDeploy(pickupSubsystem, ballPathSubsystem),
+        new CmdDriveDistance(driveSubsystem, 41, 0.5, true),
+        new CmdPickupStow(pickupSubsystem),
+        new CmdDriveDistance(driveSubsystem, 0, 0.5, false),
+        shoot,
+        new CmdShooterStopShooting(shooterSubsystem, ballPathSubsystem, shoot));
   }
 }
