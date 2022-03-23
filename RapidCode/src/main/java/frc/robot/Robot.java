@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -15,8 +17,12 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         m_robotContainer = new RobotContainer();
-        m_compressor = new Compressor(Constants.CAN.REV_PH_ID, PneumaticsModuleType.REVPH);
+        m_compressor = new Compressor(PneumaticsModuleType.CTREPCM);
         m_compressor.enableDigital();
+
+        UsbCamera camera = CameraServer.startAutomaticCapture("Driver Camera", 0);
+        camera.setBrightness(30);
+        camera.setExposureAuto();
     }
 
     @Override

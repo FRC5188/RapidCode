@@ -23,8 +23,8 @@ public class Vision extends SubsystemBase {
     private boolean m_hasTarget;
 
     /**
-     * Get the Network Table from the LimeLight and then get the Horizontial Rotation(tx) the Vertical Rotation(ty) the mode of the LED(ledMode)
-     * and then if it has a target(tv).
+     * Creates a new instance of the Vision subsystem
+     * @param dashboard the dashboard instance for the robot
      */
     public Vision(Dashboard dashboard) {
         m_dashboard = dashboard;
@@ -34,7 +34,9 @@ public class Vision extends SubsystemBase {
         m_ty = m_networkTable.getEntry("ty");
         m_tv = m_networkTable.getEntry("tv");
         m_ledMode = m_networkTable.getEntry("ledMode");
-        m_ledMode.setValue(0);
+        NetworkTableEntry camMode = m_networkTable.getEntry("camMode");
+        camMode.setValue(1);
+        m_ledMode.setValue(1);
     }
 
     @Override

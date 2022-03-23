@@ -8,12 +8,14 @@ import frc.robot.subsystems.Climber;
 public class CmdClimberMove extends CommandBase {
     /** Creates a new climberMoveCommand. */
     private final Climber m_climber;
-    private double m_speed;
+    private DoubleSupplier m_leftSpeed;
+    private DoubleSupplier m_rightSpeed;
 
     /** Creates a new lowerClimber. */
-    public CmdClimberMove(Climber climberSubsystem, DoubleSupplier speed) {
+    public CmdClimberMove(Climber climberSubsystem, DoubleSupplier leftSpeed, DoubleSupplier rightSpeed) {
         m_climber = climberSubsystem;
-        m_speed = speed.getAsDouble();
+        m_leftSpeed = leftSpeed;
+        m_rightSpeed = rightSpeed;
 
         addRequirements(climberSubsystem);
         // Use addRequirements() here to declare subsystem dependencies.
@@ -28,7 +30,8 @@ public class CmdClimberMove extends CommandBase {
     @Override
     public void execute() {
         if (m_climber.getCanMove()) {
-            m_climber.setClimberSpeed(m_speed);
+            m_climber.setClimberLeftSpeed(m_leftSpeed.getAsDouble());
+            m_climber.setClimberRightSpeed(m_rightSpeed.getAsDouble());
         } else {
             m_climber.setClimberSpeed(0);
         }

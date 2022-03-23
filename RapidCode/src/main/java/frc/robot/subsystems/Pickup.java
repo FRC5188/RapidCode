@@ -42,8 +42,8 @@ public class Pickup extends SubsystemBase {
         m_indexMotorBottom.setIdleMode(IdleMode.kCoast);
         m_indexMotorBottom.setInverted(true);
 
-        m_pickupLeftSolenoid = new Solenoid(Constants.CAN.REV_PH_ID, PneumaticsModuleType.REVPH, Constants.PCM.PICKUP_LEFT_SOLENOID);
-        m_pickupRightSolenoid = new Solenoid(Constants.CAN.REV_PH_ID, PneumaticsModuleType.REVPH, Constants.PCM.PICKUP_RIGHT_SOLENOID);
+        m_pickupLeftSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.PCM.PICKUP_LEFT_SOLENOID);
+        m_pickupRightSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.PCM.PICKUP_RIGHT_SOLENOID);
 
         m_pickupState = PickupState.None;
     }
@@ -69,6 +69,10 @@ public class Pickup extends SubsystemBase {
         m_indexMotorBottom.set(speed);
     }
 
+    public void setPickupSpeed(double speed) {
+        m_pickupMotor.set(speed);
+    }
+
     /**
      * Sets the state of the pickup
      * @param state desired state of the pickup
@@ -86,8 +90,6 @@ public class Pickup extends SubsystemBase {
             case Retracted:
                 m_pickupLeftSolenoid.set(false);
                 m_pickupRightSolenoid.set(false);
-                m_pickupMotor.set(0);
-                m_indexMotorBottom.set(0);
                 break;
             case None:
             default:
