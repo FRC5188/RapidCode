@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
@@ -70,8 +69,8 @@ public class Drive extends SubsystemBase {
         m_leftSecondary.follow(m_leftPrimary);
         m_rightSecondary.follow(m_rightPrimary);
 
-        m_rightPrimary.setInverted(InvertType.InvertMotorOutput);
-        m_rightSecondary.setInverted(InvertType.InvertMotorOutput);
+        m_rightPrimary.setInverted(true);
+        m_rightSecondary.setInverted(true);
 
         m_leftPrimary.setNeutralMode(NeutralMode.Brake);
         m_leftSecondary.setNeutralMode(NeutralMode.Brake);
