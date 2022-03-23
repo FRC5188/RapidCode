@@ -10,7 +10,7 @@ public class GrpShootWithoutVision extends SequentialCommandGroup {
 
         addCommands(
             new CmdShooterMoveToPosition(shooterSubsystem, lookupTable, distanceInInches),
-            new CmdShooterShoot(shooterSubsystem, ballPathSubsystem, lookupTable, distanceInInches, timer)
+            new CmdShooterShoot(shooterSubsystem, ballPathSubsystem, lookupTable, timer)
         );
     }
 }

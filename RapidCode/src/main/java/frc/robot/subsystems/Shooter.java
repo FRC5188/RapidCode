@@ -21,6 +21,7 @@ public class Shooter extends SubsystemBase {
     }
 
     private Dashboard m_dashboard;
+    private ShooterLookupTable m_lookupTable;
 
     private WPI_TalonFX m_flywheelTop;
     private WPI_TalonFX m_flywheelBottom;
@@ -40,12 +41,15 @@ public class Shooter extends SubsystemBase {
 
     private boolean m_readyToShoot;
 
+    private int m_currentShootingDistance;
+
     /**
      * Creates a new Shooter subsystem
      * @param dashboard the dashboard instance for the robot
      */
-    public Shooter(Dashboard dashboard) {
+    public Shooter(Dashboard dashboard, ShooterLookupTable lookupTable) {
         m_dashboard = dashboard;
+        m_lookupTable = lookupTable;
 
         m_flywheelTop = new WPI_TalonFX(Constants.CAN.LEFT_FLYWHEEL_ID);
         m_flywheelBottom = new WPI_TalonFX(Constants.CAN.RIGHT_FLYWHEEL_ID);
@@ -76,6 +80,7 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic() {
         m_dashboard.setReadyToShoot(m_readyToShoot);
+        m_dashboard.setShooterSpeed(m_lookupTable.getVelocityAtDistance(getCurrentShootingDistance()));
     }
     
     /**
@@ -217,5 +222,13 @@ public class Shooter extends SubsystemBase {
      */
     public void setReadyToShoot(boolean ready) {
         m_readyToShoot = ready;
+    }
+
+    public int getCurrentShootingDistance() {
+        return m_currentShootingDistance;
+    }
+
+    public void setCurrentShootingDistance(int distance) {
+        m_currentShootingDistance = distance;
     }
 }

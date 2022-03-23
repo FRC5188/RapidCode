@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Shooter;
@@ -8,9 +9,9 @@ import frc.robot.subsystems.BallPath.BallPathState;
 public class CmdShooterStopShooting extends CommandBase {
     Shooter m_shooterSubsystem;
     BallPath m_ballPathSubsystem;
-    GrpShootWithoutVision m_shoot;
+    Command m_shoot;
 
-    public CmdShooterStopShooting(Shooter shooterSubsystem, BallPath ballPathSubsystem, GrpShootWithoutVision shootingCommand) {
+    public CmdShooterStopShooting(Shooter shooterSubsystem, BallPath ballPathSubsystem, Command shootingCommand) {
         m_shooterSubsystem = shooterSubsystem;
         m_ballPathSubsystem = ballPathSubsystem;
         m_shoot = shootingCommand;
@@ -24,7 +25,6 @@ public class CmdShooterStopShooting extends CommandBase {
         m_shooterSubsystem.setAcceleratorSpeed(0);
         m_ballPathSubsystem.setBallPathState(BallPathState.Stopped);
         m_ballPathSubsystem.setMotorSpeed(0);
-        m_ballPathSubsystem.resetBallCount();
         m_shooterSubsystem.setReadyToShoot(false);
     }
 
@@ -38,7 +38,6 @@ public class CmdShooterStopShooting extends CommandBase {
         m_shooterSubsystem.setBottomFlywheelSpeed(0);
         m_shooterSubsystem.setAcceleratorSpeed(0);
         m_ballPathSubsystem.setBallPathState(BallPathState.Stopped);
-        m_ballPathSubsystem.resetBallCount();
         m_shooterSubsystem.setReadyToShoot(false);
     }
 

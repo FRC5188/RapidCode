@@ -15,12 +15,12 @@ public class CmdShooterShoot extends CommandBase {
     private int m_timer;
     private boolean m_useTimer;
 
-    public CmdShooterShoot(Shooter shooterSubsystem, BallPath ballPathSubsystem, ShooterLookupTable lookupTable, int distanceInInches, double timeBetweenShots) {
+    public CmdShooterShoot(Shooter shooterSubsystem, BallPath ballPathSubsystem, ShooterLookupTable lookupTable, double timeBetweenShots) {
         m_shooterSubsystem = shooterSubsystem;
         m_ballPathSubsystem = ballPathSubsystem;
         m_lookupTable = lookupTable;
 
-        m_velocity = lookupTable.getVelocityAtDistance(distanceInInches);
+        m_velocity = lookupTable.getVelocityAtDistance(shooterSubsystem.getCurrentShootingDistance());
 
         m_timer = (int) (timeBetweenShots * 50);
         m_useTimer = false;

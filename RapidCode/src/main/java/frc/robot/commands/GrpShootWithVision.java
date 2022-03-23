@@ -10,7 +10,7 @@ public class GrpShootWithVision extends SequentialCommandGroup {
     public GrpShootWithVision(Shooter shooterSubsystem, Vision visionSubsystem, BallPath ballPathSubsystem, ShooterLookupTable lookupTable, double timer) {
         addCommands(
             new CmdShooterMoveToPosition(shooterSubsystem, lookupTable, (int) visionSubsystem.getDistanceToTarget()),
-            new CmdShooterShoot(shooterSubsystem, ballPathSubsystem, lookupTable, (int) visionSubsystem.getDistanceToTarget(), timer)
+            new CmdShooterShoot(shooterSubsystem, ballPathSubsystem, lookupTable, timer)
         );
     }
 }

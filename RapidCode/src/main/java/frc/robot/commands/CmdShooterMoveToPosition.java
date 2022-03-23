@@ -9,36 +9,34 @@ public class CmdShooterMoveToPosition extends CommandBase {
     private Shooter m_shooterSubsystem;
     private double m_velocity;
     private HoodPosition m_hoodPosition;
-    private int m_count;
+    private int m_distanceInInches;
 
     public CmdShooterMoveToPosition(Shooter shooterSubsystem, ShooterLookupTable lookupTable, int distanceInInches) {
         m_shooterSubsystem = shooterSubsystem;
         
         m_velocity = lookupTable.getVelocityAtDistance(distanceInInches);
         m_hoodPosition = lookupTable.getHoodPositionAtDistance(distanceInInches);
-        m_count = 0;
+        m_distanceInInches = distanceInInches;
     }
 
     @Override
     public void initialize() {
+        m_shooterSubsystem.setCurrentShootingDistance(m_distanceInInches);
         m_shooterSubsystem.setHoodPosition(m_hoodPosition);
     }
 
     @Override
     public void execute() {
-        m_shooterSubsystem.setTopFlywheelSpeed(m_velocity);
-        m_shooterSubsystem.setBottomFlywheelSpeed(m_velocity);
-        m_count++;
+
     }
 
     @Override
     public void end(boolean interrupted) {
         if (!interrupted && m_velocity != 0) m_shooterSubsystem.setReadyToShoot(true);
-        m_count = 0;
     }
 
     @Override
     public boolean isFinished() {
-        return m_count >= 50;
+        return true;
     }
 }

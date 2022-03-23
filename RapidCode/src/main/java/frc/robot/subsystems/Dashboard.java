@@ -37,9 +37,11 @@ public class Dashboard extends SubsystemBase {
     private NetworkTableEntry m_pickupIsDeployedEntry;
     private boolean m_pickupIsDeployed;
 
+    private NetworkTableEntry m_shooterSpeedEntry;
     private NetworkTableEntry m_hasTargetEntry;
     private NetworkTableEntry m_distanceToTargetEntry;
     private NetworkTableEntry m_readyToShootEntry;
+    private double m_shooterSpeed;
     private boolean m_hasTarget;
     private int m_distanceToTarget;
     private boolean m_readyToShoot;
@@ -72,7 +74,7 @@ public class Dashboard extends SubsystemBase {
         m_ballPathStateEntry = ballPath.add("Ball Path State", m_ballPathState).withWidget(BuiltInWidgets.kTextView).getEntry();
         m_entranceSensorStateEntry = ballPath.add("Entrance Sensor", m_entranceSensorState).withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
         m_middleSensorStateEntry = ballPath.add("Middle Sensor", m_middleSensorState).withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
-        //m_shooterSensorStateEntry = ballPath.add("Shooter Sensor", m_shooterSensorState).withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
+        m_shooterSensorStateEntry = ballPath.add("Shooter Sensor", m_shooterSensorState).withWidget(BuiltInWidgets.kToggleSwitch).getEntry();
 
         // ShuffleboardLayout climber = dashboard.getLayout("Climber Subsystem", BuiltInLayouts.kList)
         //     .withPosition(26, 7)
@@ -103,6 +105,7 @@ public class Dashboard extends SubsystemBase {
             .withPosition(5, 0)
             .withSize(5, 10)
             .withProperties(Map.of("Label position", "BOTTOM"));
+        m_shooterSpeedEntry = shooter.add("Shooter Speed", m_distanceToTarget).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("Min", 0, "Max", 1, "Show value", true)).getEntry();
         m_hasTargetEntry = shooter.add("Has Target", m_hasTarget).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Lime", "Color when false", "Red")).getEntry();
         m_readyToShootEntry = shooter.add("Ready To Shoot", m_readyToShoot).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Lime", "Color when false", "Red")).getEntry();
         m_distanceToTargetEntry = shooter.add("Distance To Target", m_distanceToTarget).withWidget(BuiltInWidgets.kTextView).getEntry();
@@ -122,6 +125,7 @@ public class Dashboard extends SubsystemBase {
 
         m_pickupIsDeployedEntry.setBoolean(m_pickupIsDeployed);
 
+        m_shooterSpeedEntry.setValue(m_shooterSpeed);
         m_hasTargetEntry.setBoolean(m_hasTarget);
         m_distanceToTargetEntry.setValue(m_distanceToTarget);
         m_readyToShootEntry.setBoolean(m_readyToShoot);
@@ -169,6 +173,10 @@ public class Dashboard extends SubsystemBase {
 
     public void setPickupIsDeployed(boolean isDeployed) {
         m_pickupIsDeployed = isDeployed;
+    }
+
+    public void setShooterSpeed(double speed) {
+        m_shooterSpeed = speed;
     }
 
     public void setHasTarget(boolean hasTarget) {
