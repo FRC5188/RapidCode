@@ -18,7 +18,7 @@ public class ShooterLookupTable {
         // Below is an example
         // !!EVERY ANGLE FOR THE HOOD MUST BE RELATIVE TO THE LOW POT STOP!!
         // This is done so that if the sensor has to be realigned, all of this data can still be accurate
-        this.addEntry(10, 3000, Constants.LOW_POT_STOP + 200);
+        this.addEntry(10, 3000, Constants.LOW_POT_STOP + 200); // actual distance: 69
     }
     /**
      * Returns the velocity for the flywheel for the given distance in inches

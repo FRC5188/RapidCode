@@ -121,7 +121,9 @@ public final class Constants {
          * Name example: public static final int PICKUP_SOLENOID = 0 (name what solenoid
          * does and end with solenoid)
          */
-        public static final int DRIVE_LEFT_SOLENOID = 9;
+
+        // both drive pistons are on the same solenoid
+        public static final int DRIVE_SHIFT_SOLENOID = 9;
         public static final int DRIVE_RIGHT_SOLENOID = 8;
         public static final int PICKUP_LEFT_SOLENOID = 10;
         public static final int PICKUP_RIGHT_SOLENOID = 11;
