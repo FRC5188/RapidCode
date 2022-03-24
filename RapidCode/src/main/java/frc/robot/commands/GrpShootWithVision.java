@@ -9,7 +9,7 @@ import frc.robot.subsystems.Vision;
 public class GrpShootWithVision extends SequentialCommandGroup {
     public GrpShootWithVision(Shooter shooterSubsystem, Vision visionSubsystem, BallPath ballPathSubsystem, ShooterLookupTable lookupTable, double timer) {
         addCommands(
-            new CmdShooterMoveToPosition(shooterSubsystem, lookupTable, (int) visionSubsystem.getDistanceToTarget()),
+            new CmdShooterMoveToPosition(shooterSubsystem, lookupTable, (int) visionSubsystem.getDistanceToTarget(), 2),
             new CmdShooterShoot(shooterSubsystem, ballPathSubsystem, lookupTable, timer)
         );
     }

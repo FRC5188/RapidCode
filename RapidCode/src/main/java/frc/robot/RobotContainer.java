@@ -95,8 +95,8 @@ public class RobotContainer {
         // Operator Controls
 
         // hack for distance
-        m_operatorAButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, Constants.FRONT_OF_FENDER_DISTANCE * 12));
-        m_operatorYButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, Constants.BACK_OF_FENDER_DISTANCE * 12));
+        m_operatorAButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, Constants.FRONT_OF_FENDER_DISTANCE * 12, 0));
+        m_operatorYButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, Constants.BACK_OF_FENDER_DISTANCE * 12, 0));
         m_operatorBButton.whenPressed(new CmdShooterAdjustSpeed(m_shooterSubsystem, m_shooterLookupTable, 0.05));
         m_operatorXButton.whenPressed(new CmdShooterAdjustSpeed(m_shooterSubsystem, m_shooterLookupTable, -0.05));
 
@@ -105,7 +105,7 @@ public class RobotContainer {
 
         m_operatorRBButton.whenPressed(new CmdClimberSetCanMove(m_climberSubsystem, true));
         m_operatorRBButton.whenReleased(new CmdClimberSetCanMove(m_climberSubsystem, false));
-        m_operatorLBButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, Constants.NO_SHOOTER_SPEED_DISTANCE * 12));
+        m_operatorLBButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, Constants.NO_SHOOTER_SPEED_DISTANCE * 12, 0));
     }
 
     public Command getAutonomousCommand() {
