@@ -47,7 +47,8 @@ public class RobotContainer {
     private JoystickButton m_driveAButton = new JoystickButton(m_driveController, Constants.ButtonMappings.A_BUTTON);
     private JoystickButton m_driveYButton = new JoystickButton(m_driveController, Constants.ButtonMappings.Y_BUTTON);
     private JoystickButton m_driveRBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.RIGHT_BUMPER);
-    
+    private JoystickButton m_driveLBButton = new JoystickButton(m_driveController, Constants.ButtonMappings.LEFT_BUMPER);
+
     private XboxController m_operatorController = new XboxController(1);
 
     private JoystickButton m_operatorRBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.RIGHT_BUMPER); 
@@ -82,25 +83,39 @@ public class RobotContainer {
 
         // Driver Controls
        
-
+        // intake stow and deploy
         m_driveAButton.whenPressed(new CmdPickupDeploy(m_pickupSubsystem, m_ballPathSubsystem));
         m_driveYButton.whenPressed(new CmdPickupStow(m_pickupSubsystem));
+        
+        //shifting
         m_driveRBButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
         m_driveRBButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
 
+        //shooting
+        m_driveRBButton.whenPressed(closeShot);
+
+
         // Operator Controls
+
+        // ball count adjust
         m_operatorBButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, true));
         m_operatorXButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, false));
-        m_operatorAButton.whenPressed(closeShot);
+       
+       // what this do
         m_operatorAButton.whenReleased(new CmdShooterStopShooting(m_shooterSubsystem, m_ballPathSubsystem, closeShot));
+      
+        // can climber move?
         m_operatorRBButton.whenPressed(new CmdClimberSetCanMove(m_climberSubsystem, true));
         m_operatorRBButton.whenReleased(new CmdClimberSetCanMove(m_climberSubsystem, false));
+       
+       // hood adjust
         m_operatorYButton.whenPressed(new CmdManualHoodAdjustment(m_shooterSubsystem, HoodPosition.Far));
        m_operatorYButton.whenReleased(new CmdManualHoodAdjustment(m_shooterSubsystem, HoodPosition.Fender));
       
        // manual adjust shooter speed
-       m_operatorL3Button.whenReleased(new CmdManualShooterSpeedCtrl(m_shooterSubsystem, 0.025)); 
-       m_operatorR3Button.whenReleased(new CmdManualShooterSpeedCtrl(m_shooterSubsystem, -0.025));
+       // before using zoes code. this command doesnt really work. day before comp
+    //    m_operatorL3Button.whenReleased(new CmdManualShooterSpeedCtrl(m_shooterSubsystem, 0.025)); 
+    //    m_operatorR3Button.whenReleased(new CmdManualShooterSpeedCtrl(m_shooterSubsystem, -0.025));
 
     }
 
