@@ -35,7 +35,7 @@ public class Drive extends SubsystemBase {
     private AHRS m_gyro;
 
     private Solenoid m_leftShifter;
-    private Solenoid m_rightShifter; 
+    private Solenoid m_shifters; 
 
     private PIDController m_drivePID;
     private PIDController m_rotatePID;
@@ -63,8 +63,8 @@ public class Drive extends SubsystemBase {
 
         m_gyro = new AHRS();
 
-        m_leftShifter = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.PCM.DRIVE_LEFT_SOLENOID);
-        m_rightShifter = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.PCM.DRIVE_RIGHT_SOLENOID);
+        // m_leftShifter = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.PCM.DRIVE_LEFT_SOLENOID);
+        m_shifters = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.PCM.DRIVE_SHIFT_SOLENOIDS);
 
         m_leftSecondary.follow(m_leftPrimary);
         m_rightSecondary.follow(m_rightPrimary);
@@ -267,7 +267,7 @@ public class Drive extends SubsystemBase {
     public void setShifterState(ShifterState state) {
         m_shifterState = state;
 
-        m_leftShifter.set(m_shifterState == ShifterState.Shifted);
-        m_rightShifter.set(m_shifterState == ShifterState.Shifted);
+        // m_leftShifter.set(m_shifterState == ShifterState.Shifted);
+        m_shifters.set(m_shifterState == ShifterState.Shifted);
     }
 }
