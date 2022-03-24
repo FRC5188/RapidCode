@@ -63,7 +63,7 @@ public class Drive extends SubsystemBase {
 
         m_gyro = new AHRS();
 
-        m_driveShifter = new Solenoid(Constants.CAN.REV_PH_ID, PneumaticsModuleType.REVPH, Constants.PCM.DRIVE_SHIFT_SOLENOID);
+        m_driveShifter = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.PCM.DRIVE_SHIFT_SOLENOID);
         //m_rightShifter = new Solenoid(Constants.CAN.REV_PH_ID,PneumaticsModuleType.REVPH, Constants.PCM.DRIVE_RIGHT_SOLENOID);
 
         m_leftSecondary.follow(m_leftPrimary);

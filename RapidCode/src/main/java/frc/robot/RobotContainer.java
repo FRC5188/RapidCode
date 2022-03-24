@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CmdDriveJoystick;
 import frc.robot.commands.CmdDriveSetShifter;
+import frc.robot.commands.CmdManualHoodAdjustment;
+import frc.robot.commands.CmdManualShooterSpeedCtrl;
 import frc.robot.commands.CmdPickupDefault;
 import frc.robot.commands.CmdPickupDeploy;
 import frc.robot.commands.CmdPickupStow;
@@ -23,6 +25,7 @@ import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Pickup;
 import frc.robot.subsystems.Drive.ShifterState;
+import frc.robot.subsystems.Shooter.HoodPosition;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShooterLookupTable;
 import frc.robot.subsystems.Vision;
@@ -52,6 +55,10 @@ public class RobotContainer {
     private JoystickButton m_operatorBButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.B_BUTTON);
     private JoystickButton m_operatorXButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.X_BUTTON);
     private JoystickButton m_operatorYButton = new JoystickButton(m_operatorController, Constants.ButtonMappings.Y_BUTTON);
+    private JoystickButton m_operatorL3Button = new JoystickButton(m_operatorController, Constants.ButtonMappings.LEFT_JOY_BUTTON);
+    private JoystickButton m_operatorR3Button = new JoystickButton(m_operatorController, Constants.ButtonMappings.RIGHT_JOY_BUTTON);
+
+
 
     public RobotContainer() {
         m_dashboard.setDefaultAuto("Drive Forward", new GrpDriveForward(m_driveSubsystem, m_pickupSubsystem));
@@ -75,6 +82,7 @@ public class RobotContainer {
 
         // Driver Controls
        
+
         m_driveAButton.whenPressed(new CmdPickupDeploy(m_pickupSubsystem, m_ballPathSubsystem));
         m_driveYButton.whenPressed(new CmdPickupStow(m_pickupSubsystem));
         m_driveRBButton.whenPressed(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Shifted));
@@ -87,6 +95,13 @@ public class RobotContainer {
         m_operatorAButton.whenReleased(new CmdShooterStopShooting(m_shooterSubsystem, m_ballPathSubsystem, closeShot));
         m_operatorRBButton.whenPressed(new CmdClimberSetCanMove(m_climberSubsystem, true));
         m_operatorRBButton.whenReleased(new CmdClimberSetCanMove(m_climberSubsystem, false));
+        m_operatorYButton.whenPressed(new CmdManualHoodAdjustment(m_shooterSubsystem, HoodPosition.Far));
+       m_operatorYButton.whenReleased(new CmdManualHoodAdjustment(m_shooterSubsystem, HoodPosition.Fender));
+      
+       // manual adjust shooter speed
+       m_operatorL3Button.whenReleased(new CmdManualShooterSpeedCtrl(m_shooterSubsystem, 0.025)); 
+       m_operatorR3Button.whenReleased(new CmdManualShooterSpeedCtrl(m_shooterSubsystem, -0.025));
+
     }
 
     public Command getAutonomousCommand() {

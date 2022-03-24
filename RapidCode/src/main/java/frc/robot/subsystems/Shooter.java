@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -60,8 +61,10 @@ public class Shooter extends SubsystemBase {
         // m_flywheelBottom.setInverted(true);
         // m_flywheelTop.setInverted(true);
 
-        m_hoodMotor = new CANSparkMax(Constants.CAN.HOOD_MOTOR_ID, MotorType.kBrushless);
-        m_hoodMotor.setIdleMode(IdleMode.kBrake);
+        //m_hoodMotor = new CANSparkMax(Constants.CAN.HOOD_MOTOR_ID, MotorType.kBrushless);
+        //m_hoodMotor.setIdleMode(IdleMode.kBrake);
+
+        m_hoodSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.PCM.HOOD_SOLENOID);
 
         m_turretMotor = new CANSparkMax(Constants.CAN.TURRET_MOTOR_ID, MotorType.kBrushless);
         m_turretMotor.setIdleMode(IdleMode.kBrake);
@@ -119,6 +122,14 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
+     * Gets the current speed, in percent output, of the bottom flywheel motor
+     * @return the current speed, in percent output, of the bottom flywheel motor
+     */
+    public double getTopFlywheelSpeed() {
+        return m_flywheelTop.get();
+    }
+
+    /**
      * Gets the current speed, in RPM, of the top flywheel speed
      * @return the current RPM of the top flywheel motor
      */
@@ -173,7 +184,7 @@ public class Shooter extends SubsystemBase {
     public void setHoodPosition(HoodPosition state) {
         m_hoodPosition = state;
 
-        m_hoodSolenoid.set(m_hoodPosition == HoodPosition.Fender);
+        m_hoodSolenoid.set(m_hoodPosition == HoodPosition.Far);
     }
 
     /**

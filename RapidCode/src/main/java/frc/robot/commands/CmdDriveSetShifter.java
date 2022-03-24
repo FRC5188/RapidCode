@@ -16,6 +16,7 @@ public class CmdDriveSetShifter extends CommandBase {
     @Override
     public void initialize() {
         m_driveSubsystem.setShifterState(m_state);
+        System.out.println("Shifter cmd init");
     }
 
     @Override

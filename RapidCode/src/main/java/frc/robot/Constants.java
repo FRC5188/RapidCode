@@ -92,8 +92,8 @@ public final class Constants {
 
         public static final int LEFT_FLYWHEEL_ID = 7;
         public static final int RIGHT_FLYWHEEL_ID = 8;
-        public static final int HOOD_MOTOR_ID = 21; //Temp need to change
-        public static final int ACCEL_MOTOR_ID = 10; //Temp need to change
+        // public static final int HOOD_MOTOR_ID = 21; //Temp need to change
+        public static final int ACCEL_MOTOR_ID = 9; 
         public static final int TURRET_MOTOR_ID = 15;
         
         public static final int PICKUP_MOTOR_ID = 11;
@@ -130,10 +130,10 @@ public final class Constants {
          */
 
         // both drive pistons are on the same solenoid
-        public static final int DRIVE_SHIFT_SOLENOID = 9;
-        public static final int DRIVE_RIGHT_SOLENOID = 8;
-        public static final int PICKUP_LEFT_SOLENOID = 10;
-        public static final int PICKUP_RIGHT_SOLENOID = 11;
+        public static final int DRIVE_SHIFT_SOLENOID = 0;
+        public static final int HOOD_SOLENOID = 1;
+        public static final int PICKUP_LEFT_SOLENOID = 2;
+        public static final int PICKUP_RIGHT_SOLENOID = 3;
     }
 
     public final class ButtonMappings {

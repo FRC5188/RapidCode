@@ -19,6 +19,10 @@ public class CmdManualHoodAdjustment extends CommandBase {
     
     @Override
     public void initialize(){
+        if(m_hoodPosition == HoodPosition.Fender) 
+            System.out.println("Setting hood: fender");
+        else
+            System.out.println("Setting hood: far");
         m_shooterSubsystem.setHoodPosition(m_hoodPosition);  // Sets hood position based off value passed in through constructor. 
     }
 
@@ -28,10 +32,15 @@ public class CmdManualHoodAdjustment extends CommandBase {
     public void execute() {}
 
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        if(m_hoodPosition == HoodPosition.Fender)
+        System.out.println("ending hood: fender");
+        else
+        System.out.println("ending hood: far");
+    }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }   
 }
