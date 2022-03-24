@@ -10,12 +10,14 @@ public class CmdShooterAdjustSpeed extends CommandBase {
     private double m_addToSpeed;
 
     public CmdShooterAdjustSpeed(Shooter shooterSubsystem, ShooterLookupTable lookupTable, double addToSpeed) {
+       m_shooterSubsystem = shooterSubsystem;
         m_lookupTable = lookupTable;
         m_addToSpeed = addToSpeed;
     }
 
     @Override
     public void initialize() {
+        System.out.println("current shooting distance: " + m_shooterSubsystem.getCurrentShootingDistance());
         m_lookupTable.editVelocityEntry(m_shooterSubsystem.getCurrentShootingDistance(), m_addToSpeed);
     }
 

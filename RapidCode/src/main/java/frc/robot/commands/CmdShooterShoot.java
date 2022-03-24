@@ -25,33 +25,41 @@ public class CmdShooterShoot extends CommandBase {
         m_timer = (int) (timeBetweenShots * 50);
         m_useTimer = false;
 
+        if(m_timer > 0){
+            m_useTimer = true;
+        }
+
         addRequirements(ballPathSubsystem);
     }
 
     @Override
     public void initialize() {
         m_ballPathSubsystem.setBallPathState(BallPathState.Shooting);
+        
+        
     }
 
     @Override
     public void execute() {
-        if (m_ballPathSubsystem.hasLeftBallPath() && m_ballPathSubsystem.getBallCount() > 1) {
-            m_useTimer = true;
-        }
+        // if (m_ballPathSubsystem.hasLeftBallPath() && m_ballPathSubsystem.getBallCount() > 1) {
+        //     m_useTimer = true;
+        // }
 
-        if (m_useTimer) m_timer--;
-        else {
-            m_ballPathSubsystem.setMotorSpeed(Constants.BALL_PATH_SHOOTING_SPEED);
-            m_shooterSubsystem.setAcceleratorSpeed(0.4);
-            m_shooterSubsystem.setTopFlywheelSpeed(m_velocity);
-            m_shooterSubsystem.setBottomFlywheelSpeed(m_velocity);
-        }
+        // if (m_useTimer) m_timer--;
+        // else {
+        //     m_ballPathSubsystem.setMotorSpeed(Constants.BALL_PATH_SHOOTING_SPEED);
+        //     m_shooterSubsystem.setAcceleratorSpeed(0.4);
+        //     m_shooterSubsystem.setTopFlywheelSpeed(m_velocity);
+        //     m_shooterSubsystem.setBottomFlywheelSpeed(m_velocity);
+        // }
 
-        if (m_timer <= 0) m_useTimer = false;
+        // if (m_timer <= 0) m_useTimer = false;
+        m_timer--;
     }
 
     @Override
     public void end(boolean interrupted) {
+        System.out.println("end shooter shoot");
         m_shooterSubsystem.setTopFlywheelSpeed(0);
         m_shooterSubsystem.setBottomFlywheelSpeed(0);
         m_shooterSubsystem.setAcceleratorSpeed(0);
@@ -62,7 +70,8 @@ public class CmdShooterShoot extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return m_ballPathSubsystem.getBallCount() == 0;
+        return m_timer <= 0 && m_useTimer;
+        // return m_ballPathSubsystem.getBallCount() == 0;
     }
 
 }

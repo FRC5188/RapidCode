@@ -19,9 +19,10 @@ public class ShooterLookupTable {
         // Below is an example
         // !!EVERY ANGLE FOR THE HOOD MUST BE RELATIVE TO THE LOW POT STOP!!
         // This is done so that if the sensor has to be realigned, all of this data can still be accurate
-        this.addEntry(Constants.NO_SHOOTER_SPEED_DISTANCE, 0, HoodPosition.Fender);
+        
         this.addEntry(Constants.FRONT_OF_FENDER_DISTANCE, 0.45, HoodPosition.Fender);
         this.addEntry(Constants.BACK_OF_FENDER_DISTANCE, 0.55, HoodPosition.Far);
+        this.addEntry(Constants.NO_SHOOTER_SPEED_DISTANCE, 0, HoodPosition.Fender);
     }
     /**
      * Returns the velocity for the flywheel for the given distance in inches

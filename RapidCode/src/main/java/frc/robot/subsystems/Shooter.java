@@ -75,12 +75,15 @@ public class Shooter extends SubsystemBase {
         m_turretSetpoint = 0;
 
         m_readyToShoot = false;
+        m_currentShootingDistance = -120;
     }
 
     @Override
     public void periodic() {
         m_dashboard.setReadyToShoot(m_readyToShoot);
         m_dashboard.setShooterSpeed(m_lookupTable.getVelocityAtDistance(getCurrentShootingDistance()));
+
+        System.out.println("accel speed: " + m_acceleratorMotor.get());
     }
     
     /**

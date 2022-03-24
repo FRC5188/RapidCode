@@ -24,6 +24,7 @@ public class CmdBallPathDefault extends CommandBase {
     public void execute() {
         m_ballPathSubsystem.updateBallPathState();
         m_ballPathState = m_ballPathSubsystem.getBallPathState();
+        // System.out.println("ball path state: " + m_ballPathState);
 
         switch (m_ballPathState) {
             case Loading:

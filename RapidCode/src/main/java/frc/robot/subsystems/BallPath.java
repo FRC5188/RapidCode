@@ -59,6 +59,9 @@ public class BallPath extends SubsystemBase {
         m_dashboard.setBallPathState(m_ballPathState);
         m_dashboard.setEntranceSensorState(!m_entranceSensor.get());
         m_dashboard.setMiddleSensorState(!m_middleSensor.get());
+
+        System.out.println("index speed: " + m_indexMotorTop.get());
+        // System.out.println("ball count: " + m_ballCount);
     }
 
     /**
@@ -135,12 +138,14 @@ public class BallPath extends SubsystemBase {
         } else if (m_middleSensor.get() && m_middleWasDetected) {
             m_ballPathState = BallPathState.Stopped;
         }
-         else if (m_shooterSensor.get() && m_shooterWasDetected) {
-            decrementBallCount();
-        }
+        //  else if (m_shooterSensor.get() && m_shooterWasDetected) {
+        //     decrementBallCount();
+        // }
 
         m_entranceWasDetected = !m_entranceSensor.get();
         m_middleWasDetected = !m_middleSensor.get();
-        m_shooterWasDetected = !m_shooterSensor.get();
+        // m_shooterWasDetected = !m_shooterSensor.get();
+
+        // System.out.println("ball path state:: " + m_ballPathState);
     }
 }

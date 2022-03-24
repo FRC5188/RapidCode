@@ -9,9 +9,11 @@ import frc.robot.commands.CmdPickupDefault;
 import frc.robot.commands.CmdPickupDeploy;
 import frc.robot.commands.CmdPickupStow;
 import frc.robot.commands.CmdShooterAdjustSpeed;
+import frc.robot.commands.CmdShooterDefault;
 import frc.robot.commands.CmdShooterMoveToPosition;
 import frc.robot.commands.CmdShooterShoot;
 import frc.robot.commands.CmdBallPathChangeBallCount;
+import frc.robot.commands.CmdBallPathDefault;
 import frc.robot.commands.CmdClimberMove;
 import frc.robot.commands.CmdClimberSetCanMove;
 import frc.robot.commands.CmdShooterStopShooting;
@@ -68,7 +70,7 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        CmdShooterShoot shoot = new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, 0.5);
+        CmdShooterShoot shoot = new CmdShooterShoot(m_shooterSubsystem, m_ballPathSubsystem, m_shooterLookupTable, 0.0);
 
         m_climberSubsystem.setDefaultCommand(new CmdClimberMove(m_climberSubsystem, () -> applyDeadband(m_operatorController.getLeftY(), 0.025), () -> applyDeadband(m_operatorController.getRightY(), 0.025)));
 
@@ -77,6 +79,10 @@ public class RobotContainer {
                                                                 () -> applyDeadband(0.7 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
 
         m_pickupSubsystem.setDefaultCommand(new CmdPickupDefault(m_pickupSubsystem, m_ballPathSubsystem));
+
+
+        m_shooterSubsystem.setDefaultCommand(new CmdShooterDefault(m_shooterSubsystem, m_shooterLookupTable));
+        m_ballPathSubsystem.setDefaultCommand(new CmdBallPathDefault(m_ballPathSubsystem));
 
         // Driver Controls
         m_driveAButton.whenPressed(shoot);
@@ -87,8 +93,10 @@ public class RobotContainer {
         m_driveRBButton.whenReleased(new CmdDriveSetShifter(m_driveSubsystem, ShifterState.Normal));
 
         // Operator Controls
-        m_operatorAButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, Constants.FRONT_OF_FENDER_DISTANCE));
-        m_operatorYButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, Constants.BACK_OF_FENDER_DISTANCE));
+
+        // hack for distance
+        m_operatorAButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, Constants.FRONT_OF_FENDER_DISTANCE * 12));
+        m_operatorYButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, Constants.BACK_OF_FENDER_DISTANCE * 12));
         m_operatorBButton.whenPressed(new CmdShooterAdjustSpeed(m_shooterSubsystem, m_shooterLookupTable, 0.05));
         m_operatorXButton.whenPressed(new CmdShooterAdjustSpeed(m_shooterSubsystem, m_shooterLookupTable, -0.05));
 
@@ -97,7 +105,7 @@ public class RobotContainer {
 
         m_operatorRBButton.whenPressed(new CmdClimberSetCanMove(m_climberSubsystem, true));
         m_operatorRBButton.whenReleased(new CmdClimberSetCanMove(m_climberSubsystem, false));
-        m_operatorLBButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, Constants.NO_SHOOTER_SPEED_DISTANCE));
+        m_operatorLBButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, Constants.NO_SHOOTER_SPEED_DISTANCE * 12));
     }
 
     public Command getAutonomousCommand() {
