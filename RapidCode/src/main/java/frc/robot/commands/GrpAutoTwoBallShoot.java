@@ -22,7 +22,7 @@ public class GrpAutoTwoBallShoot extends SequentialCommandGroup {
 
     addCommands(
         new CmdPickupDeploy(pickupSubsystem, ballPathSubsystem),
-        new CmdDriveDistance(driveSubsystem, 41, 0.5, true),
+        new CmdDriveDistance(driveSubsystem, 104, 0.5, true),
         new CmdPickupStow(pickupSubsystem),
         new CmdDriveDistance(driveSubsystem, 0, 0.5, false),
         shoot,

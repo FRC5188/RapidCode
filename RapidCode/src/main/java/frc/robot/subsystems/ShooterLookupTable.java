@@ -22,8 +22,8 @@ public class ShooterLookupTable {
         
 
         // adjust these to adjust speed at position
-        this.addEntry(Constants.FRONT_OF_FENDER_DISTANCE, 0.35, HoodPosition.Fender); // fender
-        this.addEntry(Constants.BACK_OF_FENDER_DISTANCE, 0.20, HoodPosition.Far); // taxi
+        this.addEntry(Constants.FRONT_OF_FENDER_DISTANCE, 0.40, HoodPosition.Fender); // fender
+        this.addEntry(Constants.BACK_OF_FENDER_DISTANCE, 0.35, HoodPosition.Far); // taxi
         this.addEntry(Constants.NO_SHOOTER_SPEED_DISTANCE, 0, HoodPosition.Fender);
     }
     /**

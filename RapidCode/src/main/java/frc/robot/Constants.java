@@ -15,7 +15,7 @@ public final class Constants {
 
     public static final double BALL_PATH_LOADING_SPEED = 0.5;
     public static final double BALL_PATH_POSITION_SPEED = 0.35;
-    public static final double BALL_PATH_SHOOTING_SPEED = 0.2; // add a delay
+    public static final double BALL_PATH_SHOOTING_SPEED = 0.28; // add a delay
 
     public static final int FALCON_MAX_RPM = 6000;
     public static final int FLYWHEEL_SPEED_TOLERANCE = 450;
