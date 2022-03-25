@@ -19,6 +19,7 @@ import frc.robot.commands.CmdClimberSetCanMove;
 import frc.robot.commands.CmdShooterStopShooting;
 import frc.robot.commands.GrpDriveForward;
 import frc.robot.commands.GrpAutoFenderAndTaxi;
+import frc.robot.commands.GrpAutoTwoBallShoot;
 import frc.robot.subsystems.BallPath;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Dashboard;
@@ -64,8 +65,9 @@ public class RobotContainer {
 
     public RobotContainer() {
         m_dashboard.addAuto("Drive Forward", new GrpDriveForward(m_driveSubsystem, m_pickupSubsystem));
-        m_dashboard.setDefaultAuto("1 Ball: On Fender", new GrpAutoFenderAndTaxi(m_driveSubsystem, m_ballPathSubsystem, m_pickupSubsystem, m_shooterSubsystem, m_visionSubsystem, m_shooterLookupTable, 2));
-
+        // m_dashboard.setDefaultAuto("1 Ball: On Fender", new GrpAutoTwoBallShoot(m_driveSubsystem, m_ballPathSubsystem, m_pickupSubsystem, m_shooterSubsystem, m_visionSubsystem, m_shooterLookupTable, 2.0));
+        m_dashboard.addAuto("1 Ball: On Fender", new GrpAutoFenderAndTaxi(m_driveSubsystem, m_ballPathSubsystem, m_pickupSubsystem, m_shooterSubsystem, m_visionSubsystem, m_shooterLookupTable, 2));
+        // m_dashboard.addAuto("2 Ball: On Fender", new GrpAutoTwoBallShoot(m_driveSubsystem, m_pickupSubsystem, m_shooterSubsystem, m_shooterLookupTable, m_visionSubsystem, m_ballPathSubsystem, 2));
         configureButtonBindings();
     }
 

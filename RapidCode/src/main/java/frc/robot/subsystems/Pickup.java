@@ -8,10 +8,13 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.Timer;
+
 
 
 public class Pickup extends SubsystemBase {
     private Dashboard m_dashboard;
+    private Timer m_timer;
 
     /**
      * Represents the different possible states of the pickup
@@ -47,6 +50,7 @@ public class Pickup extends SubsystemBase {
         m_pickupRightSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.PCM.PICKUP_RIGHT_SOLENOID);
 
         m_pickupState = PickupState.None;
+        m_timer = new Timer();
     }
 
     @Override
@@ -87,8 +91,19 @@ public class Pickup extends SubsystemBase {
             case Retracted:
                 m_pickupLeftSolenoid.set(false);
                 m_pickupRightSolenoid.set(false);
-
-                // add a .5 to 1 sec wait her
+    // Delay for 1 second
+    //             m_timer.reset();
+    //             m_timer.start();
+    //             if (m_timer.get() < 1.0) {
+    //                 m_pickupMotor.set(0.5);
+    //                 m_indexMotorBottom.set(0.5);
+    //            } else {
+    //                 m_pickupMotor.set(0);
+    //                 m_indexMotorBottom.set(0);
+    //                 m_timer.stop();
+    //   }
+    
+                // add a .5 to 1 sec wait here
                 m_pickupMotor.set(0);
                 m_indexMotorBottom.set(0);
                 break;
