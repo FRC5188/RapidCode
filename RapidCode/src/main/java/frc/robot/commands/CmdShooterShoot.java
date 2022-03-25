@@ -20,7 +20,7 @@ public class CmdShooterShoot extends CommandBase {
         m_ballPathSubsystem = ballPathSubsystem;
         m_lookupTable = lookupTable;
 
-        m_velocity = lookupTable.getVelocityAtDistance(shooterSubsystem.getCurrentShootingDistance());
+        m_velocity = 0.0;
 
         m_timer = (int) (timeBetweenShots * 50);
         m_useTimer = false;
@@ -30,13 +30,14 @@ public class CmdShooterShoot extends CommandBase {
         }
 
         addRequirements(ballPathSubsystem);
+        addRequirements(shooterSubsystem);
     }
 
     @Override
     public void initialize() {
         m_ballPathSubsystem.setBallPathState(BallPathState.Shooting);
         
-        
+        m_velocity = m_lookupTable.getVelocityAtDistance(m_shooterSubsystem.getCurrentShootingDistance());        
     }
 
     @Override
@@ -46,6 +47,8 @@ public class CmdShooterShoot extends CommandBase {
         m_shooterSubsystem.setTopFlywheelSpeed(m_velocity);
         m_shooterSubsystem.setBottomFlywheelSpeed(m_velocity);
 
+        System.out.println("current distance: " + m_shooterSubsystem.getCurrentShootingDistance());
+        System.out.println("velocity: " + m_velocity);
         m_timer--;
     }
 
@@ -58,6 +61,8 @@ public class CmdShooterShoot extends CommandBase {
         m_ballPathSubsystem.setBallPathState(BallPathState.Stopped);
         m_ballPathSubsystem.resetBallCount();
         m_shooterSubsystem.setReadyToShoot(false);
+
+        m_shooterSubsystem.setCurrentShootingDistance(Constants.NO_SHOOTER_SPEED_DISTANCE * 12);
     }
 
     @Override

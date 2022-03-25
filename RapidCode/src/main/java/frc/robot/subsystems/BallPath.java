@@ -60,7 +60,7 @@ public class BallPath extends SubsystemBase {
         m_dashboard.setEntranceSensorState(!m_entranceSensor.get());
         m_dashboard.setMiddleSensorState(!m_middleSensor.get());
 
-        System.out.println("index speed: " + m_indexMotorTop.get());
+        // System.out.println("index speed: " + m_indexMotorTop.get());
         // System.out.println("ball count: " + m_ballCount);
     }
 

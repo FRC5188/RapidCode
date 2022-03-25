@@ -83,7 +83,7 @@ public class Shooter extends SubsystemBase {
         m_dashboard.setReadyToShoot(m_readyToShoot);
         m_dashboard.setShooterSpeed(m_lookupTable.getVelocityAtDistance(getCurrentShootingDistance()));
 
-        System.out.println("accel speed: " + m_acceleratorMotor.get());
+        // System.out.println("accel speed: " + m_acceleratorMotor.get());
     }
     
     /**
