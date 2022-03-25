@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+
 public class Pickup extends SubsystemBase {
     private Dashboard m_dashboard;
 
@@ -86,6 +87,8 @@ public class Pickup extends SubsystemBase {
             case Retracted:
                 m_pickupLeftSolenoid.set(false);
                 m_pickupRightSolenoid.set(false);
+
+                // add a .5 to 1 sec wait her
                 m_pickupMotor.set(0);
                 m_indexMotorBottom.set(0);
                 break;

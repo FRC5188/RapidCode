@@ -8,9 +8,12 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+import edu.wpi.first.wpilibj.Timer;
+
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
     private Compressor m_compressor;
+    private Timer timer;
 
     private RobotContainer m_robotContainer;
 
@@ -23,6 +26,8 @@ public class Robot extends TimedRobot {
         UsbCamera camera = CameraServer.startAutomaticCapture("Driver Camera", 0);
         camera.setBrightness(30);
         camera.setExposureAuto();
+
+        timer = new Timer();
     }
 
     @Override

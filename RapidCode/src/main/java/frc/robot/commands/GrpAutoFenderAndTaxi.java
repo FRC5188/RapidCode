@@ -17,7 +17,7 @@ public class GrpAutoFenderAndTaxi extends SequentialCommandGroup {
         addCommands(
             shoot,
             new CmdShooterStopShooting(shooterSubsystem, ballPathSubsystem, shoot),
-            new CmdDriveDistance(driveSubsystem, -85, 0.6, true)
+            new CmdDriveDistance(driveSubsystem, 85, 0.6, true)
         );
     }
 }
