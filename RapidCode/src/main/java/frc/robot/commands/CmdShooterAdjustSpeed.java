@@ -17,7 +17,8 @@ public class CmdShooterAdjustSpeed extends CommandBase {
 
     @Override
     public void initialize() {
-        System.out.println("current shooting distance: " + m_shooterSubsystem.getCurrentShootingDistance());
+        System.out.println("Adjusting shoot speed, distance: " + m_shooterSubsystem.getCurrentShootingDistance());
+        System.out.println("Adjusting shoot speed, new speed: " + m_shooterSubsystem.getBottomFlywheelSpeed() + m_addToSpeed);
         m_lookupTable.editVelocityEntry(m_shooterSubsystem.getCurrentShootingDistance(), m_addToSpeed);
     }
 
