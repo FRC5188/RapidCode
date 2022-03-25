@@ -47,8 +47,8 @@ public class CmdShooterShoot extends CommandBase {
         m_shooterSubsystem.setTopFlywheelSpeed(m_velocity);
         m_shooterSubsystem.setBottomFlywheelSpeed(m_velocity);
 
-        System.out.println("current distance: " + m_shooterSubsystem.getCurrentShootingDistance());
-        System.out.println("velocity: " + m_velocity);
+        // System.out.println("current distance: " + m_shooterSubsystem.getCurrentShootingDistance());
+        // System.out.println("velocity: " + m_velocity);
         m_timer--;
     }
 
