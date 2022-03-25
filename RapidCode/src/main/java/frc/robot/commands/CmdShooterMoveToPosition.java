@@ -10,13 +10,15 @@ public class CmdShooterMoveToPosition extends CommandBase {
     private double m_velocity;
     private HoodPosition m_hoodPosition;
     private int m_distanceInInches;
+    private double m_timer;
 
-    public CmdShooterMoveToPosition(Shooter shooterSubsystem, ShooterLookupTable lookupTable, int distanceInInches) {
+    public CmdShooterMoveToPosition(Shooter shooterSubsystem, ShooterLookupTable lookupTable, int distanceInInches, double timer) {
         m_shooterSubsystem = shooterSubsystem;
         
         m_velocity = lookupTable.getVelocityAtDistance(distanceInInches);
         m_hoodPosition = lookupTable.getHoodPositionAtDistance(distanceInInches);
         m_distanceInInches = distanceInInches;
+        m_timer = (int) timer * 50;
     }
 
     @Override
@@ -27,7 +29,7 @@ public class CmdShooterMoveToPosition extends CommandBase {
 
     @Override
     public void execute() {
-
+        m_timer--;
     }
 
     @Override
@@ -37,6 +39,6 @@ public class CmdShooterMoveToPosition extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return true;
+        return m_timer <= 0;
     }
 }

@@ -15,14 +15,14 @@ public class CmdShooterShoot extends CommandBase {
     private int m_timer;
     private boolean m_useTimer;
 
-    public CmdShooterShoot(Shooter shooterSubsystem, BallPath ballPathSubsystem, ShooterLookupTable lookupTable, double timeBetweenShots) {
+    public CmdShooterShoot(Shooter shooterSubsystem, BallPath ballPathSubsystem, ShooterLookupTable lookupTable, double timer) {
         m_shooterSubsystem = shooterSubsystem;
         m_ballPathSubsystem = ballPathSubsystem;
         m_lookupTable = lookupTable;
 
         m_velocity = 0.0;
 
-        m_timer = (int) (timeBetweenShots * 50);
+        m_timer = (int) (timer * 50);
         m_useTimer = false;
 
         if(m_timer > 0){

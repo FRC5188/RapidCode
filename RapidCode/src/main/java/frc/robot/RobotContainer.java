@@ -105,7 +105,7 @@ public class RobotContainer {
 
         m_operatorRBButton.whenPressed(new CmdClimberSetCanMove(m_climberSubsystem, true));
         m_operatorRBButton.whenReleased(new CmdClimberSetCanMove(m_climberSubsystem, false));
-        m_operatorLBButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, Constants.NO_SHOOTER_SPEED_DISTANCE * 12));
+        m_operatorLBButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, Constants.NO_SHOOTER_SPEED_DISTANCE * 12, 0));
     }
 
     public Command getAutonomousCommand() {
