@@ -19,14 +19,14 @@ public class GrpAutoTwoBallShoot extends SequentialCommandGroup {
   public GrpAutoTwoBallShoot(Drive driveSubsystem,  BallPath ballPathSubsystem, Pickup pickupSubsystem, Shooter shooterSubsystem,
       ShooterLookupTable lookupTable, Vision visionSubsystem,  double timer) {
     GrpShootWithoutVision shoot = new GrpShootWithoutVision(shooterSubsystem, ballPathSubsystem, lookupTable,
-        Constants.BACK_OF_FENDER_DISTANCE, timer);
+        Constants.FRONT_OF_FENDER_DISTANCE, timer);
 
     addCommands(
         new CmdPickupDeploy(pickupSubsystem, ballPathSubsystem),
         new CmdDriveDistance(driveSubsystem, 104, 0.4, true), // add wait after this
         new WaitCommand(2), // wait two seconds before picking up intake
         new CmdPickupStow(pickupSubsystem),
-        new CmdDriveDistance(driveSubsystem, 10, 0.4, false),
+        new CmdDriveDistance(driveSubsystem, 0, 0.40, false),
         shoot,
         new CmdShooterStopShooting(shooterSubsystem, ballPathSubsystem, shoot));
   }
