@@ -97,8 +97,8 @@ public class RobotContainer {
         // hack for distance
         m_operatorAButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, Constants.FRONT_OF_FENDER_DISTANCE * 12));
         m_operatorYButton.whenPressed(new CmdShooterMoveToPosition(m_shooterSubsystem, m_shooterLookupTable, Constants.BACK_OF_FENDER_DISTANCE * 12));
-        m_operatorBButton.whenPressed(new CmdShooterAdjustSpeed(m_shooterSubsystem, m_shooterLookupTable, 0.05));
-        m_operatorXButton.whenPressed(new CmdShooterAdjustSpeed(m_shooterSubsystem, m_shooterLookupTable, -0.05));
+        m_operatorBButton.whenPressed(new CmdShooterAdjustSpeed(m_shooterSubsystem, m_shooterLookupTable, 0.025));
+        m_operatorXButton.whenPressed(new CmdShooterAdjustSpeed(m_shooterSubsystem, m_shooterLookupTable, -0.025));
 
         m_operatorStartButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, true));
         m_operatorBackButton.whenPressed(new CmdBallPathChangeBallCount(m_ballPathSubsystem, false));
