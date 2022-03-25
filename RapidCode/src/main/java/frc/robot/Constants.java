@@ -41,7 +41,7 @@ public final class Constants {
         public static final double DRIVE_PROPORTIONAL_COMPETITION  = 0.0265;
         public static final double DRIVE_INTEGRAL_COMPETITION      = 0.000;
         public static final double DRIVE_DERIVATIVE_COMPETITION    = 0.005;
-        public static final double DRIVE_TOLERANCE_COMPETITION     = 1.0;
+        public static final double DRIVE_TOLERANCE_COMPETITION     = 3.0;
 
         public static final double ROTATE_PROPORTIONAL_COMPETITION = 0.014;
         public static final double ROTATE_INTEGRAL_COMPETITION     = 0.0001;

@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Pickup;
 import frc.robot.subsystems.Shooter;
@@ -22,9 +23,10 @@ public class GrpAutoTwoBallShoot extends SequentialCommandGroup {
 
     addCommands(
         new CmdPickupDeploy(pickupSubsystem, ballPathSubsystem),
-        new CmdDriveDistance(driveSubsystem, 104, 0.5, true),
+        new CmdDriveDistance(driveSubsystem, 104, 0.4, true), // add wait after this
+        new WaitCommand(2), // wait two seconds before picking up intake
         new CmdPickupStow(pickupSubsystem),
-        new CmdDriveDistance(driveSubsystem, 0, 0.5, false),
+        new CmdDriveDistance(driveSubsystem, 10, 0.4, false),
         shoot,
         new CmdShooterStopShooting(shooterSubsystem, ballPathSubsystem, shoot));
   }

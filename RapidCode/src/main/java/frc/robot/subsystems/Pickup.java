@@ -74,6 +74,10 @@ public class Pickup extends SubsystemBase {
         m_indexMotorBottom.set(speed);
     }
 
+    public void setPickupSpeed(double speed){
+        m_pickupMotor.set(speed);
+    }
+
     /**
      * Sets the state of the pickup
      * @param state desired state of the pickup

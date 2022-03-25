@@ -45,7 +45,7 @@ public class CmdShooterShoot extends CommandBase {
         m_ballPathSubsystem.setMotorSpeed(Constants.BALL_PATH_SHOOTING_SPEED);
         m_shooterSubsystem.setAcceleratorSpeed(0.4);
         m_shooterSubsystem.setTopFlywheelSpeed(m_velocity);
-        m_shooterSubsystem.setBottomFlywheelSpeed(m_velocity);
+        m_shooterSubsystem.setBottomFlywheelSpeed(m_velocity * 1.05); // make top spin 5% faster
 
         System.out.println("current distance: " + m_shooterSubsystem.getCurrentShootingDistance());
         System.out.println("velocity: " + m_velocity);
