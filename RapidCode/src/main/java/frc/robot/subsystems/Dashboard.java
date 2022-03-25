@@ -105,7 +105,7 @@ public class Dashboard extends SubsystemBase {
             .withPosition(5, 0)
             .withSize(5, 10)
             .withProperties(Map.of("Label position", "BOTTOM"));
-        m_shooterSpeedEntry = shooter.add("Shooter Speed", m_distanceToTarget).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("Min", 0, "Max", 1, "Show value", true)).getEntry();
+        m_shooterSpeedEntry = shooter.add("Shooter Speed", m_distanceToTarget).withWidget(BuiltInWidgets.kMotorController).getEntry();
         m_hasTargetEntry = shooter.add("Has Target", m_hasTarget).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Lime", "Color when false", "Red")).getEntry();
         m_readyToShootEntry = shooter.add("Ready To Shoot", m_readyToShoot).withWidget(BuiltInWidgets.kBooleanBox).withProperties(Map.of("Color when true", "Lime", "Color when false", "Red")).getEntry();
         m_distanceToTargetEntry = shooter.add("Distance To Target", m_distanceToTarget).withWidget(BuiltInWidgets.kTextView).getEntry();
