@@ -26,6 +26,7 @@ public class CmdDriveDistance extends CommandBase {
     @Override
     public void initialize() {//Member-level varibles passed in which were orgin from the CmdDriveDistance method above.
         m_driveSubsystem.drivePIDInit(m_distance, m_resetEncoders, m_speed); 
+        System.out.println("drive dist has started");
     }
 
     // Called every time the scheduler runs while the command is scheduled.

@@ -26,14 +26,13 @@ public class GrpAutoTwoBallShoot extends SequentialCommandGroup {
         new CmdPickupDeploy(pickupSubsystem, ballPathSubsystem),
         new ParallelCommandGroup( // need to run ball path default while moving
           new CmdBallPathAutonomousUse(ballPathSubsystem),
-          new SequentialCommandGroup( //literally disgusting
+          new SequentialCommandGroup( //grp within grp. a little gross
             new CmdDriveDistance(driveSubsystem, 93, 0.4, true), // add wait after this 
             new WaitCommand(1),
             new CmdPickupStow(pickupSubsystem)
           )
         ),
-         // wait two seconds before picking up intake
-        new CmdDriveDistance(driveSubsystem, 0, 0.40, false),
+        new CmdDriveDistance(driveSubsystem, 0, 0.4, false),
         shoot,
         new CmdShooterStopShooting(shooterSubsystem, ballPathSubsystem, shoot));
   }

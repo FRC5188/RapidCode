@@ -18,7 +18,8 @@ public class GrpAutoTwoBallToDefense extends SequentialCommandGroup {
       new CmdDriveRotate(driveSubsystem, 29, .4, false),
       new CmdPickupDeploy(pickupSubsystem, ballPathSubsystem),
       new CmdDriveDistance(driveSubsystem, 104, .4, true),
-      new CmdPickupStow(pickupSubsystem)
+      new CmdPickupStow(pickupSubsystem),
+      new CmdDriveRotate(driveSubsystem, 70, .4, false)
     );
   }
 }
