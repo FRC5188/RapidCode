@@ -26,7 +26,7 @@ public class CmdDriveDistance extends CommandBase {
     @Override
     public void initialize() {//Member-level varibles passed in which were orgin from the CmdDriveDistance method above.
         m_driveSubsystem.drivePIDInit(m_distance, m_resetEncoders, m_speed); 
-        System.out.println("drive dist has started");
+        System.out.println("drive distance started: " + this.m_distance);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -38,6 +38,7 @@ public class CmdDriveDistance extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        System.out.println("drive distance finished: " + this.m_distance);
         m_driveSubsystem.arcadeDrive(0, 0);
     }
 
