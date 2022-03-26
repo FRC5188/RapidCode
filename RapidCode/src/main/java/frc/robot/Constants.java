@@ -36,6 +36,11 @@ public final class Constants {
 
     public static final double CLIMBER_ENCODER_MAX = 100;
 
+    //auto constants. don't mess with. only here for testing
+    public static final double DEFENSE_AUTO_ANGLE = 29;
+    public static final double DEFENSE_AUTO_ROTATE_SPEED = .4;
+    public static final double DEFENSE_AUTO_DRIVE_SPEED = .4;
+
     public final class PID {
 
         public static final double DRIVE_PROPORTIONAL_COMPETITION  = 0.0265;

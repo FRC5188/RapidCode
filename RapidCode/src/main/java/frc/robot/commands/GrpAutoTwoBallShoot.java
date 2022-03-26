@@ -18,17 +18,17 @@ import frc.robot.subsystems.BallPath;
 public class GrpAutoTwoBallShoot extends SequentialCommandGroup {
 
   public GrpAutoTwoBallShoot(Drive driveSubsystem,  BallPath ballPathSubsystem, Pickup pickupSubsystem, Shooter shooterSubsystem,
-      ShooterLookupTable lookupTable, Vision visionSubsystem,  double timer) {
+        ShooterLookupTable lookupTable, Vision visionSubsystem,  double timer) {
     GrpShootWithoutVision shoot = new GrpShootWithoutVision(shooterSubsystem, ballPathSubsystem, lookupTable,
-        Constants.FRONT_OF_FENDER_DISTANCE, timer);
+        Constants.BACK_OF_FENDER_DISTANCE, timer);
 
     addCommands(
         new CmdPickupDeploy(pickupSubsystem, ballPathSubsystem),
         new ParallelCommandGroup( // need to run ball path default while moving
           new CmdBallPathAutonomousUse(ballPathSubsystem),
           new SequentialCommandGroup( //literally disgusting
-            new CmdDriveDistance(driveSubsystem, 104, 0.4, true), // add wait after this 
-            new WaitCommand(2),
+            new CmdDriveDistance(driveSubsystem, 93, 0.4, true), // add wait after this 
+            new WaitCommand(1),
             new CmdPickupStow(pickupSubsystem)
           )
         ),
