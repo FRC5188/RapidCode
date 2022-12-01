@@ -76,8 +76,8 @@ public class RobotContainer {
         m_climberSubsystem.setDefaultCommand(new CmdClimberMove(m_climberSubsystem, () -> applyDeadband(m_operatorController.getLeftY(), 0.025), () -> applyDeadband(m_operatorController.getRightY(), 0.025)));
 
         m_driveSubsystem.setDefaultCommand(new CmdDriveJoystick(m_driveSubsystem, 
-                                                                () -> applyDeadband(0.65 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
-                                                                () -> applyDeadband(0.7 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
+                                                                () -> applyDeadband(0.33 * -m_driveController.getLeftY(), Constants.ARCADE_DRIVE_DEADBAND), 
+                                                                () -> applyDeadband(0.33 * -m_driveController.getRightX(), Constants.ARCADE_DRIVE_DEADBAND)));
 
         m_pickupSubsystem.setDefaultCommand(new CmdPickupDefault(m_pickupSubsystem, m_ballPathSubsystem));
 
